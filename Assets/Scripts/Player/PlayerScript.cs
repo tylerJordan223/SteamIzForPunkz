@@ -53,6 +53,9 @@ public class PlayerScript : MonoBehaviour
     Vector2 inputVector;
     Vector2 lastInputVector;
 
+    //outside objects
+    private WorldDecomp decomposer;
+
     private void Start()
     {
         //object variables
@@ -79,10 +82,17 @@ public class PlayerScript : MonoBehaviour
         //saved objects
         heldObject = null;
         currentRoom = null;
+        decomposer = this.gameObject.GetComponent<WorldDecomp>();
 
         //flags
         canControl = true;
         holdingItem = false;
+
+        //decompose the world intially
+        decomposer.Decompose();
+
+        //move to start position
+        //RandomPosition();
     }
 
     //use for anything non-movement related like math
@@ -139,6 +149,12 @@ public class PlayerScript : MonoBehaviour
             health = 0;
 
             StartCoroutine(Death());
+        }
+
+        //move to random position
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            RandomPosition();
         }
 
         //update Animation
@@ -202,6 +218,13 @@ public class PlayerScript : MonoBehaviour
     private void UpdateAnimation()
     {
         //** Update all the animation
+    }
+
+    private void RandomPosition()
+    {
+        WorldNode startPos = decomposer.nodes[Random.Range(0, 50), Random.Range(0, 50)];
+        Debug.Log(startPos.x + " " + startPos.y);
+        trans.position = new Vector3(startPos.x, startPos.y, 0f);
     }
 
     //to handle collisions

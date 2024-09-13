@@ -29,14 +29,8 @@ public class WorldDecomp : MonoBehaviour
         c = t_length / node_size;
 
         nodes = new WorldNode[r, c];
-    }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            Decompose();
-        }
+        Decompose();
     }
 
     public void Decompose()
@@ -61,8 +55,6 @@ public class WorldDecomp : MonoBehaviour
                 Collider2D hit = Physics2D.OverlapPoint(new Vector2(row, col));
                 if (hit != null)
                 {
-                    Debug.Log("HIT!");
-
                     //obstacles
                     nodes[row, col] = new WorldNode(row, col, false, true, true);
 
@@ -84,8 +76,6 @@ public class WorldDecomp : MonoBehaviour
                         //hit something unspecified
                         Debug.DrawRay(starting_position, Vector3.back * 20, Color.red, 50000);
                     }
-
-                    Debug.Log(row + " " + col);
                 }
                 else
                 {
