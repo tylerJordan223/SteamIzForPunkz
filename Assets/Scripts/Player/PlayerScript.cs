@@ -144,7 +144,6 @@ public class PlayerScript : MonoBehaviour
         //update Animation
         UpdateAnimation();
 
-        Debug.Log(rb.velocity);
     }
 
     //use for anything movement related
