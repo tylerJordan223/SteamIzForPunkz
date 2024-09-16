@@ -157,6 +157,12 @@ public class PlayerScript : MonoBehaviour
             RandomPosition();
         }
 
+        //decompose
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            decomposer.Decompose();
+        }
+
         //update Animation
         UpdateAnimation();
 

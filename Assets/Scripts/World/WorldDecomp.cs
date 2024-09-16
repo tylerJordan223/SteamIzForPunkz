@@ -1,19 +1,22 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class WorldDecomp : MonoBehaviour
 {
     //Necessary variables for the storage of nodes
 
     //debug settings to change through testing
-    [SerializeField] int t_width;
     [SerializeField] int t_length;
+    [SerializeField] int t_height;
 
     public WorldNode[,] nodes;
+    public Grid g;
     private int node_size;
 
     //rows and columns of nodes
@@ -25,8 +28,8 @@ public class WorldDecomp : MonoBehaviour
         node_size = 1;
 
         //amount of rows/columns needed for the space
-        r = t_width / node_size;
-        c = t_length / node_size;
+        r = t_length / node_size;
+        c = t_height / node_size;
 
         nodes = new WorldNode[r, c];
 
@@ -86,6 +89,8 @@ public class WorldDecomp : MonoBehaviour
             }
         }
 
+        g = new Grid(nodes, t_length, t_height);
+        g.getPlayerNode();
     }
 
 }
@@ -114,4 +119,52 @@ public class WorldNode
         return startToNode + startToEnd;
     }
 }
-    
+
+public class Grid
+{
+    public WorldNode[,] nodes;
+    public WorldNode playerNode;
+    public int gridLength;
+    public int gridHeight;
+
+    public Grid(WorldNode[,] nodes_, int l, int h)
+    {
+        nodes = nodes_;
+        gridLength = l;
+        gridHeight = h;
+    }
+
+    //returns the node the player is on
+    public WorldNode getPlayerNode()
+    {
+        Debug.Log(nodes.Length);
+        for(int r = 0; r < gridLength; r++)
+        {
+            for(int c = 0; c < gridHeight; c++)
+            {
+                if (nodes[r,c].isPlayer)
+                {
+                    Debug.Log("Player is at: " + r + " " + c);
+                    return nodes[r, c];
+                }
+            }
+        }
+        Debug.Log("Could not Find Player");
+        return null;
+    }
+
+    //sets the player node variable in the class to playerNode
+    public void setPlayerNode()
+    {
+        for (int r = 0; r < nodes.Length; r++)
+        {
+            for (int c = 0; c < nodes.Length; c++)
+            {
+                if (nodes[r, c].isPlayer)
+                {
+                    playerNode = nodes[r, c];
+                }
+            }
+        }
+    }
+}
