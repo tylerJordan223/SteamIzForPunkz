@@ -54,7 +54,7 @@ public class PlayerScript : MonoBehaviour
     Vector2 lastInputVector;
 
     //outside objects
-    private WorldDecomp decomposer;
+    [SerializeField] WorldDecomp decomposer;
 
     private void Start()
     {
@@ -82,7 +82,6 @@ public class PlayerScript : MonoBehaviour
         //saved objects
         heldObject = null;
         currentRoom = null;
-        decomposer = this.gameObject.GetComponent<WorldDecomp>();
 
         //flags
         canControl = true;
@@ -226,10 +225,10 @@ public class PlayerScript : MonoBehaviour
         //** Update all the animation
     }
 
+    //temporary function for the sake of grid testing
     private void RandomPosition()
     {
-        WorldNode startPos = decomposer.nodes[Random.Range(0, 50), Random.Range(0, 50)];
-        Debug.Log(startPos.x + " " + startPos.y);
+        WorldNode startPos = decomposer.nodes[Random.Range(0, decomposer.g.gridLength), Random.Range(0, decomposer.g.gridHeight)];
         trans.position = new Vector3(startPos.x, startPos.y, 0f);
     }
 

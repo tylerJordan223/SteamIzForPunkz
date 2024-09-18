@@ -5,6 +5,7 @@ using Unity.VisualScripting.FullSerializer;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UIElements;
 using UnityEngine.XR;
 
 public class WorldDecomp : MonoBehaviour
@@ -137,14 +138,12 @@ public class Grid
     //returns the node the player is on
     public WorldNode getPlayerNode()
     {
-        Debug.Log(nodes.Length);
         for(int r = 0; r < gridLength; r++)
         {
             for(int c = 0; c < gridHeight; c++)
             {
                 if (nodes[r,c].isPlayer)
                 {
-                    Debug.Log("Player is at: " + r + " " + c);
                     return nodes[r, c];
                 }
             }
@@ -165,6 +164,39 @@ public class Grid
                     playerNode = nodes[r, c];
                 }
             }
+        }
+    }
+
+    //checks if an object is in the
+    public bool isInGrid(Transform t)
+    {
+        //return if within the confines of the grid
+        if ((t.position.x > 0 && t.position.x < gridLength) && (t.position.y > 0 && t.position.y < gridHeight))
+        {
+            return true;
+        }
+        //no other options
+        return false;
+    }
+
+    //get a random node in the grid
+    public WorldNode randomNode()
+    {
+        return nodes[Random.Range(0, gridLength),Random.Range(0,gridHeight)];
+    }
+
+    //returns the node at the position
+    public WorldNode getNode(Transform t)
+    {
+        WorldNode temp = nodes[(int)Mathf.Round(t.position.x), (int)Mathf.Round(t.position.y)];
+        if (temp != null)
+        {
+            return temp;
+        }
+        else
+        {
+            Debug.Log("Could not find node at position");
+            return null;
         }
     }
 }
