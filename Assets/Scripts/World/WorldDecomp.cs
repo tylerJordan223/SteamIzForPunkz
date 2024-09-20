@@ -60,24 +60,23 @@ public class WorldDecomp : MonoBehaviour
                 if (hit != null)
                 {
                     //obstacles
-                    nodes[row, col] = new WorldNode(row, col, false, true, true);
+                    nodes[row, col] = new WorldNode(row, col, false, false, false);
 
-                    //set target/player diff
-                    if(hit.gameObject.CompareTag("Target"))
+                    //decide what it hit
+                    if (hit.gameObject.CompareTag("Player"))
                     {
-                        nodes[row, col].isObstacle = false;
-                        nodes[row, col].isTarget = true;
-                        Debug.DrawRay(starting_position, Vector3.back * 20, Color.magenta, 50000);
-                    }
-                    else if(hit.gameObject.CompareTag("Player"))
-                    {
-                        nodes[row, col].isObstacle = false;
                         nodes[row, col].isPlayer = true;
                         Debug.DrawRay(starting_position, Vector3.back * 20, Color.cyan, 50000);
                     }
+                    else if (hit.gameObject.CompareTag("Door"))
+                    {
+                        nodes[row, col].isDoor = true;
+                        Debug.DrawRay(starting_position, Vector3.back * 20, Color.gray, 50000);
+                    }
                     else
                     {
-                        //hit something unspecified
+                        //hit something unspecified, considered obstacle
+                        nodes[row, col].isObstacle = true;
                         Debug.DrawRay(starting_position, Vector3.back * 20, Color.red, 50000);
                     }
                 }
@@ -91,7 +90,6 @@ public class WorldDecomp : MonoBehaviour
         }
 
         g = new Grid(nodes, t_length, t_height);
-        g.getPlayerNode();
     }
 
 }
@@ -101,18 +99,18 @@ public class WorldNode
 {
     public int x, y;
     public float startToNode, startToEnd;
-    public bool isTarget;
     public bool isObstacle;
     public bool isPlayer;
+    public bool isDoor;
     public WorldNode parent;
 
-    public WorldNode(int _x, int _y, bool _isTarget, bool _isObstacle, bool _isPlayer)
+    public WorldNode(int _x, int _y, bool _isObstacle, bool _isPlayer, bool _isDoor)
     {
         x = _x;
         y = _y;
-        isTarget = _isTarget;
         isObstacle = _isObstacle;
         isPlayer = _isPlayer;
+        isDoor = _isDoor;
     }
 
     public float get_f()
@@ -185,10 +183,24 @@ public class Grid
         return nodes[Random.Range(0, gridLength),Random.Range(0,gridHeight)];
     }
 
-    //returns the node at the position
+    //returns the node at the position of the transform
     public WorldNode getNode(Transform t)
     {
         WorldNode temp = nodes[(int)Mathf.Round(t.position.x), (int)Mathf.Round(t.position.y)];
+        if (temp != null)
+        {
+            return temp;
+        }
+        else
+        {
+            Debug.Log("Could not find node at position");
+            return null;
+        }
+    }
+    //returns the node at the position given
+    public WorldNode getNode(int x, int y)
+    {
+        WorldNode temp = nodes[x, y];
         if (temp != null)
         {
             return temp;

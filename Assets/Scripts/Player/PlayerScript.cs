@@ -162,6 +162,12 @@ public class PlayerScript : MonoBehaviour
             decomposer.Decompose();
         }
 
+        //RESTARTS GAME!!! DEBUG ONLY!!!
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
         //update Animation
         UpdateAnimation();
 
