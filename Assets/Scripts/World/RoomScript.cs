@@ -80,8 +80,6 @@ public class Room
     public void GenerateNodes()
     {
         //get the node at the center of the room
-        Debug.Log(room.transform.position.x);
-        Debug.Log(room.transform.position.y);
         centerNode = g.getNode(room.transform);
 
 

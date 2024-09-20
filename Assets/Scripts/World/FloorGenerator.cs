@@ -21,6 +21,7 @@ public class FloorGenerator : MonoBehaviour
     public int maxRooms;
     public int minRooms;
     private int roomCount;
+    private int roomRandom;
 
     //Data Structures
     private List<Room> rooms;
@@ -34,6 +35,9 @@ public class FloorGenerator : MonoBehaviour
     {
         //decompose to generate grid
         g = new Grid(floor_width*20, floor_height*20, 1);
+
+        //make the roomrandomvariable that will make rooms less likely overtime
+        roomRandom = 0;
 
         //mark as started
         isStarted = true;
@@ -56,10 +60,20 @@ public class FloorGenerator : MonoBehaviour
                 if (room.floorposx < floor_width-1) { createRoom(room.floorposx+1, room.floorposy); }
                 if (room.floorposy > 1) { createRoom(room.floorposx, room.floorposy-1); }
                 if (room.floorposy < floor_height-1) { createRoom(room.floorposx, room.floorposy+1); }
+                if (roomRandom < 6)
+                {
+                    roomRandom++;
+                    Debug.Log("Room random is: " + roomRandom);
+                }
+                //re-enqueue the room if its not min rooms yet
+                if (roomCount < minRooms || Random.Range(0,10) <= (1 + roomRandom)) {
+                    roomQueue.Enqueue(room);
+                }
             }
             if(roomQueue.Count == 0)
             {
                 Debug.Log("GENERATION FINISHED!!!");
+                Debug.Log("Floor Room Count: " + roomCount);
                 isStarted = false;
             }
         }
@@ -89,7 +103,6 @@ public class FloorGenerator : MonoBehaviour
         //if the room already exists don't make another one
         if (floorplan[i, j] == 1)
         {
-            Debug.Log("Room already exists!");
             return;
         }
 
@@ -98,20 +111,18 @@ public class FloorGenerator : MonoBehaviour
 
         if (neighbors > 1)
         {
-            Debug.Log("Too many neighbors!");
              return;
         }
 
         if(roomCount >= maxRooms)
         {
-            Debug.Log("Hit Max Rooms!");
             return;
         }
 
+        int tempRand = Random.Range(0, 10);
         //50% chance for the room to spawn, automaticall passes if its the first room
-        if( (Random.Range(0, 10) <= 5) && !(i == floor_width / 2 && j == floor_height / 2) )
+        if( (tempRand <= (1+roomRandom)) && !(i == floor_width / 2 && j == floor_height / 2) )
         {
-            Debug.Log("Random Chance!");
             return;
         }
 

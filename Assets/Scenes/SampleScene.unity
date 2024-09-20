@@ -716,8 +716,8 @@ MonoBehaviour:
   room: {fileID: 4065827680651785898, guid: d60edd3ab18d81a43a6b1de15a8fe2e6, type: 3}
   floor_width: 30
   floor_height: 30
-  maxRooms: 20
-  minRooms: 0
+  maxRooms: 100
+  minRooms: 10
 --- !u!1001 &6807503462842582897
 PrefabInstance:
   m_ObjectHideFlags: 0

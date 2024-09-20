@@ -200,7 +200,6 @@ public class Grid
     //returns the node at the position given
     public WorldNode getNode(int x, int y)
     {
-        Debug.Log("IM IN GETNODE");
         WorldNode temp = nodes[x, y];
         if (temp != null)
         {
