@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -34,7 +33,7 @@ public class FloorGenerator : MonoBehaviour
     private void Start()
     {
         //decompose to generate grid
-        Grid g = new Grid(floor_width*20, floor_height*20, 1);
+        g = new Grid(floor_width*20, floor_height*20, 1);
 
         //mark as started
         isStarted = true;

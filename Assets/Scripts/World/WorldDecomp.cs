@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.FullSerializer;
 using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.XR;
@@ -201,6 +200,7 @@ public class Grid
     //returns the node at the position given
     public WorldNode getNode(int x, int y)
     {
+        Debug.Log("IM IN GETNODE");
         WorldNode temp = nodes[x, y];
         if (temp != null)
         {
