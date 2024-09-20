@@ -53,8 +53,8 @@ public class PlayerScript : MonoBehaviour
     Vector2 inputVector;
     Vector2 lastInputVector;
 
-    //outside objects
-    [SerializeField] WorldDecomp decomposer;
+    //decomposed world
+    private Grid g;
 
     private void Start()
     {
@@ -87,8 +87,13 @@ public class PlayerScript : MonoBehaviour
         canControl = true;
         holdingItem = false;
 
-        //decompose the world intially
-        decomposer.Decompose();
+        //getting the grid from the floor generator
+        GameObject f = GameObject.Find("FloorGenerator");
+        if(f != null)
+        {
+            g = f.GetComponent<FloorGenerator>().g;
+        }
+        
 
         //move to start position
         //RandomPosition();
@@ -159,7 +164,7 @@ public class PlayerScript : MonoBehaviour
         //decompose
         if (Input.GetKeyDown(KeyCode.O))
         {
-            decomposer.Decompose();
+            g.Decompose();
         }
 
         //RESTARTS GAME!!! DEBUG ONLY!!!
@@ -234,7 +239,7 @@ public class PlayerScript : MonoBehaviour
     //temporary function for the sake of grid testing
     private void RandomPosition()
     {
-        WorldNode startPos = decomposer.nodes[Random.Range(0, decomposer.g.gridLength), Random.Range(0, decomposer.g.gridHeight)];
+        WorldNode startPos = g.nodes[Random.Range(0, g.gridLength), Random.Range(0, g.gridHeight)];
         trans.position = new Vector3(startPos.x, startPos.y, 0f);
     }
 

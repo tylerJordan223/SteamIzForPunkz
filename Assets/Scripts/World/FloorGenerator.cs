@@ -12,7 +12,6 @@ public class FloorGenerator : MonoBehaviour
 
     //collection of rooms, to be filled with some sort of list of possible rooms. If possible just grab the folder of room prefabs
     [SerializeField] GameObject room;
-    [SerializeField] WorldDecomp decomposer;
 
     //booleans
     private bool isStarted;
@@ -20,7 +19,8 @@ public class FloorGenerator : MonoBehaviour
     //Number variables
     public int floor_width;
     public int floor_height;
-    private int maxRooms;
+    public int maxRooms;
+    public int minRooms;
     private int roomCount;
 
     //Data Structures
@@ -28,15 +28,16 @@ public class FloorGenerator : MonoBehaviour
     private int[,] floorplan;
     private Queue<Room> roomQueue;
 
+    //GRID TO BE USED BY OTHER SCRIPTS//
+    public Grid g;
+
     private void Start()
     {
         //decompose to generate grid
-        decomposer.Decompose();
+        Grid g = new Grid(floor_width*20, floor_height*20, 1);
 
         //mark as started
         isStarted = true;
-        maxRooms = 20;
-        roomCount = 0;
 
         //create the list of rooms
         rooms = new List<Room>();
@@ -118,12 +119,21 @@ public class FloorGenerator : MonoBehaviour
         //set to an active room
         floorplan[i, j] = 1;
 
-        //make the room
+        // THE ORDER HERE IS IMPORTANT!!! //
+
+        //make the actual object
         GameObject ro = Instantiate(room);
-        Room r = new Room(ro, decomposer.g, i, j);
+        //increase the floor's room count
         roomCount++;
-        ro.transform.position = new Vector3(decomposer.g.getNode(i*r.room_width, j*r.room_height).x, decomposer.g.getNode(i*r.room_width, j*r.room_height).y, 0f);
+        //make the room object
+        Room r = new Room(ro, g, i, j);
+        //put the room where it is going to stay
+        ro.transform.position = new Vector3(g.getNode(i * r.room_width, j * r.room_height).x, g.getNode(i * r.room_width, j * r.room_height).y, 0f);
+        //generate the nodes in the room object for its new position
+        r.GenerateNodes();
+        //enqueue the room to be checked later
         roomQueue.Enqueue(r);
+        //add the room to the list of rooms on the floor
         rooms.Add(r);
     }
 

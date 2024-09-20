@@ -75,23 +75,29 @@ public class Room
             doors.Add(d.gameObject);
         }
 
+    }
+
+    public void GenerateNodes()
+    {
         //get the node at the center of the room
+        Debug.Log(room.transform.position.x);
+        Debug.Log(room.transform.position.y);
         centerNode = g.getNode(room.transform);
 
-        /*
+
         //startx and starty for the calculations
         int nodex = centerNode.x - ((room_width - 1) / 2);
         int nodey = centerNode.y - ((room_height - 1) / 2);
 
         //get all the nodes
-        for (int i = 0; i < room_width-1; i++)
+        for (int i = 0; i < room_width - 1; i++)
         {
-            for(int j = 0; j < room_height-1; j++)
+            for (int j = 0; j < room_height - 1; j++)
             {
                 nodes.Add(g.getNode(nodex + i, nodey + j));
             }
         }
-        */
+
     }
 
     //check for any neighbors on the room

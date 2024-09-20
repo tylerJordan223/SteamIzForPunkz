@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.FullSerializer;
@@ -10,88 +11,11 @@ using UnityEngine.XR;
 
 public class WorldDecomp : MonoBehaviour
 {
-    //Necessary variables for the storage of nodes
-
-    //debug settings to change through testing
-    [SerializeField] int t_length;
-    [SerializeField] int t_height;
-
-    public WorldNode[,] nodes;
-    public Grid g;
-    private int node_size;
-
-    //rows and columns of nodes
-    private int r;
-    private int c;
-
-    private void Start()
-    {
-        node_size = 1;
-
-        //amount of rows/columns needed for the space
-        r = t_length / node_size;
-        c = t_height / node_size;
-
-        nodes = new WorldNode[r, c];
-
-        Decompose();
-    }
-
-    public void Decompose()
-    {
-        float startX = 0;
-        float startY = 0;
-
-        //get the offset to find the center
-        float nco = node_size / 2;
-
-        //go through each row and column
-        for(int row = 0; row < r; row++)
-        {
-            for(int col = 0; col < c; col++)
-            {
-                float x = startX + nco + (node_size * col);
-                float y = startY + nco + (node_size * row);
-
-                Vector3 starting_position = new Vector3(y, x, 10f);
-
-                //check for the collision
-                Collider2D hit = Physics2D.OverlapPoint(new Vector2(row, col));
-                if (hit != null)
-                {
-                    //obstacles
-                    nodes[row, col] = new WorldNode(row, col, false, false, false);
-
-                    //decide what it hit
-                    if (hit.gameObject.CompareTag("Player"))
-                    {
-                        nodes[row, col].isPlayer = true;
-                        Debug.DrawRay(starting_position, Vector3.back * 20, Color.cyan, 50000);
-                    }
-                    else if (hit.gameObject.CompareTag("Door"))
-                    {
-                        nodes[row, col].isDoor = true;
-                        Debug.DrawRay(starting_position, Vector3.back * 20, Color.gray, 50000);
-                    }
-                    else
-                    {
-                        //hit something unspecified, considered obstacle
-                        nodes[row, col].isObstacle = true;
-                        Debug.DrawRay(starting_position, Vector3.back * 20, Color.red, 50000);
-                    }
-                }
-                else
-                {
-                    //if it did not hit anything show green
-                    Debug.DrawRay(starting_position, Vector3.back * 20f, Color.green, 50000);
-                    nodes[row, col] = new WorldNode(row, col, false, false, false);
-                }
-            }
-        }
-
-        g = new Grid(nodes, t_length, t_height);
-    }
-
+    /*
+    this whole script is about the WorldNode and Grid objects
+    WorldNode is each individual node on the map
+    Grid is the entire map of nodes
+     */
 }
 
 //Node class to be used
@@ -125,12 +49,89 @@ public class Grid
     public WorldNode playerNode;
     public int gridLength;
     public int gridHeight;
+    public int node_size;
+    private int r;
+    private int c;
 
-    public Grid(WorldNode[,] nodes_, int l, int h)
+    public Grid(int l, int h, int _node_size)
     {
-        nodes = nodes_;
         gridLength = l;
         gridHeight = h;
+        node_size = _node_size;
+
+        //amount of rows/columns needed for the space
+        r = gridLength / node_size;
+        c = gridHeight / node_size;
+
+        nodes = new WorldNode[r, c];
+
+        Decompose();
+    }
+
+    //create a list of nodes in the world
+    public void Decompose()
+    {
+        //go through each row and column
+        for (int row = 0; row < r; row++)
+        {
+            for (int col = 0; col < c; col++)
+            {
+                nodes[row, col] = new WorldNode(row, col, false, false, false);
+            }
+        }
+
+        //check the collisions on the grid
+        checkGrid();
+    }
+
+    //check the grid for any collisions
+    public void checkGrid()
+    {
+        //start at 0
+        float startX = 0;
+        float startY = 0;
+
+        //get the offset to find the center
+        float nco = node_size / 2;
+
+        for (int row = 0; row < r; row++)
+        {
+            for (int col = 0; col < c; col++)
+            {
+                float x = startX + nco + (node_size * col);
+                float y = startY + nco + (node_size * row);
+
+                Vector3 starting_position = new Vector3(y, x, 10f);
+
+                //check for the collision
+                Collider2D hit = Physics2D.OverlapPoint(new Vector2(row, col));
+                if (hit != null)
+                {
+                    //decide what it hit
+                    if (hit.gameObject.CompareTag("Player"))
+                    {
+                        nodes[row, col].isPlayer = true;
+                        Debug.DrawRay(starting_position, Vector3.back * 20, Color.cyan, 50000);
+                    }
+                    else if (hit.gameObject.CompareTag("Door"))
+                    {
+                        nodes[row, col].isDoor = true;
+                        Debug.DrawRay(starting_position, Vector3.back * 20, Color.gray, 50000);
+                    }
+                    else
+                    {
+                        //hit something unspecified, considered obstacle
+                        nodes[row, col].isObstacle = true;
+                        Debug.DrawRay(starting_position, Vector3.back * 20, Color.red, 50000);
+                    }
+                }
+                else
+                {
+                    //if it did not hit anything show green
+                    Debug.DrawRay(starting_position, Vector3.back * 20f, Color.green, 50000);
+                }
+            }
+        }
     }
 
     //returns the node the player is on
@@ -180,7 +181,7 @@ public class Grid
     //get a random node in the grid
     public WorldNode randomNode()
     {
-        return nodes[Random.Range(0, gridLength),Random.Range(0,gridHeight)];
+        return nodes[UnityEngine.Random.Range(0, gridLength), UnityEngine.Random.Range(0, gridHeight)];
     }
 
     //returns the node at the position of the transform
@@ -211,4 +212,5 @@ public class Grid
             return null;
         }
     }
+
 }
