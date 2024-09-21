@@ -63,18 +63,28 @@ public class FloorGenerator : MonoBehaviour
                 if (roomRandom < 6)
                 {
                     roomRandom++;
-                    Debug.Log("Room random is: " + roomRandom);
                 }
                 //re-enqueue the room if its not min rooms yet
-                if (roomCount < minRooms || Random.Range(0,10) <= (1 + roomRandom)) {
+                if (roomCount < minRooms || Random.Range(0,10) <= (9 - + roomRandom)) {
                     roomQueue.Enqueue(room);
                 }
             }
+            //all code that needs to be run at the end of a run
             if(roomQueue.Count == 0)
             {
+                //stop the loop
                 Debug.Log("GENERATION FINISHED!!!");
                 Debug.Log("Floor Room Count: " + roomCount);
                 isStarted = false;
+
+                //update the grid to find all the doors
+                g.checkGrid();
+
+                //do the door check on all of the rooms
+                foreach (Room r in rooms)
+                {
+                    r.UpdateDoors();
+                }
             }
         }
     }
@@ -138,7 +148,7 @@ public class FloorGenerator : MonoBehaviour
         //make the room object
         Room r = new Room(ro, g, i, j);
         //put the room where it is going to stay
-        ro.transform.position = new Vector3(g.getNode(i * r.room_width, j * r.room_height).x, g.getNode(i * r.room_width, j * r.room_height).y, 0f);
+        ro.transform.position = new Vector3(g.getNode(i * r.room_width, j * r.room_height).x + 0.5f, g.getNode(i * r.room_width, j * r.room_height).y + 0.5f, 0f);
         //generate the nodes in the room object for its new position
         r.GenerateNodes();
         //enqueue the room to be checked later

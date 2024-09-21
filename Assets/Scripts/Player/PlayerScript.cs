@@ -187,7 +187,7 @@ public class PlayerScript : MonoBehaviour
         //update on speed if alive, stop if else
         if(health > 0)
         {
-            rb.velocity = new Vector2(inputVector.x * playerSpeed, inputVector.y * playerSpeed);
+            rb.velocity = inputVector * playerSpeed;
         }
         else
         {

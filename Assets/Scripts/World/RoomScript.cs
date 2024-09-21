@@ -131,5 +131,21 @@ public class Room
         }
         return 0;
     }
+
+    public void UpdateDoors()
+    {
+        foreach (GameObject door in doors)
+        {
+            //get the node for the current door
+            WorldNode tempNode = g.getNode(door.transform);
+
+            //check all 4 sides to see if theres a door, and if there is then change sprite to clear and disable collision
+            if ((g.getNode(tempNode.x + 1, tempNode.y).isDoor) || (g.getNode(tempNode.x - 1, tempNode.y).isDoor) || (g.getNode(tempNode.x, tempNode.y + 1).isDoor) || (g.getNode(tempNode.x, tempNode.y - 1).isDoor))
+            {
+                door.GetComponent<SpriteRenderer>().color = Color.clear;
+                door.GetComponent<BoxCollider2D>().enabled = false;
+            }
+        }
+    }
 }
 
