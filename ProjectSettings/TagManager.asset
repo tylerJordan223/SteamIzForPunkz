@@ -6,14 +6,15 @@ TagManager:
   tags:
   - Target
   - Door
+  - enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Player
+  - PlayerLayer
   - Water
   - UI
-  - 
+  - EnemyLayer
   - 
   - 
   - 

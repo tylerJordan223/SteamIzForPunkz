@@ -207,7 +207,7 @@ public class PlayerScript : MonoBehaviour
         canControl = false;
         canDash = false;
         dashing = true;
-
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("EnemyLayer"), LayerMask.NameToLayer("PlayerLayer"), true);
         //get the direction
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
@@ -221,6 +221,7 @@ public class PlayerScript : MonoBehaviour
         //cancel dash and enable timer for cooldown
         rb.gravityScale = originalGravity;
         dashing = false;
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("EnemyLayer"), LayerMask.NameToLayer("PlayerLayer"), false);
         canControl = true;
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
@@ -257,6 +258,16 @@ public class PlayerScript : MonoBehaviour
         {
             currentRoom = null;
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+
     }
 
 }
