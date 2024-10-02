@@ -93,10 +93,6 @@ public class PlayerScript : MonoBehaviour
         {
             g = f.GetComponent<FloorGenerator>().g;
         }
-        
-
-        //move to start position
-        //RandomPosition();
     }
 
     //use for anything non-movement related like math
