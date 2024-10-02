@@ -133,8 +133,9 @@ GameObject:
   m_Component:
   - component: {fileID: 96736039}
   - component: {fileID: 96736038}
+  - component: {fileID: 96736040}
   m_Layer: 0
-  m_Name: Cinemachine2DCamera
+  m_Name: PlayerTrackCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -195,6 +196,18 @@ Transform:
   - {fileID: 2019336653}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &96736040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96736037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cbe594c18b443341b2648ec782888d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &254291883
 GameObject:
   m_ObjectHideFlags: 3
@@ -576,6 +589,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fb8503ebb6be84daa1d78001c956af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2001861663
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2001861664}
+  m_Layer: 0
+  m_Name: Floor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2001861664
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001861663}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 281.84387, y: 165.94255, z: 0.6187208}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2019336652
 GameObject:
   m_ObjectHideFlags: 3
@@ -708,10 +752,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16c9843ab5777834b92effea92ef6bf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  room: {fileID: 4065827680651785898, guid: d60edd3ab18d81a43a6b1de15a8fe2e6, type: 3}
+  room_list:
+  - {fileID: 4065827680651785898, guid: d60edd3ab18d81a43a6b1de15a8fe2e6, type: 3}
   player: {fileID: 8678102156351474676, guid: bc9fb88e12f19384fad297d81bc70291, type: 3}
-  floor_width: 30
-  floor_height: 30
+  floor_parent: {fileID: 2001861663}
   maxRooms: 30
   minRooms: 15
 --- !u!1660057539 &9223372036854775807
@@ -722,3 +766,4 @@ SceneRoots:
   - {fileID: 96736039}
   - {fileID: 1188086797}
   - {fileID: 869634016}
+  - {fileID: 2001861664}
