@@ -151,18 +151,6 @@ public class PlayerScript : MonoBehaviour
             StartCoroutine(Death());
         }
 
-        //move to random position
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            RandomPosition();
-        }
-
-        //decompose
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            g.Decompose();
-        }
-
         //RESTARTS GAME!!! DEBUG ONLY!!!
         if (Input.GetKeyDown(KeyCode.R))
         {

@@ -20,14 +20,33 @@ public class EnemyMovement : MonoBehaviour
     private Transform player;
     public float speed;
     public float minDistanceFromPlayer;
+    private bool punching;
+    private Vector2 punchDirection;
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody2D>();
         trans = GetComponent<Transform>();
+        punching = false;
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            punchDirection = trans.position - player.position;
+            if(punching)
+            {
+                StopCoroutine(Punch());
+                StartCoroutine(Punch());
+            }
+            else
+            {
+                StartCoroutine(Punch());
+            }
+        }
+    }
     private void FixedUpdate()
     {
         //pick the type of movement
@@ -39,8 +58,14 @@ public class EnemyMovement : MonoBehaviour
 
         }
 
+        //check for punch knockback
+        if(punching)
+        {
+            rb.AddForce(punchDirection.normalized * 200, ForceMode2D.Force);
+        }
+
         //slow down any velocity pushed
-        rb.velocity *= new Vector2(0.1f,0.1f);
+        rb.velocity *= new Vector2(0.3f,0.3f);
     }
 
     private void DirectionalMovement()
@@ -48,13 +73,20 @@ public class EnemyMovement : MonoBehaviour
         //get distance from player
         float distance = Vector2.Distance(trans.position, player.position);
         //move towards player
-        if(distance > minDistanceFromPlayer)
+        if (distance > minDistanceFromPlayer)
         {
             trans.position += (player.position - trans.position).normalized * speed * Time.deltaTime;
         }
-        else if (distance < minDistanceFromPlayer-0.5)
+        else if (distance < minDistanceFromPlayer - 0.5)
         {
             trans.position -= (player.position - trans.position).normalized * speed * Time.deltaTime;
         }
+    }
+
+    private IEnumerator Punch()
+    {
+        punching = true;
+        yield return new WaitForSeconds(0.25f);
+        punching = false;
     }
 }
