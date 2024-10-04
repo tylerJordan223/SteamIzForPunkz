@@ -20,32 +20,15 @@ public class EnemyMovement : MonoBehaviour
     private Transform player;
     public float speed;
     public float minDistanceFromPlayer;
-    private bool punching;
-    private Vector2 punchDirection;
+    private bool kb;
+    private Vector2 kbDirection;
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody2D>();
         trans = GetComponent<Transform>();
-        punching = false;
-    }
-
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            punchDirection = trans.position - player.position;
-            if(punching)
-            {
-                StopCoroutine(Punch());
-                StartCoroutine(Punch());
-            }
-            else
-            {
-                StartCoroutine(Punch());
-            }
-        }
+        kb = false;
     }
     private void FixedUpdate()
     {
@@ -59,9 +42,9 @@ public class EnemyMovement : MonoBehaviour
         }
 
         //check for punch knockback
-        if(punching)
+        if(kb)
         {
-            rb.AddForce(punchDirection.normalized * 200, ForceMode2D.Force);
+            rb.AddForce(kbDirection.normalized * 200, ForceMode2D.Force);
         }
 
         //slow down any velocity pushed
@@ -83,10 +66,24 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    private IEnumerator Punch()
+    public void Knockback()
     {
-        punching = true;
+        kbDirection = trans.position - player.position;
+        if (kb)
+        {
+            StopCoroutine(IKnockback());
+            StartCoroutine(IKnockback());
+        }
+        else
+        {
+            StartCoroutine(IKnockback());
+        }
+    }
+
+    private IEnumerator IKnockback()
+    {
+        kb = true;
         yield return new WaitForSeconds(0.25f);
-        punching = false;
+        kb = false;
     }
 }

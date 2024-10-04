@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 562538375}
   - component: {fileID: 562538374}
   - component: {fileID: 562538376}
+  - component: {fileID: 562538377}
   m_Layer: 6
   m_Name: TestEnemy
   m_TagString: enemy
@@ -298,6 +299,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &562538377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 562538371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d584510904ee3549927a8e8d0200a98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 5
+  health: 0
 --- !u!1001 &842093375
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -407,23 +422,19 @@ PrefabInstance:
       propertyPath: m_Name
       value: Trice
       objectReference: {fileID: 0}
-    - target: {fileID: 9085470411040590126, guid: bc9fb88e12f19384fad297d81bc70291, type: 3}
-      propertyPath: m_Color.b
-      value: 0.7924528
-      objectReference: {fileID: 0}
-    - target: {fileID: 9085470411040590126, guid: bc9fb88e12f19384fad297d81bc70291, type: 3}
-      propertyPath: m_Color.g
-      value: 0.7924528
-      objectReference: {fileID: 0}
-    - target: {fileID: 9085470411040590126, guid: bc9fb88e12f19384fad297d81bc70291, type: 3}
-      propertyPath: m_Color.r
-      value: 0.7924528
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8678102156351474676, guid: bc9fb88e12f19384fad297d81bc70291, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 2039239692}
   m_SourcePrefab: {fileID: 100100000, guid: bc9fb88e12f19384fad297d81bc70291, type: 3}
+--- !u!4 &857792056 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5486964216662467719, guid: bc9fb88e12f19384fad297d81bc70291, type: 3}
+  m_PrefabInstance: {fileID: 857792055}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1174551699
 GameObject:
   m_ObjectHideFlags: 0
@@ -516,6 +527,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2039239685 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8678102156351474676, guid: bc9fb88e12f19384fad297d81bc70291, type: 3}
+  m_PrefabInstance: {fileID: 857792055}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2039239692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039239685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85d6c13808c162545bcf8799e8d3e4bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  atrans: {fileID: 857792056}
+  range: 0.5
+  pdamage: 1
+  alayer:
+    serializedVersion: 2
+    m_Bits: 64
+  timeBetweenAttacks: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
