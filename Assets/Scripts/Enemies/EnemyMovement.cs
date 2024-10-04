@@ -22,6 +22,8 @@ public class EnemyMovement : MonoBehaviour
     public float minDistanceFromPlayer;
     private bool kb;
     private Vector2 kbDirection;
+    public bool dead;
+    [SerializeField] public Color aliveColor;
 
     private void Start()
     {
@@ -29,16 +31,21 @@ public class EnemyMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         trans = GetComponent<Transform>();
         kb = false;
+        dead = false;
+        GetComponent<SpriteRenderer>().color = aliveColor;
     }
     private void FixedUpdate()
     {
         //pick the type of movement
-        if(directional)
+        if(!dead)
         {
-            DirectionalMovement();
-        }else if(astar)
-        {
+            if(directional)
+            {
+                DirectionalMovement();
+            }else if(astar)
+            {
 
+            }
         }
 
         //check for punch knockback
