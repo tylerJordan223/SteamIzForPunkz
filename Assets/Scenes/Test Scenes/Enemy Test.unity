@@ -268,7 +268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed9e70dfe07c53d42bbf2ab34b2d5efa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  directional: 1
+  directional: 0
   astar: 0
   speed: 1
   minDistanceFromPlayer: 0
@@ -632,7 +632,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1606627300}
@@ -764,11 +764,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   atrans: {fileID: 1269593550}
   spinParent: {fileID: 1606627300}
+  myColor: {r: 0.07629752, g: 1, b: 0, a: 1}
   range: 0.35
   pdamage: 1
   alayer:
     serializedVersion: 2
     m_Bits: 64
+  dynMaxSpeed: 1
+  dynSpinAcceleration: 1
+  chargeTime: 1
+  rechargeTime: 3
+  dynSize: 1
+  chargedSize: 6
+  chargingColor: {r: 1, g: 0.92892253, b: 0, a: 1}
+  chargedColor: {r: 1, g: 0, b: 0, a: 1}
+  cooldownColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
