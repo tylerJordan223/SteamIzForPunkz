@@ -190,7 +190,9 @@ public class PlayerSpinAttack : MonoBehaviour
                 yield return new WaitForSeconds(0.1f);
             }
         }
-        
+
+        //no longer charging and color back to normal
+        aColor.color = myColor;
         charging = false;
     }
 
