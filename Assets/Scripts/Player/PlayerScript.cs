@@ -32,24 +32,33 @@ public class PlayerScript : MonoBehaviour
     private float health;
     private float playerSpeed;
 
+    //Dynamic Attributes
+    [Header("Stats")]
+    public float dynSpeed;
+    public float dynDashSpeed;
+    public float dynDamage;
+    public float dynRange;
+    public float maxHealth;
+
     //dash variables
     private bool canDash;
     private bool dashing;
     private float dashDistance;
     private float dashTime;
     private float dashCooldown;
+
+    [Header("Dash")]
     [SerializeField] private TrailRenderer dashTrail;
 
     //Saved Objects
+    [Header("Inventory")]
     public GameObject heldObject;
     public GameObject currentRoom;
     public List<GameObject> itemList = new List<GameObject>();
-
-    //flags
-    private bool canControl;
     public bool holdingItem;
 
     //movement
+    private bool canControl;
     Vector2 inputVector;
     Vector2 lastInputVector;
 
@@ -70,6 +79,13 @@ public class PlayerScript : MonoBehaviour
         //character mechanics
         health = 100f;
         playerSpeed = 5f;
+
+        //dynamic mechanics
+        dynSpeed = 1f;
+        dynDashSpeed = 1f;
+        dynDamage = 1f;
+        dynRange = 1f;
+        maxHealth = 3f;
 
         //dash mechanics
         dashDistance = 30f;
@@ -171,7 +187,7 @@ public class PlayerScript : MonoBehaviour
         //update on speed if alive, stop if else
         if(health > 0)
         {
-            rb.velocity = inputVector * playerSpeed;
+            rb.velocity = inputVector * playerSpeed * dynSpeed;
         }
         else
         {

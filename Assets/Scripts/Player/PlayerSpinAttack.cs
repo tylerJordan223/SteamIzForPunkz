@@ -6,48 +6,63 @@ using UnityEngine;
 public class PlayerSpinAttack : MonoBehaviour
 {
     private RaycastHit2D[] hits;
+    [Header("Connected Objects")]
     [SerializeField] private Transform atrans;
     [SerializeField] private Transform spinParent;
     private Transform ptrans;
-    private float rotationSpeed;
 
     //changable variables
+    [Header("Changable Values")]
     [SerializeField] public float range = 1.5f;
     [SerializeField] public float pdamage = 1f;
     [SerializeField] private LayerMask alayer;
 
+    private float maxSpeed;
+    private float spinAcceleration;
+    private float rotationSpeed;
+    private float speedToAttack;
+    public float dynMaxSpeed = 1f;
+    public float dynSpinAcceleration = 1f;
+
     private void Start()
     {
+        maxSpeed = 15f;
+        spinAcceleration = 0.2f;
+        speedToAttack = 12.5f;
+
         ptrans = this.gameObject.transform;
     }
 
     private void FixedUpdate()
     {
         //movement
-        if (Input.GetMouseButton(0))
+        if( !( ( rotationSpeed * Mathf.Sign(rotationSpeed) ) > (maxSpeed * dynMaxSpeed) ) )
         {
-            if(rotationSpeed < 15f)
+            if (Input.GetMouseButton(0))
             {
-                rotationSpeed += 0.2f;
-            }
-            spinParent.Rotate(new Vector3(0f, 0f, 1f), rotationSpeed);
-        }else if(Input.GetMouseButton(1))
-        {
-            if(rotationSpeed > -15f)
+                if(rotationSpeed < (maxSpeed * dynMaxSpeed))
+                {
+                    rotationSpeed += (spinAcceleration * dynSpinAcceleration);
+                }
+                spinParent.Rotate(new Vector3(0f, 0f, 1f), rotationSpeed);
+            }else if(Input.GetMouseButton(1))
             {
-                rotationSpeed -= 0.2f;
+                if(rotationSpeed > -(maxSpeed * dynMaxSpeed))
+                {
+                    rotationSpeed -= (spinAcceleration * dynSpinAcceleration);
+                }
+                spinParent.Rotate(new Vector3(0f, 0f, 1f), rotationSpeed);
             }
-            spinParent.Rotate(new Vector3(0f, 0f, 1f), rotationSpeed);
         }
         else
         {
             //slows down the rotation by the same speed until its 0
             if(rotationSpeed != 0)
             {
-                rotationSpeed += 0.2f * -Mathf.Sign(rotationSpeed);
+                rotationSpeed += spinAcceleration * -Mathf.Sign(rotationSpeed);
             }
             //if close to 0 then make it 0
-            if(rotationSpeed < 0.2f && rotationSpeed > -0.2f)
+            if(rotationSpeed < spinAcceleration && rotationSpeed > -spinAcceleration)
             {
                 rotationSpeed = 0;
             }
@@ -55,8 +70,22 @@ public class PlayerSpinAttack : MonoBehaviour
             spinParent.Rotate(new Vector3(0f, 0f, 1f), rotationSpeed);
         }
 
+        Debug.Log(rotationSpeed);
+
+        //move slower if space is held
+        if(Input.GetKey(KeyCode.Space))
+        {
+            dynSpinAcceleration = 0.5f;
+            dynMaxSpeed = 0.2f;
+        }
+        else
+        {
+            dynSpinAcceleration = 1f;
+            dynMaxSpeed = 1f;
+        }
+
         //attack if rotation is a certain speed
-        if(rotationSpeed * Mathf.Sign(rotationSpeed) > 12.5f)
+        if(rotationSpeed * Mathf.Sign(rotationSpeed) > speedToAttack)
         {
             Attack();
         }
@@ -81,6 +110,11 @@ public class PlayerSpinAttack : MonoBehaviour
                 eh.Damage(pdamage);
             }
         }
+    }
+
+    private void RangeAttack()
+    {
+
     }
 
     //DEBUG PURPOSES ONLY//
