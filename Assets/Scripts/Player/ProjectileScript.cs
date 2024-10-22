@@ -9,42 +9,37 @@ public class ProjectileScript : MonoBehaviour
     public int maxRicochets;
     private int ricochetCount;
     private float bulletSpeed;
-    private Rigidbody2D rb;
     private Transform trans;
-    private Vector3 lastVelocity;
 
     private void Start()
     {
         ricochetCount = maxRicochets;
         bulletSpeed = 1f;
-        rb = GetComponent<Rigidbody2D>();
         trans = GetComponent<Transform>();
-
-        //rb.AddForce(trans.up * 500, ForceMode2D.Force);
     }
 
     private void Update()
     {
-        lastVelocity = rb.velocity;
-
-        if (ricochetCount < 0)
+        if (ricochetCount == 0)
         {
-            //Destroy(this.gameObject);
+            Destroy(this.gameObject, 5f);
         }
     }
 
     private void FixedUpdate()
     {
-        if(ricochetCount > 0)
+        if(ricochetCount != 0)
         {
             //raycast to hit points of damage
-            RaycastHit2D hit = Physics2D.Raycast(new Vector2(trans.position.x, trans.position.y), new Vector2(trans.up.x, trans.up.y), Mathf.Infinity, LayerMask.GetMask("ObstacleLayer")); ;
+            RaycastHit2D hit = Physics2D.Raycast(trans.position + trans.up.normalized/10, trans.up, Mathf.Infinity, LayerMask.GetMask("ObstacleLayer")); ;
+            //multiplied by infinity because that value is not just direction its also distance
+            Debug.DrawRay(trans.position, trans.up.normalized * 100f, Color.blue, 100f);
 
             //if it hits
             if(hit)
             {
                 //get the direction of the point to the object
-                Vector2 dir = (hit.transform.position - trans.position);
+                Vector2 dir = ((Vector3)hit.point - trans.position);
 
                 //if it hits a wall
                 if(hit.collider.gameObject.tag == "wall")
@@ -57,7 +52,8 @@ public class ProjectileScript : MonoBehaviour
                     {
                         foreach(RaycastHit2D h in hits)
                         {
-                            //DAMAGE EACH ENEMY//
+                            EnemyHealth e = h.collider.gameObject.GetComponent<EnemyHealth>();
+                            e.Damage(10f);
                         }
                     }
 
@@ -67,7 +63,6 @@ public class ProjectileScript : MonoBehaviour
 
                     //rotate properly
                     trans.up = Vector2.Reflect(dir.normalized, hit.normal);
-                    Debug.Log(trans.up.ToString());
 
                     ricochetCount--;
                 }
