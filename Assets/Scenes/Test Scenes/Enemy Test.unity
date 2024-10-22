@@ -397,7 +397,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6335636827215082339, guid: bc9fb88e12f19384fad297d81bc70291, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.36
+      value: -5.82
       objectReference: {fileID: 0}
     - target: {fileID: 6335636827215082339, guid: bc9fb88e12f19384fad297d81bc70291, type: 3}
       propertyPath: m_LocalPosition.y
@@ -764,6 +764,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   atrans: {fileID: 1269593550}
   spinParent: {fileID: 1606627300}
+  projectile: {fileID: 3526085098688484298, guid: a55a9aa1d990fbe4aa39d111a3ba9b76, type: 3}
   myColor: {r: 0.07629752, g: 1, b: 0, a: 1}
   range: 0.35
   pdamage: 1

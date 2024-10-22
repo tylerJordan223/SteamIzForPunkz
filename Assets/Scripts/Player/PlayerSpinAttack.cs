@@ -9,6 +9,7 @@ public class PlayerSpinAttack : MonoBehaviour
     [Header("Connected Objects")]
     [SerializeField] private Transform atrans;
     [SerializeField] private Transform spinParent;
+    [SerializeField] private GameObject projectile;
     private Transform ptrans;
     private SpriteRenderer aColor;
 
@@ -78,8 +79,6 @@ public class PlayerSpinAttack : MonoBehaviour
     //for all things movement
     private void FixedUpdate()
     {
-        Debug.Log(dynSpinAcceleration);
-        Debug.Log(dynMaxSpeed);
 
         //movement
         if (Input.GetMouseButton(0) && (rotationSpeed < (maxSpeed * dynMaxSpeed)))
@@ -98,7 +97,6 @@ public class PlayerSpinAttack : MonoBehaviour
             spinParent.Rotate(new Vector3(0f, 0f, 1f), rotationSpeed);
         }else
         {
-            Debug.Log("Slowing Down!");
             //slows down the rotation by the same speed until its 0
             if(rotationSpeed != 0)
             {
@@ -181,7 +179,6 @@ public class PlayerSpinAttack : MonoBehaviour
                     //return controls back to normal
                     dynSpinAcceleration = 1f;
                     dynMaxSpeed = 1f;
-                    aColor.color = myColor;
 
                     //break out of the inf loop
                     break;
@@ -218,7 +215,11 @@ public class PlayerSpinAttack : MonoBehaviour
 
     private void RangeAttack()
     {
-
+        //create a bullet and direct it 
+        GameObject p = Instantiate(projectile);
+        p.transform.position = ptrans.transform.position;
+        p.transform.up = (atrans.position - ptrans.position).normalized;
+        Debug.Log("Finished projectile");
     }
 
     //DEBUG PURPOSES ONLY//
