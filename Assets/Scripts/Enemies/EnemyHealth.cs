@@ -15,6 +15,7 @@ public class EnemyHealth : MonoBehaviour
     //limiting the amount of damage (for spin attack)
     [SerializeField] public float timeBetweenDamage;
     [SerializeField] public Color deathColor;
+    private SpriteRenderer sr;
     private float damageTimer;
 
     [Header("Drops on Death")]
@@ -24,11 +25,26 @@ public class EnemyHealth : MonoBehaviour
     {
         health = maxHealth;
         em = GetComponent<EnemyMovement>();
+        sr = GetComponent<SpriteRenderer>();
+        damageTimer = timeBetweenDamage;
     }
 
     private void Update()
     {
         damageTimer += Time.deltaTime;
+
+        //update visually
+        if(!em.dead)
+        {
+            if(damageTimer < timeBetweenDamage)
+            {
+                sr.color = new Color(em.aliveColor.r, em.aliveColor.g, em.aliveColor.b, 0.5f);
+            }
+            else
+            {
+                sr.color = new Color(em.aliveColor.r, em.aliveColor.g, em.aliveColor.b, 1f);
+            }
+        }
     }
 
     public void Damage(float d)

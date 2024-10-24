@@ -109,7 +109,9 @@ public class PlayerScript : MonoBehaviour
         stats.Add(dynMeleeDamage);
         stats.Add(dynRangeDamage);
         stats.Add(dynMaxCharges);
+        stats.Add(charges);
         stats.Add(maxHealth);
+        stats.Add(health);
         stats.Add(luck);
         selected_stat = 0;
 
@@ -216,6 +218,16 @@ public class PlayerScript : MonoBehaviour
 
 
             //DEBUG STAT CHANGER
+            //set all values before changing
+            stats[0] = dynSpeed;
+            stats[1] = dynDashSpeed;
+            stats[2] = dynMeleeDamage;
+            stats[4] = dynMaxCharges;
+            stats[5] = charges;
+            stats[6] = maxHealth;
+            stats[7] = health;
+            stats[8] = luck;
+
             if (Input.GetKeyDown(KeyCode.Keypad2))
             {
                 if(selected_stat != stats.Count-1)
@@ -250,14 +262,16 @@ public class PlayerScript : MonoBehaviour
                 stats[selected_stat]++;
             }
 
-            //I still have no idea why I have to do this
+            //set all values if changed
             dynSpeed = stats[0];
             dynDashSpeed = stats[1];
             dynMeleeDamage = stats[2];
             dynRangeDamage = stats[3];
             dynMaxCharges = stats[4];
-            maxHealth = stats[5];
-            luck = stats[6];
+            charges = stats[5];
+            maxHealth = stats[6];
+            health = stats[7];
+            luck = stats[8];
             //DEBUG STAT CHANGER
         }
 

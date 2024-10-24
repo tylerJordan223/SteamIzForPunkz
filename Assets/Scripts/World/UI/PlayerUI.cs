@@ -74,7 +74,9 @@ public class PlayerUI : MonoBehaviour
             stats.Add("MDmg: " + player.dynMeleeDamage);
             stats.Add("RDmg: " + player.dynRangeDamage);
             stats.Add("MCharge: " + player.dynMaxCharges);
+            stats.Add("Charges: " + player.charges);
             stats.Add("mHealth: " + player.maxHealth);
+            stats.Add("Health: " + player.health);
             stats.Add("Luck: " + player.luck);
 
             string new_text = "";
