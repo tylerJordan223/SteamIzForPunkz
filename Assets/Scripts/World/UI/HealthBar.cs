@@ -16,19 +16,14 @@ public class HealthBar : MonoBehaviour
     [SerializeField] Sprite empty_heart;
 
     //actual health objects
-    public List<Image> hearts;
+    private List<Image> hearts;
     [SerializeField] Image first_heart;
-    private float heartw;
 
     private void Start()
     {
         //make the list and get the first heart
         hearts = new List<Image>();
         hearts.Add(this.gameObject.transform.GetChild(0).GetComponent<Image>());
-
-        //get the space between hearts
-        heartw = first_heart.gameObject.GetComponent<RectTransform>().rect.width;
-        Debug.Log(heartw);
     }
 
     private void Update()
@@ -71,7 +66,7 @@ public class HealthBar : MonoBehaviour
                 }
             }
         }
-
+         
         //loop to update the heart visuals
         for(int f = 0; f < hearts.Count; f++)
         {

@@ -60,7 +60,7 @@ public class PlayerSpinAttack : MonoBehaviour
     private void Update()
     {
         //CHARGE ATTACK
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && p_dyn.charges > 0)
         {
             if (!charging)
             {
@@ -224,7 +224,8 @@ public class PlayerSpinAttack : MonoBehaviour
         //move the position and rotation
         p.transform.position = ptrans.transform.position;
         p.transform.up = (atrans.position - ptrans.position).normalized;
-        Debug.Log("Finished projectile");
+        //remove a charge from the shot
+        p_dyn.charges--;
     }
 
     //DEBUG PURPOSES ONLY//

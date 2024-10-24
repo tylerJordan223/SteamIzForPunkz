@@ -30,6 +30,7 @@ public class PlayerScript : MonoBehaviour
 
     //character mechanics
     public float health;
+    public float charges;
     private float playerSpeed;
 
     //Dynamic Attributes
@@ -38,7 +39,7 @@ public class PlayerScript : MonoBehaviour
     public float dynDashSpeed;
     public float dynMeleeDamage;
     public float dynRangeDamage;
-    public float dynRange;
+    public float dynMaxCharges;
     public float maxHealth;
     public float luck;
 
@@ -88,6 +89,7 @@ public class PlayerScript : MonoBehaviour
 
         //character mechanics
         health = 3f;
+        charges = 3f;
         playerSpeed = 5f;
 
         //dynamic mechanics
@@ -95,7 +97,7 @@ public class PlayerScript : MonoBehaviour
         dynDashSpeed = 1f;
         dynMeleeDamage = 1f;
         dynRangeDamage = 1f;
-        dynRange = 1f;
+        dynMaxCharges = 3f;
         maxHealth = 3f;
         luck = 1f;
 
@@ -106,7 +108,7 @@ public class PlayerScript : MonoBehaviour
         stats.Add(dynDashSpeed);
         stats.Add(dynMeleeDamage);
         stats.Add(dynRangeDamage);
-        stats.Add(dynRange);
+        stats.Add(dynMaxCharges);
         stats.Add(maxHealth);
         stats.Add(luck);
         selected_stat = 0;
@@ -247,7 +249,7 @@ public class PlayerScript : MonoBehaviour
             dynDashSpeed = stats[1];
             dynMeleeDamage = stats[2];
             dynRangeDamage = stats[3];
-            dynRange = stats[4];
+            dynMaxCharges = stats[4];
             maxHealth = stats[5];
             luck = stats[6];
             //DEBUG STAT CHANGER

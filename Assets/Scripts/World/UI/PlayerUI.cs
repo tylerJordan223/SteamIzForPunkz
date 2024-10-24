@@ -61,7 +61,7 @@ public class PlayerUI : MonoBehaviour
         stats.Add("DashS: " + player.dynDashSpeed);
         stats.Add("MDmg: " + player.dynMeleeDamage);
         stats.Add("RDmg: " + player.dynRangeDamage);
-        stats.Add("Range: " + player.dynRange);
+        stats.Add("MCharge: " + player.dynMaxCharges);
         stats.Add("mHealth: " + player.maxHealth);
         stats.Add("Luck: " + player.luck);
 
