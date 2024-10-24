@@ -5,6 +5,7 @@ using System.Timers;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
@@ -54,27 +55,39 @@ public class PlayerUI : MonoBehaviour
 
     private void UpdateStats()
     {
-        //initialize an empty list
-        List<string> stats = new List<string>();
-        //add each stat to it
-        stats.Add("Speed: " + player.dynSpeed);
-        stats.Add("DashS: " + player.dynDashSpeed);
-        stats.Add("MDmg: " + player.dynMeleeDamage);
-        stats.Add("RDmg: " + player.dynRangeDamage);
-        stats.Add("MCharge: " + player.dynMaxCharges);
-        stats.Add("mHealth: " + player.maxHealth);
-        stats.Add("Luck: " + player.luck);
-
-        string new_text = "";
-        for(int i = 0; i < stats.Count; i++)
+        if(!player.debug)
         {
-            if(i == player.selected_stat)
-            {
-                new_text += "*";
-            }
-            new_text += stats[i] + "\n";
+            //disable everything if debug mode is off
+            playerStats.text = "";
+            this.transform.Find("Player Stats").GetChild(0).gameObject.GetComponent<Image>().enabled = false;
         }
+        else
+        {
+            //make the back visible
+            this.transform.Find("Player Stats").GetChild(0).gameObject.GetComponent<Image>().enabled = true;
 
-        playerStats.text = new_text;
+            //initialize an empty list
+            List<string> stats = new List<string>();
+            //add each stat to it
+            stats.Add("Speed: " + player.dynSpeed);
+            stats.Add("DashS: " + player.dynDashSpeed);
+            stats.Add("MDmg: " + player.dynMeleeDamage);
+            stats.Add("RDmg: " + player.dynRangeDamage);
+            stats.Add("MCharge: " + player.dynMaxCharges);
+            stats.Add("mHealth: " + player.maxHealth);
+            stats.Add("Luck: " + player.luck);
+
+            string new_text = "";
+            for (int i = 0; i < stats.Count; i++)
+            {
+                if (i == player.selected_stat)
+                {
+                    new_text += "*";
+                }
+                new_text += stats[i] + "\n";
+            }
+
+            playerStats.text = new_text;
+        }
     }
 }

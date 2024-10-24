@@ -102,7 +102,7 @@ public class PlayerScript : MonoBehaviour
         luck = 1f;
 
         //DEBUG STAT CHANGER
-        debug = true;
+        debug = false;
         stats = new List<float>();
         stats.Add(dynSpeed);
         stats.Add(dynDashSpeed);
@@ -195,19 +195,25 @@ public class PlayerScript : MonoBehaviour
             StartCoroutine(Death());
         }
 
-        
+
 
         //debug stuff
 
         //activates debug stats
+        
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            debug = !debug;
+        }
 
-        if(debug)
+        if (debug)
         {
             //RESTARTS GAME!!!
             if (Input.GetKeyDown(KeyCode.R))
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
+
 
             //DEBUG STAT CHANGER
             if (Input.GetKeyDown(KeyCode.Keypad2))
