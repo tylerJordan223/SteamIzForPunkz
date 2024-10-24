@@ -211,7 +211,6 @@ GameObject:
   - component: {fileID: 6335636827215082339}
   - component: {fileID: 9085470411040590126}
   - component: {fileID: 79489015907438397}
-  - component: {fileID: 3650682389310850363}
   - component: {fileID: 6844770700170706757}
   - component: {fileID: 8283346855296206746}
   - component: {fileID: 4555778268776832079}
@@ -306,34 +305,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dynSpeed: 0
   dynDashSpeed: 0
-  dynDamage: 0
+  dynMeleeDamage: 0
+  dynRangeDamage: 0
   dynRange: 0
   maxHealth: 0
+  luck: 0
+  debug: 0
   dashTrail: {fileID: 8730185703906736717}
   heldObject: {fileID: 0}
   currentRoom: {fileID: 0}
   itemList: []
   holdingItem: 0
   moneyCount: 0
---- !u!114 &3650682389310850363
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8678102156351474676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85d6c13808c162545bcf8799e8d3e4bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  atrans: {fileID: 5486964216662467719}
-  range: 0.5
-  pdamage: 1
-  alayer:
-    serializedVersion: 2
-    m_Bits: 64
-  timeBetweenAttacks: 1
+  selected_stat: 0
 --- !u!114 &6844770700170706757
 MonoBehaviour:
   m_ObjectHideFlags: 0

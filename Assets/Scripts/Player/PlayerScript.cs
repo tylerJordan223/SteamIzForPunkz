@@ -29,7 +29,7 @@ public class PlayerScript : MonoBehaviour
     private SpriteRenderer sr;
 
     //character mechanics
-    private float health;
+    public float health;
     private float playerSpeed;
 
     //Dynamic Attributes
@@ -87,7 +87,7 @@ public class PlayerScript : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
 
         //character mechanics
-        health = 100f;
+        health = 3f;
         playerSpeed = 5f;
 
         //dynamic mechanics
@@ -193,15 +193,20 @@ public class PlayerScript : MonoBehaviour
             StartCoroutine(Death());
         }
 
-        //RESTARTS GAME!!! DEBUG ONLY!!!
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
+        
 
         //debug stuff
+
+        //activates debug stats
+
         if(debug)
         {
+            //RESTARTS GAME!!!
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+
             //DEBUG STAT CHANGER
             if (Input.GetKeyDown(KeyCode.Keypad2))
             {
