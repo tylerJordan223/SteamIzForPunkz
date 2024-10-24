@@ -10,6 +10,7 @@ public class PlayerSpinAttack : MonoBehaviour
     [SerializeField] private Transform atrans;
     [SerializeField] private Transform spinParent;
     [SerializeField] private GameObject projectile;
+    private PlayerScript p_dyn;
     private Transform ptrans;
     private SpriteRenderer aColor;
 
@@ -51,6 +52,7 @@ public class PlayerSpinAttack : MonoBehaviour
         speedToAttack = 12.5f;
 
         ptrans = this.gameObject.transform;
+        p_dyn = this.gameObject.GetComponent<PlayerScript>();
 
         charging = false;
     }
@@ -208,7 +210,7 @@ public class PlayerSpinAttack : MonoBehaviour
             //if the collision was an enemy then damage it
             if (eh != null)
             {
-                eh.Damage(pdamage);
+                eh.Damage(pdamage * p_dyn.dynMeleeDamage);
             }
         }
     }
@@ -217,6 +219,9 @@ public class PlayerSpinAttack : MonoBehaviour
     {
         //create a bullet and direct it 
         GameObject p = Instantiate(projectile);
+        //range the damage
+        p.GetComponent<ProjectileScript>().projectileDamage *= p_dyn.dynRangeDamage;
+        //move the position and rotation
         p.transform.position = ptrans.transform.position;
         p.transform.up = (atrans.position - ptrans.position).normalized;
         Debug.Log("Finished projectile");

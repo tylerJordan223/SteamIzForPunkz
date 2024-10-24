@@ -36,9 +36,14 @@ public class PlayerScript : MonoBehaviour
     [Header("Stats")]
     public float dynSpeed;
     public float dynDashSpeed;
-    public float dynDamage;
+    public float dynMeleeDamage;
+    public float dynRangeDamage;
     public float dynRange;
     public float maxHealth;
+    public float luck;
+
+    [Header("Debug")]
+    public bool debug;
 
     //dash variables
     private bool canDash;
@@ -56,6 +61,7 @@ public class PlayerScript : MonoBehaviour
     public GameObject currentRoom;
     public List<GameObject> itemList = new List<GameObject>();
     public bool holdingItem;
+    public float moneyCount;
 
     //movement
     private bool canControl;
@@ -64,6 +70,10 @@ public class PlayerScript : MonoBehaviour
 
     //decomposed world
     private Grid g;
+
+    //DEBUG STAT CHANGER
+    List<float> stats;
+    public int selected_stat;
 
     private void Start()
     {
@@ -83,9 +93,23 @@ public class PlayerScript : MonoBehaviour
         //dynamic mechanics
         dynSpeed = 1f;
         dynDashSpeed = 1f;
-        dynDamage = 1f;
+        dynMeleeDamage = 1f;
+        dynRangeDamage = 1f;
         dynRange = 1f;
         maxHealth = 3f;
+        luck = 1f;
+
+        //DEBUG STAT CHANGER
+        debug = true;
+        stats = new List<float>();
+        stats.Add(dynSpeed);
+        stats.Add(dynDashSpeed);
+        stats.Add(dynMeleeDamage);
+        stats.Add(dynRangeDamage);
+        stats.Add(dynRange);
+        stats.Add(maxHealth);
+        stats.Add(luck);
+        selected_stat = 0;
 
         //dash mechanics
         dashDistance = 30f;
@@ -98,6 +122,7 @@ public class PlayerScript : MonoBehaviour
         //saved objects
         heldObject = null;
         currentRoom = null;
+        moneyCount = 0;
 
         //flags
         canControl = true;
@@ -156,6 +181,7 @@ public class PlayerScript : MonoBehaviour
             {
                 StartCoroutine(Dash());
             }
+
         }
 
         //kill when out of hp
@@ -171,6 +197,55 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        //debug stuff
+        if(debug)
+        {
+            //DEBUG STAT CHANGER
+            if (Input.GetKeyDown(KeyCode.Keypad2))
+            {
+                if(selected_stat != stats.Count-1)
+                {
+                    selected_stat++;
+                }
+                else
+                {
+                    selected_stat = 0;
+                }
+            } 
+            if(Input.GetKeyDown(KeyCode.Keypad8))
+            {
+                if (selected_stat != 0)
+                {
+                    selected_stat--;
+                }
+                else
+                {
+                    selected_stat = stats.Count;
+                }
+            } 
+            if(Input.GetKeyDown(KeyCode.Keypad4))
+            {
+                if (stats[selected_stat] > 0)
+                {
+                    stats[selected_stat]--;
+                }
+            } 
+            if(Input.GetKeyDown(KeyCode.Keypad6))
+            {
+                stats[selected_stat]++;
+            }
+
+            //I still have no idea why I have to do this
+            dynSpeed = stats[0];
+            dynDashSpeed = stats[1];
+            dynMeleeDamage = stats[2];
+            dynRangeDamage = stats[3];
+            dynRange = stats[4];
+            maxHealth = stats[5];
+            luck = stats[6];
+            //DEBUG STAT CHANGER
         }
 
         //update Animation

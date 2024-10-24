@@ -17,7 +17,7 @@ public class EnemyMovement : MonoBehaviour
     //enemy variables
     private Transform trans;
     private Rigidbody2D rb;
-    private Transform player;
+    private GameObject player;
     public float speed;
     public float minDistanceFromPlayer;
     private bool kb;
@@ -27,7 +27,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player");
         rb = GetComponent<Rigidbody2D>();
         trans = GetComponent<Transform>();
         kb = false;
@@ -61,21 +61,21 @@ public class EnemyMovement : MonoBehaviour
     private void DirectionalMovement()
     {
         //get distance from player
-        float distance = Vector2.Distance(trans.position, player.position);
+        float distance = Vector2.Distance(trans.position, player.transform.position);
         //move towards player
         if (distance > minDistanceFromPlayer)
         {
-            trans.position += (player.position - trans.position).normalized * speed * Time.deltaTime;
+            trans.position += (player.transform.position - trans.position).normalized * speed * Time.deltaTime;
         }
         else if (distance < minDistanceFromPlayer - 0.5)
         {
-            trans.position -= (player.position - trans.position).normalized * speed * Time.deltaTime;
+            trans.position -= (player.transform.position - trans.position).normalized * speed * Time.deltaTime;
         }
     }
 
     public void Knockback()
     {
-        kbDirection = trans.position - player.position;
+        kbDirection = trans.position - player.transform.position;
         if (kb)
         {
             StopCoroutine(IKnockback());

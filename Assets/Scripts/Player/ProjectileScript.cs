@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class ProjectileScript : MonoBehaviour
 {
     public int maxRicochets;
+    public float projectileDamage;
     private int ricochetCount;
     private float bulletSpeed;
     private Transform trans;
@@ -15,6 +15,7 @@ public class ProjectileScript : MonoBehaviour
     {
         ricochetCount = maxRicochets;
         bulletSpeed = 1f;
+        projectileDamage = 5f;
         trans = GetComponent<Transform>();
     }
 
@@ -42,7 +43,7 @@ public class ProjectileScript : MonoBehaviour
                 Vector2 dir = ((Vector3)hit.point - trans.position);
 
                 //if it hits a wall
-                if(hit.collider.gameObject.tag == "wall")
+                if(hit.collider.gameObject.tag == "wall" || hit.collider.gameObject.tag == "Door")
                 {
 
                     //raycast to damage enemies, necessary to hit all
@@ -53,7 +54,7 @@ public class ProjectileScript : MonoBehaviour
                         foreach(RaycastHit2D h in hits)
                         {
                             EnemyHealth e = h.collider.gameObject.GetComponent<EnemyHealth>();
-                            e.Damage(10f);
+                            e.Damage(projectileDamage);
                         }
                     }
 
