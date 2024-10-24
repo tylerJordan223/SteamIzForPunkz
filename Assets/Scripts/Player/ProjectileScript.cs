@@ -59,7 +59,6 @@ public class ProjectileScript : MonoBehaviour
                     }
 
                     //move the object to the hit point
-                    Debug.Log(hit.point);
                     trans.position = hit.point;
 
                     //rotate properly

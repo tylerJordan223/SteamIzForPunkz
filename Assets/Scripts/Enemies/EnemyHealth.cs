@@ -40,12 +40,15 @@ public class EnemyHealth : MonoBehaviour
             //** PLAY DAMAGE ANIMATION
             //knockback
             em.Knockback();
-
-            health -= d;
-
-            if(health < d)
+            
+            if(health > 0)
             {
-                Die();
+                health -= d;
+
+                if (health <= 0)
+                {
+                    Die();
+                }
             }
         }
     }
