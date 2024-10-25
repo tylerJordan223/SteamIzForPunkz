@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class PlayerSpinAttack : MonoBehaviour
@@ -15,28 +17,33 @@ public class PlayerSpinAttack : MonoBehaviour
     private SpriteRenderer aColor;
 
     //changable variables
-    [Header("Changable Values")]
+    [Header("Base Values")]
     [SerializeField] public Color myColor;
-    [SerializeField] public float range = 1.5f;
+    [SerializeField] public float base_range = 1.5f;
     [SerializeField] public float pdamage = 1f;
     [SerializeField] private LayerMask alayer;
+    private float size;
 
-    //dynamics
-    [Header("Melee Attack Dynamics")]
+    [Header("Melee Attack")]
+    //base values
+    private float base_maxSpeed;
+    public float base_size;
+    private float base_spinAcceleration;
+    private bool canControl;
+    private float attackRange;
+    //regular values
+    private float speedToAttack;
     private float maxSpeed;
     private float spinAcceleration;
+    //constantly changing rotation
     private float rotationSpeed;
-    private float speedToAttack;
-    public float dynMaxSpeed = 1f;
-    public float dynSpinAcceleration = 1f;
 
     //charging
-    [Header("Charge Attack Dynamics")]
+    [Header("Charge Attack")]
     private bool charging;
-    public float chargeTime = 1f;
-    public float rechargeTime = 3f;
-    public float dynSize = 1f;
-    public float chargedSize = 6f;
+    public float base_chargeTime = 1f;
+    public float base_rechargeTime = 3f;
+    public float base_chargedSize = 6f;
     [SerializeField] public Color chargingColor;
     [SerializeField] public Color chargedColor;
     [SerializeField] public Color cooldownColor;
@@ -46,11 +53,25 @@ public class PlayerSpinAttack : MonoBehaviour
         //set the attack point to the right color
         aColor = atrans.gameObject.GetComponent<SpriteRenderer>();
 
-        //set the right base stats
-        maxSpeed = 15f;
-        spinAcceleration = 0.2f;
-        speedToAttack = 12.5f;
+        //set the right base stats for melee
+        base_size = 1f;
+        base_maxSpeed = 15f;
+        base_spinAcceleration = 0.2f;
+        canControl = true;
+        attackRange = 0.5f;
 
+        //stats that change throughout
+        maxSpeed = base_maxSpeed;
+        spinAcceleration = base_spinAcceleration;
+        speedToAttack = 12.5f;
+        size = base_size;
+
+        //base stats for charge attack
+        base_chargeTime = 1f;
+        base_rechargeTime = 3f;
+        base_chargedSize = base_size + 5f;
+
+        //necessary objects
         ptrans = this.gameObject.transform;
         pstats = this.gameObject.GetComponent<PlayerStats>();
 
@@ -69,7 +90,8 @@ public class PlayerSpinAttack : MonoBehaviour
         }
 
         //update weapon size
-        atrans.localScale = new Vector3(dynSize, dynSize, 1f);
+        size = base_size + pstats.dynSize;
+        atrans.localScale = new Vector3(size, size, 1f);
 
         //attack if rotation is a certain speed
         if (rotationSpeed * Mathf.Sign(rotationSpeed) > speedToAttack)
@@ -83,34 +105,37 @@ public class PlayerSpinAttack : MonoBehaviour
     {
 
         //movement
-        if (Input.GetMouseButton(0) && (rotationSpeed < (maxSpeed * dynMaxSpeed)))
+        if(canControl)
         {
-            if(rotationSpeed < (maxSpeed * dynMaxSpeed))
+            if (Input.GetMouseButton(0) && (rotationSpeed < (base_maxSpeed + pstats.dynMaxSpeed)))
             {
-                rotationSpeed += (spinAcceleration * dynSpinAcceleration);
-            }
-            spinParent.Rotate(new Vector3(0f, 0f, 1f), rotationSpeed);
-        }else if (Input.GetMouseButton(1) && (rotationSpeed > -(maxSpeed * dynMaxSpeed)))
-        {
-            if(rotationSpeed > -(maxSpeed * dynMaxSpeed))
+                if(rotationSpeed < (base_maxSpeed + pstats.dynMaxSpeed))
+                {
+                    rotationSpeed += (base_spinAcceleration + pstats.dynSpinAcceleration);
+                }
+                spinParent.Rotate(new Vector3(0f, 0f, 1f), rotationSpeed);
+            }else if (Input.GetMouseButton(1) && (rotationSpeed > -(base_maxSpeed + pstats.dynMaxSpeed)))
             {
-                rotationSpeed -= (spinAcceleration * dynSpinAcceleration);
-            }
-            spinParent.Rotate(new Vector3(0f, 0f, 1f), rotationSpeed);
-        }else
-        {
-            //slows down the rotation by the same speed until its 0
-            if(rotationSpeed != 0)
+                if(rotationSpeed > -(base_maxSpeed + pstats.dynMaxSpeed))
+                {
+                    rotationSpeed -= (base_spinAcceleration + pstats.dynSpinAcceleration);
+                }
+                spinParent.Rotate(new Vector3(0f, 0f, 1f), rotationSpeed);
+            }else
             {
-                rotationSpeed += spinAcceleration * -Mathf.Sign(rotationSpeed);
-            }
-            //if close to 0 then make it 0
-            if(rotationSpeed < spinAcceleration && rotationSpeed > -spinAcceleration)
-            {
-                rotationSpeed = 0;
-            }
+                //slows down the rotation by the same speed until its 0
+                if(rotationSpeed != 0)
+                {
+                    rotationSpeed += 0.2f * -Mathf.Sign(rotationSpeed);
+                }
+                //if close to 0 then make it 0
+                if(rotationSpeed < 0.2f && rotationSpeed > -0.2)
+                {
+                    rotationSpeed = 0;
+                }
 
-            spinParent.Rotate(new Vector3(0f, 0f, 1f), rotationSpeed);
+                spinParent.Rotate(new Vector3(0f, 0f, 1f), rotationSpeed);
+            }
         }
     }
 
@@ -121,45 +146,49 @@ public class PlayerSpinAttack : MonoBehaviour
         //set the color to charging
         aColor.color = chargingColor;
 
+        //save values to be re-applied possibly later
+        float maxSpeed_holder = base_maxSpeed;
+        float spinAcceleration_holder = base_spinAcceleration;
+        float dynSize_holder = pstats.dynSize;
+
         //loop infinite size alteration until normal size or fully charged
         while(true)
         {
             if(Input.GetKey(KeyCode.Space))
             {
-                //increase in size if held  
-                dynSize += 1f;
-                //slow down
-                dynSpinAcceleration -= 0.1f;
-                dynMaxSpeed -= 0.17f;
-
                 //break if fully charged
-                if(dynSize == chargedSize)
+                if (size == (base_chargedSize + pstats.dynChargedSize))
                 {
                     break;
                 }
+                //increase in size if held  
+                pstats.dynSize += 1f;
+                //slow down
+                base_spinAcceleration *= 0.7f;
+                base_maxSpeed -= 2.5f;
             }
             else
             {
                 //break loop if normal size
-                if(dynSize == 1f)
+                if(size == (base_size + pstats.dynSize))
                 {
                     break;
                 }
                 else
                 {
                     //decrease if not held
-                    dynSize -= 1f;
+                    pstats.dynSize -= 1f;
                     //speed up
-                    dynSpinAcceleration += 0.1f;
-                    dynMaxSpeed += 0.17f;
+                    base_spinAcceleration /= 0.7f;
+                    base_maxSpeed += 2.5f;
                 }
             }
             //wait a second between checks
-            yield return new WaitForSeconds(chargeTime);
+            yield return new WaitForSeconds(base_chargeTime - pstats.dynChargeTime);
         }
         
         //if fully charged, wait until release and attack
-        if(dynSize == chargedSize)
+        if(size == (base_chargedSize + pstats.dynChargedSize))
         {
             //set the color to charged
             aColor.color = chargedColor;
@@ -170,17 +199,18 @@ public class PlayerSpinAttack : MonoBehaviour
                     //ATTACK!
                     RangeAttack();
                     //reset to base
-                    dynSize = 1;
+                    pstats.dynSize = dynSize_holder;
+                    size = base_size + pstats.dynSize;
 
                     //wait a second before returning controls
-                    dynSpinAcceleration = 0f;
-                    rotationSpeed = 0f;
+                    canControl = false;
                     aColor.color = cooldownColor;
-                    yield return new WaitForSeconds(rechargeTime);
+                    yield return new WaitForSeconds(base_rechargeTime + pstats.dynRechargeTime);
 
                     //return controls back to normal
-                    dynSpinAcceleration = 1f;
-                    dynMaxSpeed = 1f;
+                    base_spinAcceleration = spinAcceleration_holder;
+                    base_maxSpeed = maxSpeed_holder;
+                    canControl = true;
 
                     //break out of the inf loop
                     break;
@@ -198,7 +228,7 @@ public class PlayerSpinAttack : MonoBehaviour
     private void Attack()
     {
         //cast to get all the colliders in the attack range
-        hits = Physics2D.CircleCastAll(atrans.position, range, transform.right, 0f, alayer);
+        hits = Physics2D.CircleCastAll(atrans.position, attackRange, transform.right, 0f, alayer);
 
         //check all of the hits
         for (int i = 0; i < hits.Length; i++)
@@ -220,7 +250,7 @@ public class PlayerSpinAttack : MonoBehaviour
         //create a bullet and direct it 
         GameObject p = Instantiate(projectile);
         //range the damage
-        p.GetComponent<ProjectileScript>().projectileDamage *= pstats.dynBlastDamage;
+        p.GetComponent<ProjectileScript>().projectileDamage += pstats.dynBlastDamage;
         //move the position and rotation
         p.transform.position = ptrans.transform.position;
         p.transform.up = (atrans.position - ptrans.position).normalized;
@@ -231,6 +261,6 @@ public class PlayerSpinAttack : MonoBehaviour
     //DEBUG PURPOSES ONLY//
     private void OnDrawGizmosSelected()
     {
-        Gizmos.DrawWireSphere(atrans.position, range);
+        Gizmos.DrawWireSphere(atrans.position, attackRange);
     }
 }
