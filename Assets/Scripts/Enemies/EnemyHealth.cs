@@ -74,7 +74,7 @@ public class EnemyHealth : MonoBehaviour
         this.gameObject.GetComponent<EnemyMovement>().dead = true;
         this.gameObject.GetComponent<SpriteRenderer>().color = deathColor;
         //drop money
-        int amount_of_coins = Random.Range(1, (int) (4*GameObject.Find("Tric").GetComponent<PlayerScript>().luck) );
+        int amount_of_coins = Random.Range(1, (int) (4*GameObject.Find("Tric").GetComponent<PlayerStats>().luck) );
         //make a random amount of coins based on random
         for(int i = 0; i < amount_of_coins; i++)
         {

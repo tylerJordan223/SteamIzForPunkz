@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     //player for the sake of health
-    [SerializeField] PlayerScript player;
+    PlayerStats pstats;
     private float health;
     private float max_health;
 
@@ -21,6 +21,8 @@ public class HealthBar : MonoBehaviour
 
     private void Start()
     {
+        //find the player
+        pstats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
         //make the list and get the first heart
         hearts = new List<Image>();
         hearts.Add(this.gameObject.transform.GetChild(0).GetComponent<Image>());
@@ -29,8 +31,8 @@ public class HealthBar : MonoBehaviour
     private void Update()
     {
         //update to get the player's health
-        health = player.health;
-        max_health = player.maxHealth;
+        health = pstats.health;
+        max_health = pstats.maxHealth;
 
         //loop to make sure there are enough hearts
         if (hearts.Count < max_health)

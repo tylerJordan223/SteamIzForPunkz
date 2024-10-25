@@ -29,22 +29,11 @@ public class PlayerScript : MonoBehaviour
     private SpriteRenderer sr;
 
     //character mechanics
-    public float health;
-    public float charges;
     private float playerSpeed;
 
-    //Dynamic Attributes
+    //Stats
     [Header("Stats")]
-    public float dynSpeed;
-    public float dynDashSpeed;
-    public float dynMeleeDamage;
-    public float dynRangeDamage;
-    public float dynMaxCharges;
-    public float maxHealth;
-    public float luck;
-
-    [Header("Debug")]
-    public bool debug;
+    private PlayerStats pstats;
 
     //dash variables
     private bool canDash;
@@ -62,7 +51,6 @@ public class PlayerScript : MonoBehaviour
     public GameObject currentRoom;
     public List<GameObject> itemList = new List<GameObject>();
     public bool holdingItem;
-    public float moneyCount;
 
     //movement
     private bool canControl;
@@ -71,10 +59,6 @@ public class PlayerScript : MonoBehaviour
 
     //decomposed world
     private Grid g;
-
-    //DEBUG STAT CHANGER
-    List<float> stats;
-    public int selected_stat;
 
     private void Start()
     {
@@ -88,32 +72,10 @@ public class PlayerScript : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
 
         //character mechanics
-        health = 3f;
-        charges = 3f;
         playerSpeed = 5f;
 
-        //dynamic mechanics
-        dynSpeed = 1f;
-        dynDashSpeed = 1f;
-        dynMeleeDamage = 1f;
-        dynRangeDamage = 1f;
-        dynMaxCharges = 3f;
-        maxHealth = 3f;
-        luck = 1f;
-
-        //DEBUG STAT CHANGER
-        debug = false;
-        stats = new List<float>();
-        stats.Add(dynSpeed);
-        stats.Add(dynDashSpeed);
-        stats.Add(dynMeleeDamage);
-        stats.Add(dynRangeDamage);
-        stats.Add(dynMaxCharges);
-        stats.Add(charges);
-        stats.Add(maxHealth);
-        stats.Add(health);
-        stats.Add(luck);
-        selected_stat = 0;
+        //getting statistics
+        pstats = GetComponent<PlayerStats>();
 
         //dash mechanics
         dashDistance = 30f;
@@ -126,7 +88,6 @@ public class PlayerScript : MonoBehaviour
         //saved objects
         heldObject = null;
         currentRoom = null;
-        moneyCount = 0;
 
         //flags
         canControl = true;
@@ -189,10 +150,10 @@ public class PlayerScript : MonoBehaviour
         }
 
         //kill when out of hp
-        if (health <= 0)
+        if (pstats.health <= 0)
         {
             canControl = false;
-            health = 0;
+            pstats.health = 0;
 
             StartCoroutine(Death());
         }
@@ -200,79 +161,13 @@ public class PlayerScript : MonoBehaviour
 
 
         //debug stuff
-
-        //activates debug stats
-        
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            debug = !debug;
-        }
-
-        if (debug)
+        if (pstats.debug)
         {
             //RESTARTS GAME!!!
             if (Input.GetKeyDown(KeyCode.R))
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
-
-
-            //DEBUG STAT CHANGER
-            //set all values before changing
-            stats[0] = dynSpeed;
-            stats[1] = dynDashSpeed;
-            stats[2] = dynMeleeDamage;
-            stats[4] = dynMaxCharges;
-            stats[5] = charges;
-            stats[6] = maxHealth;
-            stats[7] = health;
-            stats[8] = luck;
-
-            if (Input.GetKeyDown(KeyCode.Keypad2))
-            {
-                if(selected_stat != stats.Count-1)
-                {
-                    selected_stat++;
-                }
-                else
-                {
-                    selected_stat = 0;
-                }
-            } 
-            if(Input.GetKeyDown(KeyCode.Keypad8))
-            {
-                if (selected_stat != 0)
-                {
-                    selected_stat--;
-                }
-                else
-                {
-                    selected_stat = stats.Count;
-                }
-            } 
-            if(Input.GetKeyDown(KeyCode.Keypad4))
-            {
-                if (stats[selected_stat] > 0)
-                {
-                    stats[selected_stat]--;
-                }
-            } 
-            if(Input.GetKeyDown(KeyCode.Keypad6))
-            {
-                stats[selected_stat]++;
-            }
-
-            //set all values if changed
-            dynSpeed = stats[0];
-            dynDashSpeed = stats[1];
-            dynMeleeDamage = stats[2];
-            dynRangeDamage = stats[3];
-            dynMaxCharges = stats[4];
-            charges = stats[5];
-            maxHealth = stats[6];
-            health = stats[7];
-            luck = stats[8];
-            //DEBUG STAT CHANGER
         }
 
         //update Animation
@@ -287,9 +182,9 @@ public class PlayerScript : MonoBehaviour
         inputVector.Normalize();
 
         //update on speed if alive, stop if else
-        if(health > 0)
+        if(pstats.health > 0)
         {
-            rb.velocity = inputVector * playerSpeed * dynSpeed;
+            rb.velocity = inputVector * playerSpeed * pstats.dynSpeed;
         }
         else
         {

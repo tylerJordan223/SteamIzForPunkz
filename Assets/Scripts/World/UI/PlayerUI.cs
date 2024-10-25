@@ -1,15 +1,15 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Timers;
 using TMPro;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
-    private PlayerScript player;
+    private PlayerStats pstats;
 
     [Header("Display Text")]
     [SerializeField] TextMeshProUGUI moneyCount;
@@ -23,8 +23,8 @@ public class PlayerUI : MonoBehaviour
         //do a check to make sure the player is in the scene 
         if(GameObject.Find("Tric"))
         {
-            player = GameObject.Find("Tric").GetComponent<PlayerScript>();
-            moneyCount.text = player.moneyCount.ToString();
+            pstats = GameObject.Find("Tric").GetComponent<PlayerStats>();
+            moneyCount.text = pstats.moneyCount.ToString();
         }
         else
         {
@@ -36,17 +36,17 @@ public class PlayerUI : MonoBehaviour
     void Update()
     {
         //re-update until it finds the player just in case
-        if(player == null)
+        if(pstats == null)
         {
             if (GameObject.Find("Tric"))
             {
-                player = GameObject.Find("Tric").GetComponent<PlayerScript>();
+                pstats = GameObject.Find("Tric").GetComponent<PlayerStats>();
             }
         }
         else
         {
             //everything that the UI needs to reflect
-            moneyCount.text = player.moneyCount.ToString();
+            moneyCount.text = pstats.moneyCount.ToString();
 
             //update stats
             UpdateStats();
@@ -55,7 +55,7 @@ public class PlayerUI : MonoBehaviour
 
     private void UpdateStats()
     {
-        if(!player.debug)
+        if(!pstats.debug)
         {
             //disable everything if debug mode is off
             playerStats.text = "";
@@ -69,20 +69,15 @@ public class PlayerUI : MonoBehaviour
             //initialize an empty list
             List<string> stats = new List<string>();
             //add each stat to it
-            stats.Add("Speed: " + player.dynSpeed);
-            stats.Add("DashS: " + player.dynDashSpeed);
-            stats.Add("MDmg: " + player.dynMeleeDamage);
-            stats.Add("RDmg: " + player.dynRangeDamage);
-            stats.Add("MCharge: " + player.dynMaxCharges);
-            stats.Add("Charges: " + player.charges);
-            stats.Add("mHealth: " + player.maxHealth);
-            stats.Add("Health: " + player.health);
-            stats.Add("Luck: " + player.luck);
+            for(int i = 0; i < pstats.stats.Length; i++)
+            {
+                stats.Add(pstats.stats_names[i] + ": " + pstats.stats[i]);
+            }
 
             string new_text = "";
             for (int i = 0; i < stats.Count; i++)
             {
-                if (i == player.selected_stat)
+                if (i == pstats.selected_stat)
                 {
                     new_text += "*";
                 }

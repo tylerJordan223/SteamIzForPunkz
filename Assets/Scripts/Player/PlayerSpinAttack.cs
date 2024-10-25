@@ -10,7 +10,7 @@ public class PlayerSpinAttack : MonoBehaviour
     [SerializeField] private Transform atrans;
     [SerializeField] private Transform spinParent;
     [SerializeField] private GameObject projectile;
-    private PlayerScript p_dyn;
+    private PlayerStats pstats;
     private Transform ptrans;
     private SpriteRenderer aColor;
 
@@ -52,7 +52,7 @@ public class PlayerSpinAttack : MonoBehaviour
         speedToAttack = 12.5f;
 
         ptrans = this.gameObject.transform;
-        p_dyn = this.gameObject.GetComponent<PlayerScript>();
+        pstats = this.gameObject.GetComponent<PlayerStats>();
 
         charging = false;
     }
@@ -60,7 +60,7 @@ public class PlayerSpinAttack : MonoBehaviour
     private void Update()
     {
         //CHARGE ATTACK
-        if (Input.GetKeyDown(KeyCode.Space) && p_dyn.charges > 0)
+        if (Input.GetKeyDown(KeyCode.Space) && pstats.charges > 0)
         {
             if (!charging)
             {
@@ -210,7 +210,7 @@ public class PlayerSpinAttack : MonoBehaviour
             //if the collision was an enemy then damage it
             if (eh != null)
             {
-                eh.Damage(pdamage * p_dyn.dynMeleeDamage);
+                eh.Damage(pdamage * pstats.dynMeleeDamage);
             }
         }
     }
@@ -220,12 +220,12 @@ public class PlayerSpinAttack : MonoBehaviour
         //create a bullet and direct it 
         GameObject p = Instantiate(projectile);
         //range the damage
-        p.GetComponent<ProjectileScript>().projectileDamage *= p_dyn.dynRangeDamage;
+        p.GetComponent<ProjectileScript>().projectileDamage *= pstats.dynBlastDamage;
         //move the position and rotation
         p.transform.position = ptrans.transform.position;
         p.transform.up = (atrans.position - ptrans.position).normalized;
         //remove a charge from the shot
-        p_dyn.charges--;
+        pstats.charges--;
     }
 
     //DEBUG PURPOSES ONLY//

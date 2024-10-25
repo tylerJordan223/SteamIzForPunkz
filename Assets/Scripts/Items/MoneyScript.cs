@@ -105,7 +105,7 @@ public class MoneyScript : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
             //give player money and destroy
-            player.moneyCount += worth;
+            player.gameObject.GetComponent<PlayerStats>().moneyCount += worth;
             //INSERT AUDIO FOR COIN PICKUP HERE
             Destroy(this.gameObject);
         }

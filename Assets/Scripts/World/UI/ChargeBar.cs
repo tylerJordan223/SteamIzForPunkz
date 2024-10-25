@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ChargeBar : MonoBehaviour
 {
     //player for the sake of dynamics
-    [SerializeField] PlayerScript player;
+    private PlayerStats pstats;
     private float charges;
     private float max_charges;
 
@@ -21,6 +22,8 @@ public class ChargeBar : MonoBehaviour
 
     private void Start()
     {
+        //find the player
+        pstats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
         //make the list and get the first cell
         cells = new List<Image>();
         cells.Add(this.gameObject.transform.GetChild(1).GetComponent<Image>());
@@ -29,8 +32,8 @@ public class ChargeBar : MonoBehaviour
     private void Update()
     {
         //update to get the player's cell count
-        charges = player.charges;
-        max_charges = player.dynMaxCharges;
+        charges = pstats.charges;
+        max_charges = pstats.dynMaxCharges;
 
         //loop to make sure there are enough cells 
         if (cells.Count < max_charges)
