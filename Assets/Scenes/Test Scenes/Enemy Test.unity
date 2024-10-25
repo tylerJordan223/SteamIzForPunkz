@@ -945,7 +945,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de0a0a73f641c9149bf6253a4f9b1e44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 783812544}
   full_heart: {fileID: 6850466782234138598, guid: 0a2de8e48c2e6654f912d227fe99ea8c, type: 3}
   empty_heart: {fileID: 8906925257334246114, guid: 05bb4f1f8edcbf54fa09e596e9c1921b, type: 3}
   first_heart: {fileID: 946436020}
@@ -975,17 +974,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &783812544 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 79489015907438397, guid: bc9fb88e12f19384fad297d81bc70291, type: 3}
-  m_PrefabInstance: {fileID: 857792055}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc3364b1daa78bf4bb7998187d35cd85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &820597347
 GameObject:
   m_ObjectHideFlags: 0
@@ -1156,7 +1144,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8678102156351474676, guid: bc9fb88e12f19384fad297d81bc70291, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 1026939196}
   m_SourcePrefab: {fileID: 100100000, guid: bc9fb88e12f19384fad297d81bc70291, type: 3}
 --- !u!1 &923680268
 GameObject:
@@ -1698,6 +1689,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1026939195 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8678102156351474676, guid: bc9fb88e12f19384fad297d81bc70291, type: 3}
+  m_PrefabInstance: {fileID: 857792055}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1026939196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026939195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f94f674c63e21ca49b141a81b8fdb492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: []
+  stats_names: []
+  weapon_stats: []
+  weapon_stats_names: []
+  moneyCount: 0
+  debug: 0
+  selected_stat: 0
 --- !u!1 &1174551699
 GameObject:
   m_ObjectHideFlags: 0
@@ -2037,7 +2052,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7126430d1f36ade42ada33f490544bb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 783812544}
   full_cell: {fileID: 6223264266702805870, guid: f2cea2b5cbed85542864250a7190840f, type: 3}
   empty_cell: {fileID: -5149843653192164896, guid: bb53217224b91ab418acd52259eb5ff4, type: 3}
   first_cell: {fileID: 923680270}
