@@ -111,14 +111,14 @@ public class PlayerSpinAttack : MonoBehaviour
             {
                 if(rotationSpeed < (base_maxSpeed + pstats.dynMaxSpeed))
                 {
-                    rotationSpeed += (base_spinAcceleration + pstats.dynSpinAcceleration);
+                    rotationSpeed += (base_spinAcceleration + (pstats.dynSpinAcceleration * 0.2f));
                 }
                 spinParent.Rotate(new Vector3(0f, 0f, 1f), rotationSpeed);
             }else if (Input.GetMouseButton(1) && (rotationSpeed > -(base_maxSpeed + pstats.dynMaxSpeed)))
             {
                 if(rotationSpeed > -(base_maxSpeed + pstats.dynMaxSpeed))
                 {
-                    rotationSpeed -= (base_spinAcceleration + pstats.dynSpinAcceleration);
+                    rotationSpeed -= (base_spinAcceleration + (pstats.dynSpinAcceleration * 0.5f));
                 }
                 spinParent.Rotate(new Vector3(0f, 0f, 1f), rotationSpeed);
             }else
@@ -170,7 +170,7 @@ public class PlayerSpinAttack : MonoBehaviour
             else
             {
                 //break loop if normal size
-                if(size == (base_size + pstats.dynSize))
+                if(size == (base_size + dynSize_holder))
                 {
                     break;
                 }
@@ -184,7 +184,7 @@ public class PlayerSpinAttack : MonoBehaviour
                 }
             }
             //wait a second between checks
-            yield return new WaitForSeconds(base_chargeTime - pstats.dynChargeTime);
+            yield return new WaitForSeconds(base_chargeTime - (pstats.dynChargeTime * 0.1f));
         }
         
         //if fully charged, wait until release and attack
@@ -251,6 +251,7 @@ public class PlayerSpinAttack : MonoBehaviour
         GameObject p = Instantiate(projectile);
         //range the damage
         p.GetComponent<ProjectileScript>().projectileDamage += pstats.dynBlastDamage;
+        p.GetComponent<ProjectileScript>().maxRicochets = (int)pstats.maxRicochets;
         //move the position and rotation
         p.transform.position = ptrans.transform.position;
         p.transform.up = (atrans.position - ptrans.position).normalized;

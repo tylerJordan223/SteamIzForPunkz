@@ -190,6 +190,17 @@ public class PlayerStats : MonoBehaviour
             weapon_stats[6] = value;
         }
     }
+    public float maxRicochets
+    {
+        get
+        {
+            return weapon_stats[7];
+        }
+        set
+        {
+            weapon_stats[7] = value;
+        }
+    }
 
     [Header("Money")]
     public float moneyCount;
@@ -199,18 +210,21 @@ public class PlayerStats : MonoBehaviour
     public bool debug;
     public int selected_stat;
 
+    //additional things
+    List<float> can_negative;
+
     private void Start()
     {
         //set the names of each stats
         stats_names = new string[] { "Speed", "dashSpeed", "mDamage", "bDamage", "maxCharges", "maxHealth", "luck", "health", "charges"};
-        weapon_stats_names = new string[] { "Range", "maxSpeed", "Spin Acc", "RechargeTime", "Size", "ChargedSize", "ChargeTime"};
+        weapon_stats_names = new string[] { "Range", "maxSpeed", "Spin Acc", "RechargeTime", "Size", "ChargedSize", "ChargeTime", "Ricochets"};
 
         //if the stats are not initialized:
         if (stats.Length == 0)
         {
             //create new array to store things
             stats = new float[9];
-            weapon_stats = new float[7];
+            weapon_stats = new float[8];
 
             //stats 
             dynSpeed = 1f;
@@ -234,7 +248,14 @@ public class PlayerStats : MonoBehaviour
             dynSize = 0f;
             dynChargedSize = 0f;
             dynChargeTime = 0f;
+            maxRicochets = 0f;
         }
+
+        //will allow these values to go negative
+        can_negative = new List<float>();
+        can_negative.Add(dynRechargeTime);
+        can_negative.Add(dynChargedSize);
+        can_negative.Add(dynChargeTime);
 
         //debug
         debug = false;
@@ -243,6 +264,8 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
+        
+
         //activates debug stats
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -254,7 +277,7 @@ public class PlayerStats : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Keypad2))
             {
-                if (selected_stat != stats.Length - 1)
+                if (selected_stat != ((stats.Length) + (weapon_stats.Length -1)))
                 {
                     selected_stat++;
                 }
@@ -271,20 +294,40 @@ public class PlayerStats : MonoBehaviour
                 }
                 else
                 {
-                    selected_stat = stats.Length;
+                    selected_stat = ((stats.Length - 1) + (weapon_stats.Length));
                 }
             }
             if (Input.GetKeyDown(KeyCode.Keypad4))
             {
-                if (stats[selected_stat] > 0)
+                if(selected_stat > stats.Length-1)
                 {
-                    stats[selected_stat]--;
+                    if (weapon_stats[selected_stat - stats.Length] > 0)
+                    {
+                        weapon_stats[selected_stat - stats.Length]--;
+                    }
+                }
+                else
+                {
+
+                    if (stats[selected_stat] > 0)
+                    {
+                        stats[selected_stat]--;
+                    }
                 }
             }
             if (Input.GetKeyDown(KeyCode.Keypad6))
             {
-                stats[selected_stat]++;
+                if (selected_stat > stats.Length - 1)
+                {
+                    weapon_stats[selected_stat - stats.Length]++;
+                }
+                else
+                {
+                    stats[selected_stat]++;
+                }
             }
         }
+
+        //updating the stats that can't be 0
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Timers;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,7 @@ public class PlayerUI : MonoBehaviour
     [Header("Display Text")]
     [SerializeField] TextMeshProUGUI moneyCount;
     [SerializeField] TextMeshProUGUI playerStats;
+    [SerializeField] TextMeshProUGUI weaponStats;
 
     //FOR DEBUG USE
     int selectedStat;
@@ -55,16 +57,20 @@ public class PlayerUI : MonoBehaviour
 
     private void UpdateStats()
     {
-        if(!pstats.debug)
+        if (!pstats.debug)
         {
             //disable everything if debug mode is off
             playerStats.text = "";
+            weaponStats.text = "";
             this.transform.Find("Player Stats").GetChild(0).gameObject.GetComponent<Image>().enabled = false;
+            this.transform.Find("Player Stats").GetChild(2).gameObject.GetComponent<Image>().enabled = false;
         }
-        else
+        else if (pstats.selected_stat < pstats.stats.Length)
         {
             //make the back visible
             this.transform.Find("Player Stats").GetChild(0).gameObject.GetComponent<Image>().enabled = true;
+            this.transform.Find("Player Stats").GetChild(2).gameObject.GetComponent<Image>().enabled = false;
+            weaponStats.text = "";
 
             //initialize an empty list
             List<string> stats = new List<string>();
@@ -86,5 +92,33 @@ public class PlayerUI : MonoBehaviour
 
             playerStats.text = new_text;
         }
+        else
+        {
+            //swap the backs
+            this.transform.Find("Player Stats").GetChild(0).gameObject.GetComponent<Image>().enabled = false;
+            this.transform.Find("Player Stats").GetChild(2).gameObject.GetComponent<Image>().enabled = true;
+            playerStats.text = "";
+
+            //initialize an empty list
+            List<string> stats = new List<string>();
+            //add each stat to it
+            for (int i = 0; i < pstats.weapon_stats.Length; i++)
+            {
+                stats.Add(pstats.weapon_stats_names[i] + ": " + pstats.weapon_stats[i]);
+            }
+
+            string new_text = "";
+            for (int i = 0; i < stats.Count; i++)
+            {
+                if (i == pstats.selected_stat - (pstats.stats.Length))
+                {
+                    new_text += "*";
+                }
+                new_text += stats[i] + "\n";
+            }
+
+            weaponStats.text = new_text;
+        }
+        
     }
 }
