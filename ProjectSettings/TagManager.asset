@@ -10,6 +10,7 @@ TagManager:
   - wall
   - projectile
   - pickupable
+  - Room
   layers:
   - Default
   - TransparentFX

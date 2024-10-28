@@ -248,7 +248,8 @@ public class PlayerScript : MonoBehaviour
         {
             if(currentRoom == null)
             {
-                currentRoom = collision.gameObject;
+                //actually returns the room based on the floor
+                currentRoom = collision.transform.parent.parent.gameObject;
             }
         }
     }

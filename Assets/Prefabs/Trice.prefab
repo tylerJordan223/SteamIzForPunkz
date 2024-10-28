@@ -116,6 +116,37 @@ Transform:
   - {fileID: 3437936338684694115}
   m_Father: {fileID: 6335636827215082339}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7094008068242958669
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 379755004506738320}
+  m_Layer: 3
+  m_Name: HeldItem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &379755004506738320
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7094008068242958669}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6335636827215082339}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8075845966540757601
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,6 +242,7 @@ GameObject:
   - component: {fileID: 6335636827215082339}
   - component: {fileID: 9085470411040590126}
   - component: {fileID: 79489015907438397}
+  - component: {fileID: 6487512938284372873}
   - component: {fileID: 6844770700170706757}
   - component: {fileID: 8283346855296206746}
   - component: {fileID: 4555778268776832079}
@@ -237,6 +269,7 @@ Transform:
   m_Children:
   - {fileID: 5486964216662467719}
   - {fileID: 1322294525147475075}
+  - {fileID: 379755004506738320}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &9085470411040590126
@@ -303,20 +336,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc3364b1daa78bf4bb7998187d35cd85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dynSpeed: 0
-  dynDashSpeed: 0
-  dynMeleeDamage: 0
-  dynRangeDamage: 0
-  dynRange: 0
-  maxHealth: 0
-  luck: 0
-  debug: 0
   dashTrail: {fileID: 8730185703906736717}
   heldObject: {fileID: 0}
   currentRoom: {fileID: 0}
   itemList: []
   holdingItem: 0
+--- !u!114 &6487512938284372873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8678102156351474676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f94f674c63e21ca49b141a81b8fdb492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: []
+  stats_names: []
+  weapon_stats: []
+  weapon_stats_names: []
   moneyCount: 0
+  debug: 0
   selected_stat: 0
 --- !u!114 &6844770700170706757
 MonoBehaviour:
@@ -334,17 +376,15 @@ MonoBehaviour:
   spinParent: {fileID: 1322294525147475075}
   projectile: {fileID: 3526085098688484298, guid: a55a9aa1d990fbe4aa39d111a3ba9b76, type: 3}
   myColor: {r: 0.07629752, g: 1, b: 0, a: 1}
-  range: 0.35
+  base_range: 1.5
   pdamage: 1
   alayer:
     serializedVersion: 2
     m_Bits: 64
-  dynMaxSpeed: 1
-  dynSpinAcceleration: 1
-  chargeTime: 1
-  rechargeTime: 3
-  dynSize: 1
-  chargedSize: 6
+  base_size: 0
+  base_chargeTime: 1
+  base_rechargeTime: 3
+  base_chargedSize: 6
   chargingColor: {r: 1, g: 0.92892253, b: 0, a: 1}
   chargedColor: {r: 1, g: 0, b: 0, a: 1}
   cooldownColor: {r: 0, g: 0, b: 0, a: 1}

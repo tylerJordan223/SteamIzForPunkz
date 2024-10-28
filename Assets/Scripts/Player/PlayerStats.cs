@@ -248,7 +248,7 @@ public class PlayerStats : MonoBehaviour
             dynSize = 0f;
             dynChargedSize = 0f;
             dynChargeTime = 0f;
-            maxRicochets = 0f;
+            maxRicochets = 1f;
         }
 
         //will allow these values to go negative
