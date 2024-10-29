@@ -5,17 +5,14 @@ using UnityEngine;
 
 public class ProjectileScript : MonoBehaviour
 {
-    public int maxRicochets;
     public float projectileDamage;
-    private int ricochetCount;
+    public int ricochetCount;
     private float bulletSpeed;
     private Transform trans;
 
     private void Start()
     {
-        ricochetCount = maxRicochets;
         bulletSpeed = 1f;
-        projectileDamage = 5f;
         trans = GetComponent<Transform>();
     }
 
@@ -31,14 +28,17 @@ public class ProjectileScript : MonoBehaviour
     {
         if(ricochetCount != 0)
         {
+            Debug.Log("Ricochet Counting");
             //raycast to hit points of damage
-            RaycastHit2D hit = Physics2D.Raycast(trans.position + trans.up.normalized/10, trans.up, Mathf.Infinity, LayerMask.GetMask("ObstacleLayer")); ;
+            RaycastHit2D hit = Physics2D.Raycast(trans.position + trans.up.normalized/10, trans.up, Mathf.Infinity, LayerMask.GetMask("ObstacleLayer"));
             //multiplied by infinity because that value is not just direction its also distance
             Debug.DrawRay(trans.position, trans.up.normalized * 100f, Color.blue, 100f);
 
             //if it hits
             if(hit)
             {
+                Debug.Log(hit.collider.gameObject.name);
+
                 //get the direction of the point to the object
                 Vector2 dir = ((Vector3)hit.point - trans.position);
 

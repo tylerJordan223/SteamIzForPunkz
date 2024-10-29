@@ -250,7 +250,7 @@ public class PlayerSpinAttack : MonoBehaviour
         GameObject p = Instantiate(projectile);
         //range the damage
         p.GetComponent<ProjectileScript>().projectileDamage += pstats.dynBlastDamage;
-        p.GetComponent<ProjectileScript>().maxRicochets = (int)pstats.maxRicochets;
+        p.GetComponent<ProjectileScript>().ricochetCount = (int)pstats.maxRicochets;
         //move the position and rotation
         p.transform.position = ptrans.transform.position;
         p.transform.up = (atrans.position - ptrans.position).normalized;
