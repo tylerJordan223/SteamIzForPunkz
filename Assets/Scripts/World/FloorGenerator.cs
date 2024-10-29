@@ -13,6 +13,7 @@ public class FloorGenerator : MonoBehaviour
     public List<GameObject> room_list = new List<GameObject>();
     [SerializeField] GameObject player;
     [SerializeField] GameObject floor_parent;
+    [SerializeField] GameObject first_room;
 
     //booleans
     private bool isStarted;
@@ -88,7 +89,7 @@ public class FloorGenerator : MonoBehaviour
 
                 //spawn player and move it to the first room
                 GameObject p = Instantiate(player);
-                p.name = "Trice";
+                p.name = "Tric";
                 p.transform.position = rooms[0].room.transform.position;
             }
         }
@@ -146,8 +147,18 @@ public class FloorGenerator : MonoBehaviour
 
         // THE ORDER HERE IS IMPORTANT!!! //
 
-        //make the actual object
-        GameObject ro = Instantiate(room_list[0]);
+        GameObject ro;
+
+        //if its the first room than the object is the first one
+        if((i == maxRooms / 2) && (j == maxRooms / 2))
+        {
+            ro = first_room;
+        }
+        else
+        {
+            //make the actual object
+            ro = Instantiate(room_list[0]);
+        }
         //make the room a child of the floor parent
         ro.transform.parent = floor_parent.transform;
         //increase the floor's room count

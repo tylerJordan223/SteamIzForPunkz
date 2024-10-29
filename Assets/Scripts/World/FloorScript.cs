@@ -20,7 +20,6 @@ public class FloorScript : MonoBehaviour
     {
         if (other.CompareTag("Player") && !other.isTrigger)
         {
-            Debug.Log("player entered room");
             virtualCamera.SetActive(true);
         }
     }
@@ -28,7 +27,6 @@ public class FloorScript : MonoBehaviour
     {
         if (other.CompareTag("Player") && !other.isTrigger)
         {
-            Debug.Log("player exited room");
             virtualCamera.SetActive(false);
         }
     }
