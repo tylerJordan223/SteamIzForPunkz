@@ -7,14 +7,6 @@ public class Pickupable : MonoBehaviour
 {
     //THIS SCRIPT IS FOR EVERY PICKUPABLE ITEM//
 
-    //DESCRIPTION//
-    /*
-     * This is the base script for every pickupable item
-     * will add the item to a list of pickupable items
-     * this is not to be confused with consumables which will be added to an inventory
-     * this is just to hold one item at a time
-     */
-
     //Picking up the object
     private void OnTriggerEnter2D(Collider2D collision)
     {

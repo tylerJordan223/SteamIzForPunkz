@@ -328,6 +328,26 @@ public class PlayerStats : MonoBehaviour
             }
         }
 
-        //updating the stats that can't be 0
+        
+    }
+
+    public void NewItem(ItemScript item)
+    {
+        //updating all the stats
+        dynSpeed += item.speed;
+        dynDashSpeed += item.dash_speed;
+        dynMeleeDamage += item.melee_damage;
+        dynBlastDamage += item.blast_damage;
+        dynMaxCharges += item.max_charges;
+        maxHealth += item.max_health;
+        luck += item.luck;
+        dynRange += item.range_from_player;
+        dynMaxSpeed += item.max_spin_speed;
+        dynSpinAcceleration += item.spin_acceleration;
+        dynRechargeTime += item.time_to_recharge;
+        dynChargeTime += item.time_to_charge;
+        dynSize += item.weapon_size;
+        dynChargedSize += item.size_when_charged;
+        maxRicochets += item.max_ricochets;
     }
 }

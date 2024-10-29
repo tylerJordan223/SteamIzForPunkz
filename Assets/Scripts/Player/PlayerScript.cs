@@ -22,7 +22,7 @@ public class PlayerScript : MonoBehaviour
     //all variables for the parts of the model
     private Transform trans;
     private Rigidbody2D rb;
-    private Collider2D collider;
+    private Collider2D coll;
 
     //graphic stuff
     private Animator anim;
@@ -65,7 +65,7 @@ public class PlayerScript : MonoBehaviour
         //object variables
         trans = GetComponent<Transform>();
         rb = GetComponent<Rigidbody2D>();
-        collider = GetComponent<Collider2D>();
+        coll = GetComponent<Collider2D>();
 
         //graphics
         anim = GetComponent<Animator>();
@@ -124,7 +124,7 @@ public class PlayerScript : MonoBehaviour
                     //Setting object's parent to current room
                     heldObject.transform.SetParent(currentRoom.transform.Find("Items").transform, true);
                     heldObject.transform.localScale = Vector3.one;
-                    heldObject.transform.position = new Vector3(heldObject.transform.position.x, heldObject.transform.position.y - (collider.bounds.size.y / 2), heldObject.transform.position.z);
+                    heldObject.transform.position = new Vector3(heldObject.transform.position.x, heldObject.transform.position.y - (coll.bounds.size.y / 2), heldObject.transform.position.z);
                     heldObject = null;
                     holdingItem = false;
                 }
@@ -148,6 +148,12 @@ public class PlayerScript : MonoBehaviour
             }
 
         }
+        
+        //checks for when the player is dashing
+        if(dashing)
+        {
+            //cancel control etc
+        }
 
         //kill when out of hp
         if (pstats.health <= 0)
@@ -157,8 +163,6 @@ public class PlayerScript : MonoBehaviour
 
             StartCoroutine(Death());
         }
-
-
 
         //debug stuff
         if (pstats.debug)

@@ -7,12 +7,10 @@ public class ProjectileScript : MonoBehaviour
 {
     public float projectileDamage;
     public int ricochetCount;
-    private float bulletSpeed;
     private Transform trans;
 
     private void Start()
     {
-        bulletSpeed = 1f;
         trans = GetComponent<Transform>();
     }
 
