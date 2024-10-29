@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FloorScript : MonoBehaviour
 {
-    GameObject virtualCamera;
+    public GameObject virtualCamera;
     GameObject parentRoom;
 
     private void Start()
@@ -13,12 +13,14 @@ public class FloorScript : MonoBehaviour
         parentRoom = this.transform.parent.parent.gameObject;
         //find the roomcam in the room
         virtualCamera = parentRoom.transform.Find("RoomCam").gameObject;
+        virtualCamera.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player") && !other.isTrigger)
         {
+            Debug.Log("player entered room");
             virtualCamera.SetActive(true);
         }
     }
@@ -26,6 +28,7 @@ public class FloorScript : MonoBehaviour
     {
         if (other.CompareTag("Player") && !other.isTrigger)
         {
+            Debug.Log("player exited room");
             virtualCamera.SetActive(false);
         }
     }

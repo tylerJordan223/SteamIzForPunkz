@@ -103,7 +103,7 @@ public class Grid
                 Vector3 starting_position = new Vector3(y, x, 10f);
 
                 //check for the collision
-                Collider2D hit = Physics2D.OverlapPoint(new Vector2(row, col));
+                Collider2D hit = Physics2D.OverlapPoint(new Vector2(row, col), ~LayerMask.GetMask("Room"));
                 if (hit != null)
                 {
                     //decide what it hit

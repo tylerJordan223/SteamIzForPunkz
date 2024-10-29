@@ -49,7 +49,7 @@ public class Room
         room_height = 11;
 
         //get and add doors to list
-        Transform allDoors = r.transform.GetChild(0);
+        Transform allDoors = r.transform.GetChild(2);
         foreach(Transform d in allDoors)
         {
             doors.Add(d.gameObject);
