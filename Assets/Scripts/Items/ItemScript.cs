@@ -7,6 +7,13 @@ public class ItemScript : MonoBehaviour
 {
     //the script for all the stat changing items
 
+    //descriptions
+    [SerializeField] public string item_name;
+    [SerializeField] public string description;
+    [SerializeField] public string stats_up;
+    [SerializeField] public string stats_down;
+    [SerializeField] public Sprite isprite;
+
     //rarities
     [Header("Item Rarity")]
     public bool common;
@@ -49,7 +56,7 @@ public class ItemScript : MonoBehaviour
     [SerializeField] Color rare_c;
     [SerializeField] Color epic_c;
     [SerializeField] Color legendary_c;
-    private Color glow_color;
+    public Color glow_color;
 
     private void Start()
     {
@@ -89,6 +96,7 @@ public class ItemScript : MonoBehaviour
         if (Input.GetKey(KeyCode.E) && on_player)
         {
             this.gameObject.GetComponent<SpriteRenderer>().material = vanish;
+            this.gameObject.GetComponent<SpriteRenderer>().material.SetColor("_Color", glow_color);
             picked_up = true;
         }
 
@@ -105,7 +113,10 @@ public class ItemScript : MonoBehaviour
             //on the player
             on_player = true;
             //using the glow shader
-            this.gameObject.GetComponent<SpriteRenderer>().material = glow;
+            if(!picked_up)
+            {
+                this.gameObject.GetComponent<SpriteRenderer>().material = glow;
+            }
             //setting the rarity of the glow
             if (common)
             {

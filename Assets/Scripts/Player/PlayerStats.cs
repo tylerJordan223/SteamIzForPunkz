@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
+    //handling the visuals and list
+    public ItemUI iui;
+    public List<ItemScript> inventory;
+
     //Script to handle all of the player's stats and items
     [Header("Player Stats")]
     public float[] stats;
@@ -211,10 +215,14 @@ public class PlayerStats : MonoBehaviour
     public int selected_stat;
 
     //additional things
-    List<float> can_negative;
+    private List<float> can_negative;
 
     private void Start()
     {
+        //grabbing the UI and initializing the inventory
+        iui = GameObject.Find("ItemShowcase").GetComponent<ItemUI>();
+        inventory = new List<ItemScript>();
+
         //set the names of each stats
         stats_names = new string[] { "Speed", "dashSpeed", "mDamage", "bDamage", "maxCharges", "maxHealth", "luck", "health", "charges"};
         weapon_stats_names = new string[] { "Range", "maxSpeed", "Spin Acc", "RechargeTime", "Size", "ChargedSize", "ChargeTime", "Ricochets"};
@@ -333,6 +341,11 @@ public class PlayerStats : MonoBehaviour
 
     public void NewItem(ItemScript item)
     {
+        //adding item to the list of held items
+        inventory.Add(item);
+        //showing the item in the UI
+        StartCoroutine(iui.show_item(item));
+
         //updating all the stats
         dynSpeed += item.speed;
         dynDashSpeed += item.dash_speed;

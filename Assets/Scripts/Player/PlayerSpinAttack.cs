@@ -110,14 +110,14 @@ public class PlayerSpinAttack : MonoBehaviour
             {
                 if(rotationSpeed < (base_maxSpeed + pstats.dynMaxSpeed))
                 {
-                    rotationSpeed += (base_spinAcceleration + (pstats.dynSpinAcceleration * 0.2f));
+                    rotationSpeed += (base_spinAcceleration + (pstats.dynSpinAcceleration * 0.02f));
                 }
                 spinParent.Rotate(new Vector3(0f, 0f, 1f), rotationSpeed);
             }else if (Input.GetMouseButton(1) && (rotationSpeed > -(base_maxSpeed + pstats.dynMaxSpeed)))
             {
                 if(rotationSpeed > -(base_maxSpeed + pstats.dynMaxSpeed))
                 {
-                    rotationSpeed -= (base_spinAcceleration + (pstats.dynSpinAcceleration * 0.5f));
+                    rotationSpeed -= (base_spinAcceleration + (pstats.dynSpinAcceleration * 0.02f));
                 }
                 spinParent.Rotate(new Vector3(0f, 0f, 1f), rotationSpeed);
             }else
