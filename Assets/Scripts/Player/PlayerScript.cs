@@ -164,16 +164,6 @@ public class PlayerScript : MonoBehaviour
             StartCoroutine(Death());
         }
 
-        //debug stuff
-        if (pstats.debug)
-        {
-            //RESTARTS GAME!!!
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            }
-        }
-
         //update Animation
         UpdateAnimation();
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -211,7 +212,7 @@ public class PlayerStats : MonoBehaviour
 
     //debug
     [Header("")]
-    public bool debug;
+    public static bool debug;
     public int selected_stat;
 
     //additional things
@@ -333,6 +334,12 @@ public class PlayerStats : MonoBehaviour
                 {
                     stats[selected_stat]++;
                 }
+            }
+
+            //RESTARTS GAME!!!
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
         }
 

@@ -63,13 +63,12 @@ public class Room
         room_width = 19;
         room_height = 11;
 
-        //get and add doors to list
-        Transform allDoors = r.transform.GetChild(2);
-        foreach(Transform d in allDoors)
+        //get the doors on initialization
+        Transform allDoors = room.transform.GetChild(2);
+        foreach (Transform d in allDoors)
         {
             doors.Add(d.gameObject);
         }
-
     }
 
     public void GenerateNodes()
@@ -128,6 +127,17 @@ public class Room
 
     public void UpdateDoors()
     {
+        //get and add doors to list before checking them if necessary
+        //this is for special rooms that are generated after the rest, and require the doors to be re-added
+        if(doors.Count == 0)
+        {
+            Transform allDoors = room.transform.GetChild(2);
+            foreach (Transform d in allDoors)
+            {
+                doors.Add(d.gameObject);
+            }
+        }
+
         foreach (GameObject door in doors)
         {
             //get the node for the current door
@@ -140,6 +150,12 @@ public class Room
                 door.GetComponent<BoxCollider2D>().enabled = false;
             }
         }
+    }
+
+    //function to delete doors so that new ones can be added
+    public void RemoveDoors()
+    {
+        doors = new List<GameObject>();
     }
 
     //recursive function to get distance from spawn

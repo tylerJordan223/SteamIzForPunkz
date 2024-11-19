@@ -22,8 +22,16 @@ public class ChargeBar : MonoBehaviour
 
     private void Start()
     {
-        //find the player
-        pstats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+        //try to find the player
+        if (GameObject.Find("Tric"))
+        {
+            pstats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+        }
+        else
+        {
+            pstats = null;
+        }
+
         //make the list and get the first cell
         cells = new List<Image>();
         cells.Add(this.gameObject.transform.GetChild(1).GetComponent<Image>());
@@ -31,58 +39,68 @@ public class ChargeBar : MonoBehaviour
 
     private void Update()
     {
-        //update to get the player's cell count
-        charges = pstats.charges;
-        max_charges = pstats.dynMaxCharges;
+        if(pstats != null)
+        { 
+            //update to get the player's cell count
+            charges = pstats.charges;
+            max_charges = pstats.dynMaxCharges;
 
-        //loop to make sure there are enough cells 
-        if (cells.Count < max_charges)
-        {
-            for(int i = 0; i < max_charges; i++)
+            //loop to make sure there are enough cells 
+            if (cells.Count < max_charges)
             {
-                if (i > cells.Count-1)
+                for (int i = 0; i < max_charges; i++)
                 {
-                    //create a new cell
-                    GameObject new_cell_go = Instantiate(first_cell).gameObject;
-                    //rename it properly
-                    new_cell_go.name = "Cell" + (i+1).ToString();
-                    //parent it properly
-                    new_cell_go.transform.SetParent(this.gameObject.transform, false);
-                    new_cell_go.transform.SetSiblingIndex(this.transform.childCount-2);
-                    //set the image
-                    Image new_cell = new_cell_go.GetComponent<Image>();
-                    //add to the list
-                    cells.Add(new_cell);
+                    if (i > cells.Count - 1)
+                    {
+                        //create a new cell
+                        GameObject new_cell_go = Instantiate(first_cell).gameObject;
+                        //rename it properly
+                        new_cell_go.name = "Cell" + (i + 1).ToString();
+                        //parent it properly
+                        new_cell_go.transform.SetParent(this.gameObject.transform, false);
+                        new_cell_go.transform.SetSiblingIndex(this.transform.childCount - 2);
+                        //set the image
+                        Image new_cell = new_cell_go.GetComponent<Image>();
+                        //add to the list
+                        cells.Add(new_cell);
+                    }
+                }
+            }
+
+            //loop to make sure there aren't too many cells
+            if (cells.Count > max_charges)
+            {
+                for (int i = cells.Count - 1; i >= 0; i--)
+                {
+                    if (i + 1 > max_charges)
+                    {
+                        Image destroyed_cell = cells[i];
+                        cells.Remove(cells[i]);
+                        Destroy(destroyed_cell.gameObject);
+                    }
+                }
+            }
+
+            //loop to update the cell visuals
+            for (int f = 0; f < cells.Count; f++)
+            {
+                //if the cell count is above the current charge count then its empty
+                if (f + 1 > charges)
+                {
+                    cells[f].sprite = empty_cell;
+                }
+                //if the cell number is below or equal to charges its full
+                else
+                {
+                    cells[f].sprite = full_cell;
                 }
             }
         }
-
-        //loop to make sure there aren't too many cells
-        if (cells.Count > max_charges)
+        else
         {
-            for(int i = cells.Count-1; i >= 0; i--)
+            if (GameObject.Find("Tric"))
             {
-                if(i+1 > max_charges)
-                {
-                    Image destroyed_cell = cells[i];
-                    cells.Remove(cells[i]);
-                    Destroy(destroyed_cell.gameObject);
-                }
-            }
-        }
-
-        //loop to update the cell visuals
-        for (int f = 0; f < cells.Count; f++)
-        {
-            //if the cell count is above the current charge count then its empty
-            if (f+1 > charges)
-            {
-                cells[f].sprite = empty_cell;
-            }
-            //if the cell number is below or equal to charges its full
-            else
-            {
-                cells[f].sprite = full_cell;
+                pstats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
             }
         }
     }

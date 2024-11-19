@@ -18,6 +18,7 @@ public class FloorGenerator : MonoBehaviour
     private List<Room> end_rooms = new List<Room>();
     //spawn room that is always the same
     [SerializeField] GameObject player;
+    [SerializeField] GameObject player_ui;
     [SerializeField] GameObject floor_parent;
     [SerializeField] GameObject first_room;
     [SerializeField] GameObject exit_room;
@@ -42,6 +43,7 @@ public class FloorGenerator : MonoBehaviour
 
     private void Start()
     {
+
         //decompose to generate grid
         g = new Grid(maxRooms * 19, maxRooms * 11, 1);
 
@@ -218,6 +220,7 @@ public class FloorGenerator : MonoBehaviour
     private void CreateExit(Room er)
     {
         //destroy the current room to be replaced
+        er.RemoveDoors();
         Destroy(er.room);
 
         //create the new room
@@ -234,6 +237,7 @@ public class FloorGenerator : MonoBehaviour
     private void CreateItemRoom(Room ir)
     {
         //destroy the current room to be replaced
+        ir.RemoveDoors();
         Destroy(ir.room);
 
         //create the new room

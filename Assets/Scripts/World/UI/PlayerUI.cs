@@ -56,7 +56,7 @@ public class PlayerUI : MonoBehaviour
 
     private void UpdateStats()
     {
-        if (!pstats.debug)
+        if (!PlayerStats.debug)
         {
             //disable everything if debug mode is off
             playerStats.text = "";
