@@ -82,6 +82,7 @@ public class Room
     public int getNeighbors()
     {
         int neighbors = 0;
+        Debug.Log(doors.Count);
 
         //check all sides of each door to see if it finds another door
         foreach (GameObject door in doors)
@@ -106,10 +107,8 @@ public class Room
             {
                 neighbors++;
             }
-
-            return neighbors;
         }
-        return 0;
+        return neighbors;
     }
 
     public void UpdateDoors()

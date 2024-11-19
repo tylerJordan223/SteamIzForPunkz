@@ -619,10 +619,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   room_list:
-  - {fileID: 4065827680651785898, guid: d60edd3ab18d81a43a6b1de15a8fe2e6, type: 3}
+  - {fileID: 4065827680651785898, guid: 7f60e54467cbd8f41a6ef67fb80ec484, type: 3}
+  - {fileID: 4065827680651785898, guid: 3ac4f6f0f1959d5479336f93588d1d27, type: 3}
+  - {fileID: 4065827680651785898, guid: 8c5e872710d18514586f3c822eccc6d4, type: 3}
   player: {fileID: 8678102156351474676, guid: bc9fb88e12f19384fad297d81bc70291, type: 3}
   floor_parent: {fileID: 2001861663}
   first_room: {fileID: 707083432}
+  exit_room: {fileID: 4065827680651785898, guid: 98116bbaea15bb047992807110e4f526, type: 3}
+  item_room: {fileID: 4065827680651785898, guid: 15f0ef24523bf474c9fbd55fe82fd5e7, type: 3}
   maxRooms: 30
   minRooms: 15
 --- !u!1660057539 &9223372036854775807

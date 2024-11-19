@@ -2,18 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class FloorGenerator : MonoBehaviour
 {
     //Script to randomly generator floors
+    //Greatly inspired and adapted from this javascript floor generator:
+    //https://www.boristhebrave.com/permanent/20/09/isaac_gen/gen.js
 
     //collection of rooms, to be filled with some sort of list of possible rooms. If possible just grab the folder of room prefabs
     public List<GameObject> room_list = new List<GameObject>();
+    //list of rooms at the end of the floor
+    private List<Room> end_rooms = new List<Room>();
+    //spawn room that is always the same
     [SerializeField] GameObject player;
     [SerializeField] GameObject floor_parent;
     [SerializeField] GameObject first_room;
+    [SerializeField] GameObject exit_room;
+    [SerializeField] GameObject item_room;
 
     //booleans
     private bool isStarted;
@@ -57,6 +65,8 @@ public class FloorGenerator : MonoBehaviour
             if(roomQueue.Count > 0)
             {
                 Room room = roomQueue.Dequeue();
+                //boolean to check if it makes rooms, because if it doesn't its an endroom
+                int start_count = roomCount;
                 if(room.floorposx > 1) { createRoom(room.floorposx-1, room.floorposy); }
                 if (room.floorposx < maxRooms - 1) { createRoom(room.floorposx+1, room.floorposy); }
                 if (room.floorposy > 1) { createRoom(room.floorposx, room.floorposy-1); }
@@ -80,6 +90,39 @@ public class FloorGenerator : MonoBehaviour
 
                 //update the grid to find all the doors
                 g.checkGrid();
+
+                //find all the endRooms
+                foreach(Room r in rooms)
+                {
+                    if(r.getNeighbors() == 1)
+                    {
+                        end_rooms.Add(r);
+                    }
+                }
+
+                //create the special rooms
+
+                //calculate the furthest room from spawn. only checking the end_rooms to save on processing power
+                Room exit_room = null;
+                int d = 0;
+                foreach(Room r in end_rooms)
+                {
+                    //checks the direct distance from the spawn room.
+                    int temp_d = Mathf.Abs(r.floorposx - rooms[0].floorposx) + Mathf.Abs(r.floorposy - rooms[0].floorposy);
+                    if(temp_d > d)
+                    {
+                        //picks the furthest room
+                        exit_room = r;
+                        d = temp_d;
+                    }
+                }
+                //creates the exit room at the furthest point
+                CreateExit(exit_room);
+                //also remove it as an option from end_rooms
+                end_rooms.Remove(exit_room);
+
+                //now make the item room somewhere
+                CreateItemRoom(end_rooms[Random.Range(0, end_rooms.Count)]);
 
                 //do the door check on all of the rooms
                 foreach (Room r in rooms)
@@ -156,8 +199,8 @@ public class FloorGenerator : MonoBehaviour
         }
         else
         {
-            //make the actual object
-            ro = Instantiate(room_list[0]);
+            //make the actual object by picking a random room from the room list
+            ro = Instantiate(room_list[Random.Range(0,room_list.Count)]);
         }
         //make the room a child of the floor parent
         ro.transform.parent = floor_parent.transform;
@@ -175,6 +218,38 @@ public class FloorGenerator : MonoBehaviour
         roomQueue.Enqueue(r);
         //add the room to the list of rooms on the floor
         rooms.Add(r);
+    }
+
+    private void CreateExit(Room er)
+    {
+        //destroy the current room to be replaced
+        Destroy(er.room);
+
+        //create the new room
+        GameObject er_go = Instantiate(exit_room);
+        //set the object to the room
+        er.room = er_go;
+        //do all the things that the create_room function does for this room
+        er_go.transform.parent = floor_parent.transform;
+        er_go.name = "Exit Room";
+        er_go.transform.position = new Vector3(g.getNode(er.floorposx * er.room_width, er.floorposy * er.room_height).x + 0.5f, g.getNode(er.floorposx * er.room_width, er.floorposy * er.room_height).y + 0.5f, 0f);
+        er.GenerateNodes();
+    }
+
+    private void CreateItemRoom(Room ir)
+    {
+        //destroy the current room to be replaced
+        Destroy(ir.room);
+
+        //create the new room
+        GameObject ir_go = Instantiate(item_room);
+        //set the object to the room
+        ir.room = ir_go;
+        //do all the things that the create_room function does for this room
+        ir_go.transform.parent = floor_parent.transform;
+        ir_go.name = "Item Room";
+        ir_go.transform.position = new Vector3(g.getNode(ir.floorposx * ir.room_width, ir.floorposy * ir.room_height).x + 0.5f, g.getNode(ir.floorposx * ir.room_width, ir.floorposy * ir.room_height).y + 0.5f, 0f);
+        ir.GenerateNodes();
     }
 
     private int findPossibleNeighbors(int x, int y)
