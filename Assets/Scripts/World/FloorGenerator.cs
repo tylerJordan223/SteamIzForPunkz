@@ -67,10 +67,10 @@ public class FloorGenerator : MonoBehaviour
                 Room room = roomQueue.Dequeue();
                 //boolean to check if it makes rooms, because if it doesn't its an endroom
                 int start_count = roomCount;
-                if(room.floorposx > 1) { createRoom(room.floorposx-1, room.floorposy); }
-                if (room.floorposx < maxRooms - 1) { createRoom(room.floorposx+1, room.floorposy); }
-                if (room.floorposy > 1) { createRoom(room.floorposx, room.floorposy-1); }
-                if (room.floorposy < maxRooms - 1) { createRoom(room.floorposx, room.floorposy+1); }
+                if(room.floorposx > 1) { createRoom(room.floorposx-1, room.floorposy, room); }
+                if (room.floorposx < maxRooms - 1) { createRoom(room.floorposx+1, room.floorposy, room); }
+                if (room.floorposy > 1) { createRoom(room.floorposx, room.floorposy-1, room); }
+                if (room.floorposy < maxRooms - 1) { createRoom(room.floorposx, room.floorposy+1, room); }
                 if (roomRandom < 6)
                 {
                     roomRandom++;
@@ -103,17 +103,12 @@ public class FloorGenerator : MonoBehaviour
                 //create the special rooms
 
                 //calculate the furthest room from spawn. only checking the end_rooms to save on processing power
-                Room exit_room = null;
-                int d = 0;
+                Room exit_room = end_rooms[0];
                 foreach(Room r in end_rooms)
                 {
-                    //checks the direct distance from the spawn room.
-                    int temp_d = Mathf.Abs(r.floorposx - rooms[0].floorposx) + Mathf.Abs(r.floorposy - rooms[0].floorposy);
-                    if(temp_d > d)
+                    if(r.DistanceFromSpawn() >  exit_room.DistanceFromSpawn())
                     {
-                        //picks the furthest room
                         exit_room = r;
-                        d = temp_d;
                     }
                 }
                 //creates the exit room at the furthest point
@@ -154,10 +149,10 @@ public class FloorGenerator : MonoBehaviour
         //create the room queue for picking where to generate the next room
         roomQueue = new Queue<Room>();
 
-        createRoom(maxRooms / 2, maxRooms / 2);
+        createRoom(maxRooms / 2, maxRooms / 2, null);
     }
 
-    private void createRoom(int i, int j)
+    private void createRoom(int i, int j, Room parent)
     {
         //if the room already exists don't make another one
         if (floorplan[i, j] == 1)
@@ -209,7 +204,7 @@ public class FloorGenerator : MonoBehaviour
         //change the object's name to make sense
         ro.name = "Room " + roomCount;
         //make the room object
-        Room r = new Room(ro, g, i, j);
+        Room r = new Room(ro, g, parent, i, j);
         //put the room where it is going to stay
         ro.transform.position = new Vector3(g.getNode(i * r.room_width, j * r.room_height).x + 0.5f, g.getNode(i * r.room_width, j * r.room_height).y + 0.5f, 0f);
         //generate the nodes in the room object for its new position

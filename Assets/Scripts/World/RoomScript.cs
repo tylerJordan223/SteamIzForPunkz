@@ -21,13 +21,17 @@ public class Room
     private List<GameObject> enemies;
     private List<WorldNode> nodes;
     private List<GameObject> doors;
+    private Room parent;
+
+    //special rooms
+    private bool spawn;
 
     //position in floor
     public int floorposx;
     public int floorposy;
     
     //all that is needed is the room object itself and the grid it resides on
-    public Room(GameObject r, Grid g_, int fpx, int fpy)
+    public Room(GameObject r, Grid g_, Room p, int fpx, int fpy)
     {
         //set the position on the floor for generation
         floorposx = fpx;
@@ -40,6 +44,17 @@ public class Room
 
         //set room
         room = r;
+
+        //set parent, and if parent was null then that means this is the spawn room
+        if(p == null)
+        {
+            spawn = true;
+        }
+        else
+        {
+            spawn = false;
+            parent = p;
+        }
 
         //set grid
         g = g_;
@@ -124,6 +139,19 @@ public class Room
                 door.GetComponent<SpriteRenderer>().color = Color.clear;
                 door.GetComponent<BoxCollider2D>().enabled = false;
             }
+        }
+    }
+
+    //recursive function to get distance from spawn
+    public int DistanceFromSpawn()
+    {
+        if(spawn)
+        {
+            return 1;
+        }
+        else
+        {
+            return parent.DistanceFromSpawn() + 1;
         }
     }
 }
