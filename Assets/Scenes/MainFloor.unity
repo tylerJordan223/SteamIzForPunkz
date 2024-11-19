@@ -279,11 +279,59 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8267879865244459677, guid: e661d0651369cca44944622ab2f5cd72, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8993586055222024244, guid: e661d0651369cca44944622ab2f5cd72, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 85968685}
+    - targetCorrespondingSourceObject: {fileID: 8993586055222024244, guid: e661d0651369cca44944622ab2f5cd72, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 85968690}
   m_SourcePrefab: {fileID: 100100000, guid: e661d0651369cca44944622ab2f5cd72, type: 3}
+--- !u!1 &85968684 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8993586055222024244, guid: e661d0651369cca44944622ab2f5cd72, type: 3}
+  m_PrefabInstance: {fileID: 85968683}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &85968685
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85968684}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8fa9a55e6d3e48f4faed05a2cb34d9db, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &85968690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85968684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 136ed129b59f8c94db538c516f066fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &465806304
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -768,7 +816,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9061716970855636369, guid: 2f67193223ed9234fab641124a1b7c26, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

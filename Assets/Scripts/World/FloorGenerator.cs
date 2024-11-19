@@ -28,8 +28,8 @@ public class FloorGenerator : MonoBehaviour
     private bool isStarted;
 
     //Number variables
-    public int maxRooms;
-    public int minRooms;
+    private int maxRooms;
+    private int minRooms;
     private int roomCount;
     private int roomRandom;
 
@@ -43,6 +43,9 @@ public class FloorGenerator : MonoBehaviour
 
     private void Start()
     {
+        //set the min/max
+        minRooms = 10 + (3 * DataManager.floorNumber);
+        maxRooms = 20 + (5 * DataManager.floorNumber);
 
         //decompose to generate grid
         g = new Grid(maxRooms * 19, maxRooms * 11, 1);

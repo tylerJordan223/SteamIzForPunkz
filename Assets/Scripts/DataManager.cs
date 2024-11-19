@@ -11,14 +11,23 @@ public class DataManager : MonoBehaviour
      * This means that the map, health, items, and everything else are included here.
      */
 
-    #region instanceManager
+    public static int playerHealth = 3;
+    public static int playerCharges = 3;
+    public static int floorNumber = 0;
+    public static List<ItemScript> inventory = new List<ItemScript>();
+
+    private static GameObject loadingScreen;
+    private static Animator anim;
+
+    #region initialization
     // CHECKING TO MAKE SURE THERE ARE NOT DUPLICATES OF THIS OBJECT! //
     private static GameObject dataManager_instance;
 
     //check before anything is run to make sure there isnt one of these already
-    private void Awake()
+    private void Start()
     {
-        if(dataManager_instance != null && dataManager_instance != this.gameObject)
+        //making sure this doesnt double
+        if (dataManager_instance != null && dataManager_instance != this.gameObject)
         {
             Destroy(this.gameObject);
         }
@@ -33,14 +42,29 @@ public class DataManager : MonoBehaviour
 
     /***********************************************/
 
-    private void Start()
+    private void Awake()
     {
-
+        loadingScreen = GameObject.Find("LoadingScreen");
+        anim = loadingScreen.GetComponent<Animator>();
+        anim.SetBool("loading", true);
     }
 
-    private void Update()
+    public static void StartLoad()
     {
+        playerHealth = (int)GameObject.Find("Tric").GetComponent<PlayerStats>().health;
+        playerCharges = (int)GameObject.Find("Tric").GetComponent<PlayerStats>().charges;
+        anim.SetBool("loading", true);
     }
 
 
+    public static void EndLoad()
+    {
+        anim.SetBool("loading", false);
+    }
+
+    public static void LoadFloor()
+    {
+        floorNumber++;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 }

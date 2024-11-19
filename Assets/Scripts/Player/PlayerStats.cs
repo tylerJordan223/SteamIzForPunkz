@@ -7,7 +7,6 @@ public class PlayerStats : MonoBehaviour
 {
     //handling the visuals and list
     public ItemUI iui;
-    public List<ItemScript> inventory;
 
     //Script to handle all of the player's stats and items
     [Header("Player Stats")]
@@ -222,7 +221,6 @@ public class PlayerStats : MonoBehaviour
     {
         //grabbing the UI and initializing the inventory
         iui = GameObject.Find("ItemShowcase").GetComponent<ItemUI>();
-        inventory = new List<ItemScript>();
 
         //set the names of each stats
         stats_names = new string[] { "Speed", "dashSpeed", "mDamage", "bDamage", "maxCharges", "maxHealth", "luck", "health", "charges"};
@@ -244,8 +242,8 @@ public class PlayerStats : MonoBehaviour
             maxHealth = 3f;
             luck = 1f;
 
-            health = 3f;
-            charges = 3f;
+            health = (float)DataManager.playerHealth;
+            charges = (float)DataManager.playerCharges;
 
             moneyCount = 0f;
 
@@ -269,6 +267,9 @@ public class PlayerStats : MonoBehaviour
         //debug
         debug = false;
         selected_stat = 0;
+
+        //load inventory from data manager
+        LoadInventory();
     }
 
     private void Update()
@@ -349,7 +350,7 @@ public class PlayerStats : MonoBehaviour
     public void NewItem(ItemScript item)
     {
         //adding item to the list of held items
-        inventory.Add(item);
+        DataManager.inventory.Add(item);
         //showing the item in the UI
         StartCoroutine(iui.show_item(item));
 
@@ -369,5 +370,31 @@ public class PlayerStats : MonoBehaviour
         dynSize += item.weapon_size;
         dynChargedSize += item.size_when_charged;
         maxRicochets += item.max_ricochets;
+    }
+
+    //updates the player at the start of each floor
+    public void LoadInventory()
+    {
+        foreach(ItemScript item in DataManager.inventory)
+        {
+            dynSpeed += item.speed;
+            dynDashSpeed += item.dash_speed;
+            dynMeleeDamage += item.melee_damage;
+            dynBlastDamage += item.blast_damage;
+            dynMaxCharges += item.max_charges;
+            maxHealth += item.max_health;
+            luck += item.luck;
+            dynRange += item.range_from_player;
+            dynMaxSpeed += item.max_spin_speed;
+            dynSpinAcceleration += item.spin_acceleration;
+            dynRechargeTime += item.time_to_recharge;
+            dynChargeTime += item.time_to_charge;
+            dynSize += item.weapon_size;
+            dynChargedSize += item.size_when_charged;
+            maxRicochets += item.max_ricochets;
+        }
+
+        //finished loading once the player has all their items
+        DataManager.EndLoad();
     }
 }

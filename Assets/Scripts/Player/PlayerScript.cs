@@ -53,7 +53,7 @@ public class PlayerScript : MonoBehaviour
     public bool holdingItem;
 
     //movement
-    private bool canControl;
+    public bool canControl;
     Vector2 inputVector;
     Vector2 lastInputVector;
 
