@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.XR;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public class WorldDecomp : MonoBehaviour
 {
@@ -25,15 +26,17 @@ public class WorldNode
     public bool isObstacle;
     public bool isPlayer;
     public bool isDoor;
+    public bool isEnemy;
     public WorldNode parent;
 
-    public WorldNode(int _x, int _y, bool _isObstacle, bool _isPlayer, bool _isDoor)
+    public WorldNode(int _x, int _y, bool _isObstacle, bool _isPlayer, bool _isDoor, bool _isEnemy)
     {
         x = _x;
         y = _y;
         isObstacle = _isObstacle;
         isPlayer = _isPlayer;
         isDoor = _isDoor;
+        isEnemy = _isEnemy;
     }
 
     public float get_f()
@@ -75,7 +78,7 @@ public class Grid
         {
             for (int col = 0; col < c; col++)
             {
-                nodes[row, col] = new WorldNode(row, col, false, false, false);
+                nodes[row, col] = new WorldNode(row, col, false, false, false, false);
             }
         }
 
@@ -103,7 +106,7 @@ public class Grid
                 Vector3 starting_position = new Vector3(y, x, 10f);
 
                 //check for the collision
-                Collider2D hit = Physics2D.OverlapPoint(new Vector2(row, col), ~LayerMask.GetMask("Room"));
+                Collider2D hit = Physics2D.OverlapPoint(new Vector2(y, x), ~LayerMask.GetMask("Room"));
                 if (hit != null)
                 {
                     //decide what it hit
@@ -117,6 +120,11 @@ public class Grid
                         nodes[row, col].isDoor = true;
                         Debug.DrawRay(starting_position, Vector3.back * 20, Color.gray, 50000);
                     }
+                    else if (hit.gameObject.CompareTag("enemy"))
+                    {
+                        nodes[row, col].isEnemy = true;
+                        Debug.DrawRay(starting_position, Vector3.back * 20, Color.magenta, 50000);
+                    }
                     else
                     {
                         //hit something unspecified, considered obstacle
@@ -127,15 +135,54 @@ public class Grid
                 else
                 {
                     //if it did not hit anything show green
+                    nodes[row, col].isPlayer = false;
+                    nodes[row, col].isEnemy = false;
+                    nodes[row, col].isObstacle = false;
+                    //IMPORTANT TO NOTE!!! DOORS WILL ALWAYS STAY TRUE AFTER GENERATION!!!
                     Debug.DrawRay(starting_position, Vector3.back * 20f, Color.green, 50000);
                 }
             }
         }
     }
 
+    //returns the game object at the given node
+    public GameObject getObjectAtNode(WorldNode n)
+    {
+        //check for the collision
+        Collider2D hit = Physics2D.OverlapPoint(new Vector2(n.x, n.y), ~LayerMask.GetMask("Room"));
+        if (hit != null)
+        {
+            return hit.gameObject;
+        }
+        else
+        {
+            Debug.Log("Hit Nothing");
+            return null;
+        }
+    }
+
+    //returns the room at the given node
+    public GameObject getRoomGameObjectAtNode(WorldNode n)
+    {
+        //check for the collision
+        Collider2D hit = Physics2D.OverlapPoint(new Vector2(n.x, n.y), LayerMask.GetMask("Room"));
+        if (hit != null)
+        {
+            //the game object is the floor, so that needs to check the parent until room
+            return hit.transform.parent.parent.gameObject;
+        }
+        else
+        {
+            Debug.Log("Hit Nothing");
+            return null;
+        }
+    }
+
     //returns the node the player is on
     public WorldNode getPlayerNode()
     {
+        //be sure to upgrade the map to know where the player is
+        checkGrid();
         for(int r = 0; r < gridLength; r++)
         {
             for(int c = 0; c < gridHeight; c++)

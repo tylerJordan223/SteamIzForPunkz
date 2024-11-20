@@ -29,7 +29,7 @@ public class RoomScript : MonoBehaviour
     {
         if(enemy_count == 0 && locked)
         {
-            my_room.OpenDoors();
+            my_room.UpdateNeighbors();
             locked = false;
         }
     }
@@ -93,6 +93,7 @@ public class Room
         foreach (Transform d in allDoors)
         {
             doors.Add(d.gameObject);
+            d.GetComponent<DoorScript>().my_room = this;
         }
     }
 
@@ -147,7 +148,36 @@ public class Room
         }
         return neighbors;
     }
+    
+    public List<Room> getNeighborRooms()
+    {
+        List<Room> r = new List<Room>();
+        foreach (GameObject door in doors)
+        {
+            //get the node for the current door
+            WorldNode tempNode = g.getNode(door.transform);
 
+            //check all 4 sides to see if theres a door, and if there is, add the room that the door is in to the script
+            if (g.getNode(tempNode.x + 1, tempNode.y).isDoor)
+            {
+                r.Add(g.getRoomGameObjectAtNode(g.getNode(tempNode.x + 1, tempNode.y)).GetComponent<RoomScript>().my_room);
+            }
+            if (g.getNode(tempNode.x - 1, tempNode.y).isDoor)
+            {
+                r.Add(g.getRoomGameObjectAtNode(g.getNode(tempNode.x - 1, tempNode.y)).GetComponent<RoomScript>().my_room);
+            }
+            if (g.getNode(tempNode.x, tempNode.y + 1).isDoor)
+            {
+                r.Add(g.getRoomGameObjectAtNode(g.getNode(tempNode.x, tempNode.y + 1)).GetComponent<RoomScript>().my_room);
+            }
+            if (g.getNode(tempNode.x, tempNode.y - 1).isDoor)
+            {
+                r.Add(g.getRoomGameObjectAtNode(g.getNode(tempNode.x, tempNode.y - 1)).GetComponent<RoomScript>().my_room);
+            }
+        }
+        return r;
+    }
+    
     public void UpdateDoors()
     {
         //get and add doors to list before checking them if necessary
@@ -158,6 +188,7 @@ public class Room
             foreach (Transform d in allDoors)
             {
                 doors.Add(d.gameObject);
+                d.GetComponent<DoorScript>().my_room = this;
             }
         }
 
@@ -172,6 +203,15 @@ public class Room
                 door.GetComponent<SpriteRenderer>().color = Color.clear;
                 door.GetComponent<BoxCollider2D>().enabled = false;
             }
+        }
+    }
+
+    public void UpdateNeighbors()
+    {
+        List<Room> neighbors = getNeighborRooms();
+        foreach (Room r in neighbors)
+        {
+            r.UpdateDoors();
         }
     }
 
@@ -198,6 +238,30 @@ public class Room
         {
             door.GetComponent<SpriteRenderer>().color = Color.white;
             door.GetComponent<BoxCollider2D>().enabled = true;
+        }
+    }
+
+    //closes the doors of all the rooms around the current room
+    public void CloseNeighbors()
+    {
+        //get the list of neighboring rooms
+        List<Room> temp_rooms = getNeighborRooms();
+        //close the doors in all of the neighboring rooms
+        foreach(Room r in temp_rooms)
+        {
+            r.CloseDoors();
+        }
+    }
+
+    //opens the doors of all rooms around the current room
+    public void OpenNeighbors()
+    {
+        //get the list of neighboring rooms
+        List<Room> temp_rooms = getNeighborRooms();
+        //opens the doors in all of the neighboring rooms
+        foreach (Room r in temp_rooms)
+        {
+            r.OpenDoors();
         }
     }
 

@@ -39,7 +39,7 @@ public class FloorGenerator : MonoBehaviour
     private Queue<Room> roomQueue;
 
     //GRID TO BE USED BY OTHER SCRIPTS//
-    public Grid g;
+    public static Grid g;
 
     private void Start()
     {

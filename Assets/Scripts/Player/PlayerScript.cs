@@ -97,7 +97,7 @@ public class PlayerScript : MonoBehaviour
         GameObject f = GameObject.Find("FloorGenerator");
         if(f != null)
         {
-            g = f.GetComponent<FloorGenerator>().g;
+            g = FloorGenerator.g;
         }
     }
 
@@ -166,6 +166,11 @@ public class PlayerScript : MonoBehaviour
 
         //update Animation
         UpdateAnimation();
+
+        if(Input.GetKeyDown(KeyCode.U))
+        {
+            Debug.Log(FloorGenerator.g.getObjectAtNode(FloorGenerator.g.getPlayerNode()).name);
+        }
 
     }
 

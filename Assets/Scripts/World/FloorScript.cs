@@ -25,7 +25,7 @@ public class FloorScript : MonoBehaviour
             if (parentRoom.GetComponent<RoomScript>().enemy_count > 0)
             {
                 parentRoom.GetComponent<RoomScript>().locked = true;
-                parentRoom.GetComponent<RoomScript>().my_room.CloseDoors();
+                parentRoom.GetComponent<RoomScript>().my_room.CloseNeighbors();
             }
         }
     }
