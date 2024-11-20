@@ -21,12 +21,19 @@ public class FloorScript : MonoBehaviour
         if (other.CompareTag("Player") && !other.isTrigger)
         {
             virtualCamera.SetActive(true);
+            parentRoom.GetComponent<RoomScript>().active = true;
+            if (parentRoom.GetComponent<RoomScript>().enemy_count > 0)
+            {
+                parentRoom.GetComponent<RoomScript>().locked = true;
+                parentRoom.GetComponent<RoomScript>().my_room.CloseDoors();
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player") && !other.isTrigger)
         {
+            parentRoom.GetComponent<RoomScript>().active = false;
             virtualCamera.SetActive(false);
         }
     }

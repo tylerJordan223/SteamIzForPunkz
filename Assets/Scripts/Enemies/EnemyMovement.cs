@@ -27,7 +27,6 @@ public class EnemyMovement : MonoBehaviour
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
         rb = GetComponent<Rigidbody2D>();
         trans = GetComponent<Transform>();
         kb = false;
@@ -36,8 +35,8 @@ public class EnemyMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        //pick the type of movement
-        if(!dead)
+        //pick the type of movement, and only move if alive and player in room
+        if(!dead && gameObject.GetComponent<EnemyHealth>().my_room.active == true)
         {
             if(directional)
             {
@@ -56,6 +55,11 @@ public class EnemyMovement : MonoBehaviour
 
         //slow down any velocity pushed
         rb.velocity *= new Vector2(0.3f,0.3f);
+
+        if(player == null && GameObject.Find("Tric"))
+        {
+            player = GameObject.Find("Tric");
+        }
     }
 
     private void DirectionalMovement()

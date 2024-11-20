@@ -7,7 +7,32 @@ using UnityEngine;
 
 public class RoomScript : MonoBehaviour
 {
-    
+    public Room my_room;
+    public int enemy_count;
+    public bool locked;
+    public bool active;
+
+    private void Start()
+    {
+        enemy_count = 0;
+        //get the amount of enemies in the room, and make sure they know that this is theri parent room
+        for(int i = 0; i < transform.Find("Enemies").childCount; i++)
+        {
+            enemy_count++;
+            transform.Find("Enemies").GetChild(i).gameObject.GetComponent<EnemyHealth>().my_room = this;
+        }
+        locked = false;
+        active = false;
+    }
+
+    private void Update()
+    {
+        if(enemy_count == 0 && locked)
+        {
+            my_room.OpenDoors();
+            locked = false;
+        }
+    }
 }
 
 public class Room
@@ -64,7 +89,7 @@ public class Room
         room_height = 11;
 
         //get the doors on initialization
-        Transform allDoors = room.transform.GetChild(2);
+        Transform allDoors = room.transform.Find("Doors");
         foreach (Transform d in allDoors)
         {
             doors.Add(d.gameObject);
@@ -96,7 +121,6 @@ public class Room
     public int getNeighbors()
     {
         int neighbors = 0;
-
         //check all sides of each door to see if it finds another door
         foreach (GameObject door in doors)
         {
@@ -130,7 +154,7 @@ public class Room
         //this is for special rooms that are generated after the rest, and require the doors to be re-added
         if(doors.Count == 0)
         {
-            Transform allDoors = room.transform.GetChild(2);
+            Transform allDoors = room.transform.Find("Doors");
             foreach (Transform d in allDoors)
             {
                 doors.Add(d.gameObject);
@@ -155,6 +179,26 @@ public class Room
     public void RemoveDoors()
     {
         doors = new List<GameObject>();
+    }
+
+    //opens doors
+    public void OpenDoors()
+    {
+        foreach (GameObject door in doors)
+        {
+            door.GetComponent<SpriteRenderer>().color = Color.clear;
+            door.GetComponent<BoxCollider2D>().enabled = false;
+        }
+    }
+
+    //closes doors
+    public void CloseDoors()
+    {
+        foreach (GameObject door in doors)
+        {
+            door.GetComponent<SpriteRenderer>().color = Color.white;
+            door.GetComponent<BoxCollider2D>().enabled = true;
+        }
     }
 
     //recursive function to get distance from spawn

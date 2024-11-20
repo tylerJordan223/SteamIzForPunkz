@@ -6,6 +6,7 @@ public class EnemyHealth : MonoBehaviour
 {
     //enemy variables
     private EnemyMovement em;
+    public RoomScript my_room;
 
     [Header("Health Variables")]
     [SerializeField] float maxHealth;
@@ -80,5 +81,7 @@ public class EnemyHealth : MonoBehaviour
         {
             Instantiate(drop, this.transform.position, this.transform.rotation);
         }
+        //let the room know its got one less enemy
+        my_room.enemy_count--;
     }
 }
