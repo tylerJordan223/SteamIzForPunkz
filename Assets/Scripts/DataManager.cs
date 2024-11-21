@@ -15,6 +15,7 @@ public class DataManager : MonoBehaviour
     public static int playerCharges = 3;
     public static int floorNumber = 0;
     public static List<ItemScript> inventory = new List<ItemScript>();
+    public static bool playing = false;
 
     private static GameObject loadingScreen;
     private static Animator anim;
@@ -46,25 +47,45 @@ public class DataManager : MonoBehaviour
     {
         loadingScreen = GameObject.Find("LoadingScreen");
         anim = loadingScreen.GetComponent<Animator>();
-        anim.SetBool("loading", true);
+        if(SceneManager.GetActiveScene().name == "MainMenu")
+        {
+            anim.SetBool("loading", false);
+        }
+        else
+        {
+            anim.SetBool("loading", true);
+        }
     }
 
     public static void StartLoad()
     {
         playerHealth = (int)GameObject.Find("Tric").GetComponent<PlayerStats>().health;
         playerCharges = (int)GameObject.Find("Tric").GetComponent<PlayerStats>().charges;
+        playing = false;
         anim.SetBool("loading", true);
     }
-
 
     public static void EndLoad()
     {
         anim.SetBool("loading", false);
     }
 
-    public static void LoadFloor()
+    public static void LoadNextFloor()
     {
         floorNumber++;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("MainFloor");
+    }
+
+    public static void RunStart()
+    {
+        playerHealth = 3;
+        playerCharges = 3;
+        floorNumber = 0;
+        SceneManager.LoadScene("MainFloor");
+    }
+
+    public static void QuitGame()
+    {
+        Application.Quit();
     }
 }

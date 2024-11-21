@@ -44,8 +44,8 @@ public class FloorGenerator : MonoBehaviour
     private void Start()
     {
         //set the min/max
-        minRooms = 10 + (3 * DataManager.floorNumber);
-        maxRooms = 20 + (5 * DataManager.floorNumber);
+        minRooms = 7 + (3 * DataManager.floorNumber);
+        maxRooms = 10 + (3 * DataManager.floorNumber);
 
         //decompose to generate grid
         g = new Grid(maxRooms * 19, maxRooms * 11, 1);

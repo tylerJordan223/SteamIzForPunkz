@@ -6,6 +6,10 @@ public class LoadingScreen : MonoBehaviour
 {
     public void Transition()
     {
-        DataManager.LoadFloor();
+        DataManager.LoadNextFloor();
+    }
+    public void Pausable()
+    {
+        DataManager.playing = true;
     }
 }

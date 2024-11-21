@@ -34,6 +34,11 @@ public class FloorScript : MonoBehaviour
         if (other.CompareTag("Player") && !other.isTrigger)
         {
             parentRoom.GetComponent<RoomScript>().active = false;
+            if(parentRoom.GetComponent<RoomScript>().locked)
+            {
+                parentRoom.GetComponent<RoomScript>().locked = false;
+                parentRoom.GetComponent<RoomScript>().my_room.OpenNeighbors();
+            }
             virtualCamera.SetActive(false);
         }
     }
