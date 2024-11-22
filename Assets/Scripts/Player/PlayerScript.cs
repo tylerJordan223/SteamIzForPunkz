@@ -57,6 +57,11 @@ public class PlayerScript : MonoBehaviour
     Vector2 inputVector;
     Vector2 lastInputVector;
 
+    //damage
+    [Header("Damage Timer")]
+    [SerializeField] public float timeBetweenDamage;
+    private float damageTimer;
+
     //decomposed world
     private Grid g;
 
@@ -92,6 +97,9 @@ public class PlayerScript : MonoBehaviour
         //flags
         canControl = true;
         holdingItem = false;
+
+        //damage timer
+        damageTimer = timeBetweenDamage;
 
         //getting the grid from the floor generator
         GameObject f = GameObject.Find("FloorGenerator");
@@ -146,11 +154,24 @@ public class PlayerScript : MonoBehaviour
             {
                 StartCoroutine(Dash());
             }
-
         }
-        
+
+        //updates damage visually
+        damageTimer += Time.deltaTime;
+        if (pstats.health > 0)
+        {
+            if (damageTimer < timeBetweenDamage)
+            {
+                sr.color = new Color(Color.white.r, Color.white.g, Color.white.b, 0.5f);
+            }
+            else
+            {
+                sr.color = new Color(Color.white.r, Color.white.g, Color.white.b, 1f);
+            }
+        }
+
         //checks for when the player is dashing
-        if(dashing)
+        if (dashing)
         {
             //cancel control etc
         }
@@ -188,6 +209,16 @@ public class PlayerScript : MonoBehaviour
         else
         {
             rb.velocity = new Vector2(0, 0);
+        }
+    }
+
+    public void Damage(float d)
+    {
+        if (damageTimer > timeBetweenDamage)
+        {
+            //reset the timer
+            damageTimer = 0f;
+            pstats.health -= 1;
         }
     }
 

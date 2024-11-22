@@ -100,12 +100,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed9e70dfe07c53d42bbf2ab34b2d5efa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  directional: 0
+  directional: 1
   astar: 0
   speed: 1
   minDistanceFromPlayer: 0
   dead: 0
   aliveColor: {r: 0.7686275, g: 0.7843138, b: 0.34509805, a: 1}
+  ObstacleDetectionRadius: 0.5
+  ObstacleDetectionDistance: 1
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  rotationSpeed: 0
 --- !u!114 &1779198955233067887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,6 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d584510904ee3549927a8e8d0200a98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  my_room: {fileID: 0}
   maxHealth: 5
   health: 0
   timeBetweenDamage: 1

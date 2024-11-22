@@ -13,6 +13,7 @@ public class DataManager : MonoBehaviour
 
     public static int playerHealth = 3;
     public static int playerCharges = 3;
+    public static int playerMoney = 0;
     public static int floorNumber = 0;
     public static List<ItemScript> inventory = new List<ItemScript>();
     public static bool playing = false;
@@ -61,6 +62,7 @@ public class DataManager : MonoBehaviour
     {
         playerHealth = (int)GameObject.Find("Tric").GetComponent<PlayerStats>().health;
         playerCharges = (int)GameObject.Find("Tric").GetComponent<PlayerStats>().charges;
+        playerMoney = (int)GameObject.Find("Tric").GetComponent<PlayerStats>().moneyCount;
         playing = false;
         anim.SetBool("loading", true);
     }
@@ -80,6 +82,7 @@ public class DataManager : MonoBehaviour
     {
         playerHealth = 3;
         playerCharges = 3;
+        playerMoney = 0;
         floorNumber = 0;
         SceneManager.LoadScene("MainFloor");
     }
