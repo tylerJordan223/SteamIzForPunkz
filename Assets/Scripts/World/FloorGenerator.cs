@@ -38,9 +38,6 @@ public class FloorGenerator : MonoBehaviour
     private int[,] floorplan;
     private Queue<Room> roomQueue;
 
-    //GRID TO BE USED BY OTHER SCRIPTS//
-    public static Grid g;
-
     private void Start()
     {
         //set the min/max
@@ -48,7 +45,7 @@ public class FloorGenerator : MonoBehaviour
         maxRooms = 10 + (3 * DataManager.floorNumber);
 
         //decompose to generate grid
-        g = new Grid(maxRooms * 19, maxRooms * 11, 1);
+        DataManager.g = new Grid(maxRooms * 19, maxRooms * 11, 1);
 
         //make the roomrandomvariable that will make rooms less likely overtime
         roomRandom = 0;
@@ -94,7 +91,7 @@ public class FloorGenerator : MonoBehaviour
                 isStarted = false;
 
                 //update the grid to find all the doors
-                g.checkGrid();
+                DataManager.g.checkGrid();
 
                 //find all the endRooms
                 foreach(Room r in rooms)
@@ -209,11 +206,11 @@ public class FloorGenerator : MonoBehaviour
         //change the object's name to make sense
         ro.name = "Room " + roomCount;
         //make the room object
-        Room r = new Room(ro, g, parent, i, j);
+        Room r = new Room(ro, DataManager.g, parent, i, j);
         //set the room Object to its gameObject
         ro.GetComponent<RoomScript>().my_room = r;
         //put the room where it is going to stay
-        ro.transform.position = new Vector3(g.getNode(i * r.room_width, j * r.room_height).x + 0.5f, g.getNode(i * r.room_width, j * r.room_height).y + 0.5f, 0f);
+        ro.transform.position = new Vector3(DataManager.g.getNode(i * r.room_width, j * r.room_height).x + 0.5f, DataManager.g.getNode(i * r.room_width, j * r.room_height).y + 0.5f, 0f);
         //generate the nodes in the room object for its new position
         r.GenerateNodes();
         //enqueue the room to be checked later
@@ -236,7 +233,7 @@ public class FloorGenerator : MonoBehaviour
         er_go.GetComponent<RoomScript>().my_room = er;
         er_go.transform.parent = floor_parent.transform;
         er_go.name = "Exit Room";
-        er_go.transform.position = new Vector3(g.getNode(er.floorposx * er.room_width, er.floorposy * er.room_height).x + 0.5f, g.getNode(er.floorposx * er.room_width, er.floorposy * er.room_height).y + 0.5f, 0f);
+        er_go.transform.position = new Vector3(DataManager.g.getNode(er.floorposx * er.room_width, er.floorposy * er.room_height).x + 0.5f, DataManager.g.getNode(er.floorposx * er.room_width, er.floorposy * er.room_height).y + 0.5f, 0f);
         er.GenerateNodes();
     }
 
@@ -254,7 +251,7 @@ public class FloorGenerator : MonoBehaviour
         ir_go.GetComponent<RoomScript>().my_room = ir;
         ir_go.transform.parent = floor_parent.transform;
         ir_go.name = "Item Room";
-        ir_go.transform.position = new Vector3(g.getNode(ir.floorposx * ir.room_width, ir.floorposy * ir.room_height).x + 0.5f, g.getNode(ir.floorposx * ir.room_width, ir.floorposy * ir.room_height).y + 0.5f, 0f);
+        ir_go.transform.position = new Vector3(DataManager.g.getNode(ir.floorposx * ir.room_width, ir.floorposy * ir.room_height).x + 0.5f, DataManager.g.getNode(ir.floorposx * ir.room_width, ir.floorposy * ir.room_height).y + 0.5f, 0f);
         ir.GenerateNodes();
     }
 

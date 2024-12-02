@@ -11,6 +11,8 @@ public class DataManager : MonoBehaviour
      * This means that the map, health, items, and everything else are included here.
      */
 
+    public static Grid g;
+
     public static int playerHealth = 3;
     public static int playerCharges = 3;
     public static int playerMoney = 0;

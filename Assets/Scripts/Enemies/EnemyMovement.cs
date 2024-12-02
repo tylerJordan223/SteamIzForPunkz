@@ -85,12 +85,12 @@ public class EnemyMovement : MonoBehaviour
         //move towards player
         if (distance > minDistanceFromPlayer)
         {
-            targetDirection = FloorGenerator.g.playerNode.getPosition3() - trans.position;
+            targetDirection = DataManager.g.playerNode.getPosition3() - trans.position;
         }
         else if (distance < minDistanceFromPlayer - 0.5)
         {
             //move backwards
-            targetDirection = FloorGenerator.g.playerNode.getPosition3() - player.transform.position;
+            targetDirection = DataManager.g.playerNode.getPosition3() - player.transform.position;
         }
     }
 

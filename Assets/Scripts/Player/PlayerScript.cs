@@ -105,7 +105,7 @@ public class PlayerScript : MonoBehaviour
         GameObject f = GameObject.Find("FloorGenerator");
         if(f != null)
         {
-            g = FloorGenerator.g;
+            g = DataManager.g;
         }
     }
 
@@ -197,7 +197,7 @@ public class PlayerScript : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.U))
         {
-            FloorGenerator.g.checkGrid();
+            DataManager.g.checkGrid();
         }
 
     }
@@ -274,9 +274,9 @@ public class PlayerScript : MonoBehaviour
 
     private void UpdatePlayerNode()
     {
-        if(FloorGenerator.g.getNode(trans) != null)
+        if(DataManager.g.getNode(trans) != null)
         {
-            FloorGenerator.g.setPlayerNodeAtNode(FloorGenerator.g.getNode(trans));
+            DataManager.g.setPlayerNodeAtNode(DataManager.g.getNode(trans));
         }
     }
 
