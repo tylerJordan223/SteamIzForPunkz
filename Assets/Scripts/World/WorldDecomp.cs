@@ -351,6 +351,15 @@ public class Grid
         return Mathf.Abs(b.getPosition2().x - a.getPosition2().x) + Mathf.Abs(b.getPosition2().y - a.getPosition2().y);
     }
 
+    //getting the diagonal distance between nodes for AStar
+    public float DiagonalDistance(WorldNode a, WorldNode b)
+    {
+        float dx = Mathf.Abs(a.x - b.x);
+        float dy = Mathf.Abs(a.y - b.y);
+
+        return 1 * (dx + dy) + (Mathf.Sqrt(2) - 2 * 1) * Mathf.Min(dx, dy);
+    }
+
     public List<WorldNode> AStarSearchToPlayer(WorldNode n)
     {
         List<AStarNode> open = new List<AStarNode>();
@@ -399,7 +408,7 @@ public class Grid
 
                 //compute the distance and heuristic values for the node
                 node.g = q.g + 1f; //always 1 cost to move between nodes
-                node.h = ManhattanDistance(node.node, playerNode);
+                node.h = DiagonalDistance(node.node, playerNode);
                 node.f = node.g + node.h;
 
                 //will not add if this flag is false
