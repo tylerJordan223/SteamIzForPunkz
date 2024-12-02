@@ -188,12 +188,20 @@ public class PlayerScript : MonoBehaviour
         //update Animation
         UpdateAnimation();
 
+        //updates to do only when the game is running
+        if(DataManager.playing)
+        {
+            //update the player node in the grid
+            UpdatePlayerNode();
+        }
+
         if(Input.GetKeyDown(KeyCode.U))
         {
-            Debug.Log(FloorGenerator.g.getObjectAtNode(FloorGenerator.g.getPlayerNode()).name);
+            FloorGenerator.g.checkGrid();
         }
 
     }
+
 
     //use for anything movement related
     private void FixedUpdate()
@@ -262,6 +270,14 @@ public class PlayerScript : MonoBehaviour
     private void UpdateAnimation()
     {
         //** Update all the animation
+    }
+
+    private void UpdatePlayerNode()
+    {
+        if(FloorGenerator.g.getNode(trans) != null)
+        {
+            FloorGenerator.g.setPlayerNodeAtNode(FloorGenerator.g.getNode(trans));
+        }
     }
 
     //temporary function for the sake of grid testing

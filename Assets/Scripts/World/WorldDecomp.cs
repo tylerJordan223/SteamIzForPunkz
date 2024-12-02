@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.FullSerializer;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.XR;
@@ -42,6 +43,16 @@ public class WorldNode
     public float get_f()
     {
         return startToNode + startToEnd;
+    }
+
+    public Vector2 getPosition2()
+    {
+        return new Vector2(x, y);
+    }
+
+    public Vector3 getPosition3()
+    {
+        return new Vector3(x, y, 0f);
     }
 }
 
@@ -209,6 +220,32 @@ public class Grid
                     playerNode = nodes[r, c];
                 }
             }
+        }
+    }
+
+    //function that sets the player node using a node
+    public void setPlayerNodeAtNode(WorldNode n)
+    {
+        //if the node is already the playernode
+        if(playerNode != null)
+        {
+            if (playerNode == n)
+            {
+                //just to be safe set the node
+                playerNode.isPlayer = true;
+            }
+            else
+            {
+                //cycle the player node to the new one
+                playerNode.isPlayer = false;
+                playerNode = n;
+                n.isPlayer = true;
+            }
+        }
+        else
+        {
+            playerNode = n;
+            playerNode.isPlayer = true;
         }
     }
 
