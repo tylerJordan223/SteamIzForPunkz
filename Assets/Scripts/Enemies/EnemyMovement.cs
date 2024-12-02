@@ -26,6 +26,7 @@ public class EnemyMovement : MonoBehaviour
     public bool dead;
     [SerializeField] public Color aliveColor;
     private Vector3 targetDirection;
+    private WorldNode my_node;
 
     //details for object avoidance
     [Header("Object Avoidance")]
@@ -44,6 +45,10 @@ public class EnemyMovement : MonoBehaviour
         kb = false;
         dead = false;
         GetComponent<SpriteRenderer>().color = aliveColor;
+        
+        //get the node and center it
+        my_node = DataManager.g.getNode(transform);
+        transform.position = my_node.getPosition3();
     }
     private void FixedUpdate()
     {
@@ -57,8 +62,9 @@ public class EnemyMovement : MonoBehaviour
                 ObjectAvoidance();
             }else if(astar)
             {
-
+                AstarMovement();
             }
+
             //actually add the movement
             trans.position += speed * Time.deltaTime * targetDirection.normalized;
         }
@@ -76,6 +82,12 @@ public class EnemyMovement : MonoBehaviour
         {
             player = GameObject.Find("Tric");
         }
+
+        //update my node
+        if(DataManager.g.getNode(transform) != my_node)
+        {
+            my_node = DataManager.g.getNode(transform);
+        }
     }
 
     private void DirectionalMovement()
@@ -91,6 +103,30 @@ public class EnemyMovement : MonoBehaviour
         {
             //move backwards
             targetDirection = DataManager.g.playerNode.getPosition3() - player.transform.position;
+        }
+    }
+
+    private void AstarMovement()
+    {
+        List<WorldNode> path = DataManager.g.AStarSearchToPlayer(my_node);
+
+        if(path.Count > 0)
+        {
+            WorldNode next = path[0];
+            Vector2 target = next.getPosition2();
+
+            //if the enemy isnt close enough then keep moving
+            if(Vector2.Distance(trans.position, target) >= 0.05f)
+            {
+                //move towards the next node
+                targetDirection = next.getPosition3() - trans.position;
+            }
+            else
+            {
+                //set the enemy to the node to make sure it doesnt get stuck
+                transform.position = target;
+                path.Remove(path[0]);
+            }
         }
     }
 

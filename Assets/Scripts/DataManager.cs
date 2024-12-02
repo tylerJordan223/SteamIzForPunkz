@@ -72,6 +72,13 @@ public class DataManager : MonoBehaviour
     public static void EndLoad()
     {
         anim.SetBool("loading", false);
+
+        //if there is no floor generator at the end of a load then generate a base grid
+        if (!GameObject.Find("FloorGenerator"))
+        {
+            g = new Grid(300, 300, 1);
+            g.checkGrid();
+        }
     }
 
     public static void LoadNextFloor()

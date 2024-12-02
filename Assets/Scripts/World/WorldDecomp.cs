@@ -23,7 +23,6 @@ public class WorldDecomp : MonoBehaviour
 public class WorldNode
 {
     public int x, y;
-    public float startToNode, startToEnd;
     public bool isObstacle;
     public bool isPlayer;
     public bool isDoor;
@@ -40,11 +39,6 @@ public class WorldNode
         isEnemy = _isEnemy;
     }
 
-    public float get_f()
-    {
-        return startToNode + startToEnd;
-    }
-
     public Vector2 getPosition2()
     {
         return new Vector2(x, y);
@@ -56,6 +50,24 @@ public class WorldNode
     }
 }
 
+//a node specifically to do aStar
+public class AStarNode
+{
+    public WorldNode node;
+    public AStarNode parent;
+    public float g, h, f;
+
+    public AStarNode(WorldNode _n, AStarNode _p, float _g, float _h, float _f)
+    {
+        node = _n;
+        parent = _p;
+        g = _g;
+        h = _h;
+        f = _f;
+    }
+}
+
+
 public class Grid
 {
     public WorldNode[,] nodes;
@@ -66,6 +78,7 @@ public class Grid
     private int r;
     private int c;
 
+    //constructor
     public Grid(int l, int h, int _node_size)
     {
         gridLength = l;
@@ -156,6 +169,37 @@ public class Grid
         }
     }
 
+    #region getting nodes
+
+    //returns the node at the position of the transform
+    public WorldNode getNode(Transform t)
+    {
+        WorldNode temp = nodes[(int)Mathf.Round(t.position.x), (int)Mathf.Round(t.position.y)];
+        if (temp != null)
+        {
+            return temp;
+        }
+        else
+        {
+            Debug.Log("Could not find node at position");
+            return null;
+        }
+    }
+    //returns the node at the position given
+    public WorldNode getNode(int x, int y)
+    {
+        WorldNode temp = nodes[x, y];
+        if (temp != null)
+        {
+            return temp;
+        }
+        else
+        {
+            Debug.Log("Could not find node at position");
+            return null;
+        }
+    }
+
     //returns the game object at the given node
     public GameObject getObjectAtNode(WorldNode n)
     {
@@ -208,6 +252,36 @@ public class Grid
         return null;
     }
 
+    //returns the 4 neighbors of the nodes
+    public List<WorldNode> getNodeNeighbors(WorldNode n)
+    {
+        List<WorldNode> neighbors = new List<WorldNode>();
+
+        //test in all 4 directions for neighbors
+        if(getNode(n.x+1, n.y) != null)
+        {
+            neighbors.Add(getNode(n.x + 1, n.y));
+        }
+        if (getNode(n.x + 1, n.y) != null)
+        {
+            neighbors.Add(getNode(n.x - 1, n.y));
+        }
+        if (getNode(n.x + 1, n.y) != null)
+        {
+            neighbors.Add(getNode(n.x, n.y + 1));
+        }
+        if (getNode(n.x + 1, n.y) != null)
+        {
+            neighbors.Add(getNode(n.x, n.y - 1));
+        }
+
+        return neighbors;
+    }
+
+    #endregion getting nodes
+
+    #region setting nodes
+
     //sets the player node variable in the class to playerNode
     public void setPlayerNode()
     {
@@ -249,6 +323,8 @@ public class Grid
         }
     }
 
+    #endregion setting nodes
+
     //checks if an object is in the
     public bool isInGrid(Transform t)
     {
@@ -267,33 +343,131 @@ public class Grid
         return nodes[UnityEngine.Random.Range(0, gridLength), UnityEngine.Random.Range(0, gridHeight)];
     }
 
-    //returns the node at the position of the transform
-    public WorldNode getNode(Transform t)
+    #region Astar
+
+    //getting the manhattan distance between nodes for ASTar
+    public float ManhattanDistance(WorldNode a, WorldNode b)
     {
-        WorldNode temp = nodes[(int)Mathf.Round(t.position.x), (int)Mathf.Round(t.position.y)];
-        if (temp != null)
-        {
-            return temp;
-        }
-        else
-        {
-            Debug.Log("Could not find node at position");
-            return null;
-        }
+        return Mathf.Abs(b.getPosition2().x - a.getPosition2().x) + Mathf.Abs(b.getPosition2().y - a.getPosition2().y);
     }
-    //returns the node at the position given
-    public WorldNode getNode(int x, int y)
+
+    public List<WorldNode> AStarSearchToPlayer(WorldNode n)
     {
-        WorldNode temp = nodes[x, y];
-        if (temp != null)
+        List<AStarNode> open = new List<AStarNode>();
+        List<AStarNode> closed = new List<AStarNode>();
+
+        //all 0 since this is the starting node (also signified by having no parent
+        open.Add(new AStarNode(n, null, 0f, 0f, 0f));
+
+        while(open.Count > 0)
         {
-            return temp;
+            //pop the first node
+            AStarNode q = open[0];
+
+            //find the node with the smalled f (distance)
+            foreach(AStarNode node in open)
+            {
+                if(node.f < q.f)
+                {
+                    q = node;
+                }
+            }
+
+            //remove whatever node ended up being q to pop it
+            open.Remove(q);
+
+            //generate the neighbors
+            List<WorldNode> neighbors = getNodeNeighbors(q.node);
+            List<AStarNode> aNeighbors = new List<AStarNode>();
+            //translate to AStar Nodes
+            foreach(WorldNode node in neighbors)
+            {
+                if(!node.isObstacle)
+                {
+                    //initialize all the values to max since the smaller one is what we are looking for
+                    aNeighbors.Add(new AStarNode(node, q, float.MaxValue, float.MaxValue, float.MaxValue));
+                }
+            }
+
+            //check all the nodes
+            foreach(AStarNode node in aNeighbors)
+            {
+                if(node.node.isPlayer)
+                {
+                    return AStarPath(closed, node);
+                }
+
+                //compute the distance and heuristic values for the node
+                node.g = q.g + 1f; //always 1 cost to move between nodes
+                node.h = ManhattanDistance(node.node, playerNode);
+                node.f = node.g + node.h;
+
+                //will not add if this flag is false
+                bool add = true;
+
+                //check the open list
+                foreach(AStarNode oNode in open)
+                {
+                    //if they are at the same position
+                    if(oNode.node == node.node)
+                    {
+                        //if the one in open list already has a lower f, thne this node will not be added
+                        if(oNode.f < node.f)
+                        {
+                            add = false;
+                        }
+                    }
+                }
+
+                //check the closed list
+                foreach(AStarNode cNode in closed)
+                {
+                    //if they are the same node
+                    if(cNode.node == node.node)
+                    {
+                        //if the one in closed list had a lower f, skip it
+                        if(cNode.f < node.f)
+                        {
+                            add = false;
+                        }
+                    }
+                }
+
+                //if all checks out, add the node to the open list
+                if(add)
+                {
+                    open.Add(node);
+                }
+            }
+
+            //add the node to the closed list
+            closed.Add(q);
         }
-        else
-        {
-            Debug.Log("Could not find node at position");
-            return null;
-        }
+
+        //if it gets here then it never found a path
+        Debug.Log("There was no path to the player");
+        return null;
     }
+
+    //used to return the whole path when finding the last node in AStar
+    public List<WorldNode> AStarPath(List<AStarNode> a_nodes, AStarNode end)
+    {
+        List<WorldNode> path = new List<WorldNode>();
+
+        //find each parent until finding the current position
+        AStarNode temp_node = end;
+        while(temp_node.parent != null)
+        {
+            path.Add(temp_node.node);
+            temp_node = temp_node.parent;
+        }
+
+        //reverse the path so the last node in it is the goal
+        path.Reverse();
+
+        return path;
+    }
+
+    #endregion Astar
 
 }
