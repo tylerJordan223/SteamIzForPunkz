@@ -237,7 +237,7 @@ public class PlayerSpinAttack : MonoBehaviour
             EnemyMovement em = hits[i].collider.gameObject.GetComponent<EnemyMovement>();
 
             //if the collision was an enemy then damage it
-            if (eh != null)
+            if (eh != null && !em.flying)
             {
                 eh.Damage(pdamage * pstats.dynMeleeDamage);
             }

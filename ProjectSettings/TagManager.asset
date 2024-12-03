@@ -22,7 +22,7 @@ TagManager:
   - ObstacleLayer
   - ProjectileLayer
   - Room
-  - 
+  - WallLayer
   - 
   - 
   - 

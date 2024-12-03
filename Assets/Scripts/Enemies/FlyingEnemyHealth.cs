@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyHealth : MonoBehaviour
+public class FlyingEnemyHealth : MonoBehaviour
 {
     //enemy variables
-    private EnemyMovement em;
+    private FlyingEnemyMovement em;
     public RoomScript my_room;
 
     [Header("Health Variables")]
@@ -25,8 +25,8 @@ public class EnemyHealth : MonoBehaviour
     private void Start()
     {
         health = maxHealth;
-        em = GetComponent<EnemyMovement>();
-        sr = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        em = GetComponent<FlyingEnemyMovement>();
+        sr = GetComponent<SpriteRenderer>();
         damageTimer = timeBetweenDamage;
     }
 
@@ -35,9 +35,9 @@ public class EnemyHealth : MonoBehaviour
         damageTimer += Time.deltaTime;
 
         //update visually
-        if(!em.dead)
+        if (!em.dead)
         {
-            if(damageTimer < timeBetweenDamage)
+            if (damageTimer < timeBetweenDamage)
             {
                 sr.color = new Color(em.aliveColor.r, em.aliveColor.g, em.aliveColor.b, 0.5f);
             }
@@ -50,15 +50,15 @@ public class EnemyHealth : MonoBehaviour
 
     public void Damage(float d)
     {
-        if(damageTimer > timeBetweenDamage)
+        if (damageTimer > timeBetweenDamage)
         {
             //reset the timer
             damageTimer = 0f;
             //** PLAY DAMAGE ANIMATION
             //knockback
             em.Knockback();
-            
-            if(health > 0)
+
+            if (health > 0)
             {
                 health -= d;
 
@@ -72,12 +72,12 @@ public class EnemyHealth : MonoBehaviour
     private void Die()
     {
         //kill the enemy
-        this.gameObject.GetComponent<EnemyMovement>().dead = true;
-        this.transform.GetChild(0).GetComponent<SpriteRenderer>().color = deathColor;
+        this.gameObject.GetComponent<FlyingEnemyMovement>().dead = true;
+        this.gameObject.GetComponent<SpriteRenderer>().color = deathColor;
         //drop money
-        int amount_of_coins = Random.Range(1, (int) (4*GameObject.Find("Tric").GetComponent<PlayerStats>().luck) );
+        int amount_of_coins = Random.Range(1, (int)(4 * GameObject.Find("Tric").GetComponent<PlayerStats>().luck));
         //make a random amount of coins based on random
-        for(int i = 0; i < amount_of_coins; i++)
+        for (int i = 0; i < amount_of_coins; i++)
         {
             Instantiate(drop, this.transform.position, this.transform.rotation);
         }

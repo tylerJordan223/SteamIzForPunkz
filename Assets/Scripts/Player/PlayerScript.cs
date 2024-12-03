@@ -62,9 +62,6 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] public float timeBetweenDamage;
     private float damageTimer;
 
-    //decomposed world
-    private Grid g;
-
     private void Start()
     {
         //object variables
@@ -101,12 +98,6 @@ public class PlayerScript : MonoBehaviour
         //damage timer
         damageTimer = timeBetweenDamage;
 
-        //getting the grid from the floor generator
-        GameObject f = GameObject.Find("FloorGenerator");
-        if(f != null)
-        {
-            g = DataManager.g;
-        }
     }
 
     //use for anything non-movement related like math
@@ -278,13 +269,6 @@ public class PlayerScript : MonoBehaviour
         {
             DataManager.g.setPlayerNodeAtNode(DataManager.g.getNode(trans));
         }
-    }
-
-    //temporary function for the sake of grid testing
-    private void RandomPosition()
-    {
-        WorldNode startPos = g.nodes[Random.Range(0, g.gridLength), Random.Range(0, g.gridHeight)];
-        trans.position = new Vector3(startPos.x, startPos.y, 0f);
     }
 
     //to handle collisions

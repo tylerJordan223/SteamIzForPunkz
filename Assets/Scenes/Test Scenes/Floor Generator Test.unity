@@ -635,6 +635,14 @@ PrefabInstance:
       propertyPath: floor_parent
       value: 
       objectReference: {fileID: 2001861663}
+    - target: {fileID: 3821903205521187604, guid: a115b3c5397e3ed4fb7853a8cb6b6bf1, type: 3}
+      propertyPath: room_list.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821903205521187604, guid: a115b3c5397e3ed4fb7853a8cb6b6bf1, type: 3}
+      propertyPath: room_list.Array.data[3]
+      value: 
+      objectReference: {fileID: 4065827680651785898, guid: 8c5e872710d18514586f3c822eccc6d4, type: 3}
     - target: {fileID: 3869123886197327295, guid: a115b3c5397e3ed4fb7853a8cb6b6bf1, type: 3}
       propertyPath: m_Name
       value: FloorGenerator

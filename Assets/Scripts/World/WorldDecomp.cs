@@ -137,23 +137,23 @@ public class Grid
                     if (hit.gameObject.CompareTag("Player"))
                     {
                         nodes[row, col].isPlayer = true;
-                        Debug.DrawRay(starting_position, Vector3.back * 20, Color.cyan, 50000);
+                        Debug.DrawRay(starting_position, Vector3.back * 20, Color.cyan, 10);
                     }
                     else if (hit.gameObject.CompareTag("Door"))
                     {
                         nodes[row, col].isDoor = true;
-                        Debug.DrawRay(starting_position, Vector3.back * 20, Color.gray, 50000);
+                        Debug.DrawRay(starting_position, Vector3.back * 20, Color.gray, 10);
                     }
                     else if (hit.gameObject.CompareTag("enemy"))
                     {
                         nodes[row, col].isEnemy = true;
-                        Debug.DrawRay(starting_position, Vector3.back * 20, Color.magenta, 50000);
+                        Debug.DrawRay(starting_position, Vector3.back * 20, Color.magenta, 10);
                     }
                     else
                     {
                         //hit something unspecified, considered obstacle
                         nodes[row, col].isObstacle = true;
-                        Debug.DrawRay(starting_position, Vector3.back * 20, Color.red, 50000);
+                        Debug.DrawRay(starting_position, Vector3.back * 20, Color.red, 10);
                     }
                 }
                 else
@@ -163,7 +163,6 @@ public class Grid
                     nodes[row, col].isEnemy = false;
                     nodes[row, col].isObstacle = false;
                     //IMPORTANT TO NOTE!!! DOORS WILL ALWAYS STAY TRUE AFTER GENERATION!!!
-                    Debug.DrawRay(starting_position, Vector3.back * 20f, Color.green, 50000);
                 }
             }
         }

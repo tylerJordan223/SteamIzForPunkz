@@ -257,8 +257,14 @@ public class FloorGenerator : MonoBehaviour
 
     private int findPossibleNeighbors(int x, int y)
     {
+        Debug.Log(floorplan.Length);
+        Debug.Log(x + " " + y);
         //check all four sides for would be neighbors according to the floorplan
-        return floorplan[x + 1, y] + floorplan[x - 1, y] + floorplan[x, y + 1] + floorplan[x, y - 1];
+        if (floorplan.Length >= (x+1) && floorplan.Length >= y+1 && x != 0 && y != 0)
+        {
+            return floorplan[x + 1, y] + floorplan[x - 1, y] + floorplan[x, y + 1] + floorplan[x, y - 1];
+        }
+        else return 0;
     }
 
 }
