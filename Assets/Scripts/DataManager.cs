@@ -84,7 +84,14 @@ public class DataManager : MonoBehaviour
     public static void LoadNextFloor()
     {
         floorNumber++;
-        SceneManager.LoadScene("MainFloor");
+        if(floorNumber == 3)
+        {
+            SceneManager.LoadScene("BossRoom");
+        }
+        else
+        {
+            SceneManager.LoadScene("MainFloor");
+        }
     }
 
     public static void RunStart()

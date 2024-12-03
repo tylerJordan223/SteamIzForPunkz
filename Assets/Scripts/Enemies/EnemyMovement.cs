@@ -109,8 +109,6 @@ public class EnemyMovement : MonoBehaviour
         //move towards player
         if (distance > minDistanceFromPlayer)
         {
-            Debug.Log(DataManager.g.ToString());
-            Debug.Log(DataManager.g.playerNode.x);
             targetDirection = DataManager.g.playerNode.getPosition3() - trans.position;
         }
         else if (distance < minDistanceFromPlayer - 0.5)
