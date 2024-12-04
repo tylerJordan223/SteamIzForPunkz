@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class BossHandScript : MonoBehaviour
@@ -16,14 +17,36 @@ public class BossHandScript : MonoBehaviour
     public bool attacking;
     public bool active;
 
+    [Header("Drops on Death")]
+    [SerializeField] private GameObject drop;
+
+    //materials
+    [Header("Handling Materials")]
+    [SerializeField] Material normal;
+    [SerializeField] Material crackle;
+    private Material sprite_mat;
+    private float fade;
+    private float fade_dx;
+    public bool dead;
+
     private void Start()
     {
+        //setting the initial material to be nothing on the sprite
+        sprite_mat = normal;
+        transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().material = sprite_mat;
+        fade = 0f;
+        fade_dx = -0.1f;
+
+        //setting other necessary variables
         DisableIdle();
         my_shadow.SetActive(false);
         head_offset = transform.position.x - boss_head.transform.position.x;
+        
+        //flags
         idle = false;
         active = false;
         attacking = false;
+        dead = false;
     }
 
     private void Update()
@@ -44,20 +67,55 @@ public class BossHandScript : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, new Vector3(player.transform.position.x, player.transform.position.y + (transform.position.y - my_shadow.transform.position.y), 0f), Time.deltaTime);
         }
 
+        //only update if the hands are actively moving
+        if(idle || active || attacking)
+        {
+            UpdateShadow();
+        }
+
+        //handle death
+        if(dead)
+        {
+            if(sprite_mat == normal)
+            {
+                Debug.Log("crackle");
+                sprite_mat = crackle;
+                transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().material = sprite_mat;
+            }
+
+            if(fade <= 0.10)
+            {
+                fade_dx = 1f;
+            }else if(fade >= 0.90)
+            {
+                fade_dx = -1f;
+            }
+
+            fade += fade_dx * Time.deltaTime;
+
+            Debug.Log(transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().material.GetFloat("_Crack"));
+
+            transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().material.SetFloat("_Crack", fade);
+        }else
+        {
+            if(sprite_mat == crackle)
+            {
+                sprite_mat = normal;
+                transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().material = sprite_mat;
+            }
+        }
     }
 
 
     public void EnableIdle()
     {
         parent_anim.enabled = true;
-        my_shadow.SetActive(false);
         idle = true;
     }
 
     public void DisableIdle()
     {
         idle = false;
-        my_shadow.SetActive(true);
         parent_anim.enabled = false;
     }
 
@@ -85,18 +143,44 @@ public class BossHandScript : MonoBehaviour
 
         yield return new WaitForSeconds(5f);
 
-        transform.GetChild(0).gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        anim.SetBool("Drop", false);
+        if(!dead)
+        {
+            transform.GetChild(0).gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            anim.SetBool("Drop", false);
 
-        yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.5f);
 
-        idle = true;
-        attacking = false;
+            idle = true;
+            attacking = false;
 
-        //an extra second before it can attack again (cooldown)
-        yield return new WaitForSeconds(1f);
+            //an extra second before it can attack again (cooldown)
+            yield return new WaitForSeconds(1f);
 
-        my_shadow.GetComponent<CircleCollider2D>().enabled = true;
-        
+            my_shadow.GetComponent<CircleCollider2D>().enabled = true;
+        }
+        else
+        {
+            anim.SetBool("Dead", true);
+        }
+    }
+
+    //makes sure the shadow only shows when its supposed to
+    public void UpdateShadow()
+    {
+        if (my_shadow.transform.position.y < 24f && !my_shadow.activeSelf)
+        {
+            my_shadow.SetActive(true);
+        }
+        else if (my_shadow.transform.position.y > 24f && my_shadow.activeSelf)
+        {
+            my_shadow.SetActive(false);
+        }
+    }
+
+    public void Die()
+    {
+        GameObject charge_item = Instantiate(drop);
+        charge_item.transform.position = transform.position;
+        Destroy(this);
     }
 }

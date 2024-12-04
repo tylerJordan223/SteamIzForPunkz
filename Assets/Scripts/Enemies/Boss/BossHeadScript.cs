@@ -15,6 +15,7 @@ public class BossHeadScript : MonoBehaviour
     [SerializeField] float speed;
 
     private bool idle = true;
+    public bool dead = false;
 
     private void Start()
     {
@@ -23,7 +24,8 @@ public class BossHeadScript : MonoBehaviour
 
     private void Update()
     {
-        if(idle){
+        if (idle)
+        {
             if ((34 <= transform.position.x && transform.position.x <= 55) && (34 < player.transform.position.x && player.transform.position.x < 55))
             {
                 if (transform.position.x < player.transform.position.x - 0.5)
@@ -34,7 +36,8 @@ public class BossHeadScript : MonoBehaviour
                 {
                     transform.position -= new Vector3(speed * Time.deltaTime, 0f, 0f);
                 }
-            }else if((34 < transform.position.x && transform.position.x < 55))
+            }
+            else if ((34 < transform.position.x && transform.position.x < 55))
             {
                 if (player.transform.position.x > 55)
                 {

@@ -232,14 +232,25 @@ public class PlayerSpinAttack : MonoBehaviour
         //check all of the hits
         for (int i = 0; i < hits.Length; i++)
         {
-            //get the enemy's health
-            EnemyHealth eh = hits[i].collider.gameObject.GetComponent<EnemyHealth>();
-            EnemyMovement em = hits[i].collider.gameObject.GetComponent<EnemyMovement>();
-
-            //if the collision was an enemy then damage it
-            if (eh != null && !em.flying)
+            if (hits[i].collider.CompareTag("enemy"))
             {
-                eh.Damage(pdamage * pstats.dynMeleeDamage);
+                //get the enemy's health
+                EnemyHealth eh = hits[i].collider.gameObject.GetComponent<EnemyHealth>();
+                EnemyMovement em = hits[i].collider.gameObject.GetComponent<EnemyMovement>();
+
+                //if the collision was an enemy then damage it
+                if (eh != null && !em.flying)
+                {
+                    eh.Damage(pdamage * pstats.dynMeleeDamage);
+                }
+            }else if (hits[i].collider.CompareTag("boss"))
+            {
+                BossHealth bh = hits[i].collider.gameObject.GetComponent<BossHealth>();
+
+                if(bh != null)
+                {
+                    bh.Damage(pdamage * pstats.dynMeleeDamage);
+                }
             }
         }
     }

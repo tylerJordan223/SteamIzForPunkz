@@ -50,8 +50,16 @@ public class ProjectileScript : MonoBehaviour
                     {
                         foreach(RaycastHit2D h in hits)
                         {
-                            EnemyHealth e = h.collider.gameObject.GetComponent<EnemyHealth>();
-                            e.Damage(projectileDamage);
+                            if(h.collider.CompareTag("enemy"))
+                            {
+                                EnemyHealth e = h.collider.gameObject.GetComponent<EnemyHealth>();
+                                e.Damage(projectileDamage);
+                            }
+                            else if(h.collider.CompareTag("boss"))
+                            {
+                                BossHealth b = h.collider.gameObject.GetComponent<BossHealth>();
+                                b.Damage(projectileDamage);
+                            }
                         }
                     }
 
