@@ -26,7 +26,6 @@ public class ProjectileScript : MonoBehaviour
     {
         if(ricochetCount != 0)
         {
-            Debug.Log("Ricochet Counting");
             //raycast to hit points of damage
             RaycastHit2D hit = Physics2D.Raycast(trans.position + trans.up.normalized/10, trans.up, Mathf.Infinity, LayerMask.GetMask("ObstacleLayer"));
             //multiplied by infinity because that value is not just direction its also distance
