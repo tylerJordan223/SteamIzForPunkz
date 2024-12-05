@@ -80,7 +80,7 @@ public class PlayerSpinAttack : MonoBehaviour
     private void Update()
     {
         //CHARGE ATTACK
-        if (Input.GetKeyDown(KeyCode.Space) && pstats.charges > 0)
+        if (Input.GetKeyDown(KeyCode.Space) && pstats.charges > 0 && spinParent.parent.GetComponent<PlayerScript>().canControl)
         {
             if (!charging)
             {

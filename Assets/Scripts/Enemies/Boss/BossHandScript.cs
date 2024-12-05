@@ -160,6 +160,8 @@ public class BossHandScript : MonoBehaviour
         {
             anim.SetBool("Dead", true);
         }
+
+        boss_head.GetComponent<BossHeadScript>().ResetAttack();
     }
 
     //makes sure the shadow only shows when its supposed to

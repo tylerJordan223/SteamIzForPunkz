@@ -333,6 +333,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6748059099168510684, guid: e661d0651369cca44944622ab2f5cd72, type: 3}
+      propertyPath: overcharged_cell
+      value: 
+      objectReference: {fileID: -3951101787966752553, guid: 9922dcdb817342b4ba36e5b8888363c1, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1220,6 +1224,9 @@ MonoBehaviour:
   anim: {fileID: 2126979871}
   speed: 2
   dead: 0
+  active: 0
+  damage_timer: 0
+  time_between_attacks: 10
 --- !u!4 &1202656090
 Transform:
   m_ObjectHideFlags: 0
