@@ -11,10 +11,12 @@ public class ChargeBar : MonoBehaviour
     private PlayerStats pstats;
     private float charges;
     private float max_charges;
+    private float special_charges;
 
     //images of cells
     [SerializeField] Sprite full_cell;
     [SerializeField] Sprite empty_cell;
+    [SerializeField] Sprite overcharged_cell;
 
     //actual charge objects
     private List<Image> cells;
@@ -44,6 +46,7 @@ public class ChargeBar : MonoBehaviour
             //update to get the player's cell count
             charges = pstats.charges;
             max_charges = pstats.dynMaxCharges;
+            special_charges = pstats.special;
 
             //loop to make sure there are enough cells 
             if (cells.Count < max_charges)
@@ -93,6 +96,12 @@ public class ChargeBar : MonoBehaviour
                 else
                 {
                     cells[f].sprite = full_cell;
+                }
+
+                //update for boss charges
+                if(f + 1 <= special_charges)
+                {
+                    cells[f].sprite = overcharged_cell;
                 }
             }
         }

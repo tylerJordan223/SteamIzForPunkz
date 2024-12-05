@@ -93,8 +93,6 @@ public class BossHandScript : MonoBehaviour
 
             fade += fade_dx * Time.deltaTime;
 
-            Debug.Log(transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().material.GetFloat("_Crack"));
-
             transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().material.SetFloat("_Crack", fade);
         }else
         {
@@ -181,6 +179,7 @@ public class BossHandScript : MonoBehaviour
     {
         GameObject charge_item = Instantiate(drop);
         charge_item.transform.position = transform.position;
-        Destroy(this);
+        charge_item.GetComponent<BossItemScript>().goal_position = new Vector3(transform.position.x, transform.position.y - 3, transform.position.z);
+        Destroy(this.gameObject);
     }
 }

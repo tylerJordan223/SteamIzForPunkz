@@ -42,13 +42,16 @@ public class BossHealth : MonoBehaviour
         damageTimer += Time.deltaTime;
 
         //dont need to check for death because death will be an explosion for the boss
-        if (damageTimer < timeBetweenDamage)
+        if(health > 0)
         {
-            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.5f);
-        }
-        else
-        {
-            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1f);
+            if (damageTimer < timeBetweenDamage)
+            {
+                sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.5f);
+            }
+            else
+            {
+                sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1f);
+            }
         }
     }
 
@@ -63,7 +66,6 @@ public class BossHealth : MonoBehaviour
             {
                 health -= d;
                 //** PLAY DAMAGE ANIMATION
-
                 if (health <= 0)
                 {
                     if(head)

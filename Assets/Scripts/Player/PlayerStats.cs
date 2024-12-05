@@ -206,6 +206,19 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    //special boss stats
+    public float special
+    {
+        get
+        {
+            return stats[9];
+        }
+        set
+        {
+            stats[9] = value;
+        }
+    }
+
     [Header("Money")]
     public float moneyCount;
 
@@ -223,14 +236,14 @@ public class PlayerStats : MonoBehaviour
         iui = GameObject.Find("ItemShowcase").GetComponent<ItemUI>();
 
         //set the names of each stats
-        stats_names = new string[] { "Speed", "dashSpeed", "mDamage", "bDamage", "maxCharges", "maxHealth", "luck", "health", "charges"};
+        stats_names = new string[] { "Speed", "dashSpeed", "mDamage", "bDamage", "maxCharges", "maxHealth", "luck", "health", "charges", "special"};
         weapon_stats_names = new string[] { "Range", "maxSpeed", "Spin Acc", "RechargeTime", "Size", "ChargedSize", "ChargeTime", "Ricochets"};
 
         //if the stats are not initialized:
         if (stats.Length == 0)
         {
             //create new array to store things
-            stats = new float[9];
+            stats = new float[10];
             weapon_stats = new float[8];
 
             //stats 
@@ -241,6 +254,7 @@ public class PlayerStats : MonoBehaviour
             dynMaxCharges = 3f;
             maxHealth = 3f;
             luck = 1f;
+            special = 0f;
 
             health = (float)DataManager.playerHealth;
             charges = (float)DataManager.playerCharges;
@@ -274,7 +288,11 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
-        
+        //special stat specifically:
+        if(special > 0 && charges < special)
+        {
+            charges = special;
+        }
 
         //activates debug stats
         if (Input.GetKeyDown(KeyCode.P))
@@ -370,6 +388,7 @@ public class PlayerStats : MonoBehaviour
         dynSize += item.weapon_size;
         dynChargedSize += item.size_when_charged;
         maxRicochets += item.max_ricochets;
+        special += item.special;
     }
 
     //updates the player at the start of each floor
@@ -392,6 +411,7 @@ public class PlayerStats : MonoBehaviour
             dynSize += item.weapon_size;
             dynChargedSize += item.size_when_charged;
             maxRicochets += item.max_ricochets;
+            special += item.special;
         }
 
         //finished loading once the player has all their items

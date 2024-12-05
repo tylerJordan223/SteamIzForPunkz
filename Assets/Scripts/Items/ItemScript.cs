@@ -38,6 +38,7 @@ public class ItemScript : MonoBehaviour
     public float size_when_charged;
     public float time_to_charge;
     public float max_ricochets;
+    public float special;
 
     //things that will be the same between all items
 
