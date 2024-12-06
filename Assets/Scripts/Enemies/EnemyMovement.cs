@@ -11,9 +11,13 @@ public class EnemyMovement : MonoBehaviour
      * movement types can be turned on or off
      */
 
+    //a check to see if its in a boss room
+    public bool isWithBoss;
+
     //different movement types
     public bool directional;
     public bool astar;
+
 
     //enemy types
     public bool flying;
@@ -66,13 +70,37 @@ public class EnemyMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //pick the type of movement, and only move if alive and player in room
-        if(!dead && gameObject.GetComponent<EnemyHealth>().my_room.active == true && !attacking)
+        if (player == null && GameObject.Find("Tric"))
         {
-            if(directional)
+            player = GameObject.Find("Tric");
+        }
+
+        //pick the type of movement, and only move if alive and player in room
+        if (!dead && gameObject.GetComponent<EnemyHealth>().my_room != null && !attacking)
+        {
+            if(gameObject.GetComponent<EnemyHealth>().my_room.active)
+            {
+                if(directional)
+                {
+                    DirectionalMovement();
+                }else if(astar)
+                {
+                    AstarMovement();
+                }
+
+                //actually add the movement
+                trans.position += speed * Time.deltaTime * targetDirection.normalized;
+            }
+        }
+
+        //specifically for boss
+        if (!dead && isWithBoss && !attacking)
+        {
+            if (directional)
             {
                 DirectionalMovement();
-            }else if(astar)
+            }
+            else if (astar)
             {
                 AstarMovement();
             }
@@ -82,18 +110,13 @@ public class EnemyMovement : MonoBehaviour
         }
 
         //check for punch knockback
-        if(kb)
+        if (kb)
         {
             rb.AddForce(kbDirection.normalized * 200, ForceMode2D.Force);
         }
 
         //slow down any velocity pushed
         rb.velocity *= new Vector2(0.3f,0.3f);
-
-        if(player == null && GameObject.Find("Tric"))
-        {
-            player = GameObject.Find("Tric");
-        }
 
         //update my node
         if(DataManager.g.getNode(transform) != my_node)

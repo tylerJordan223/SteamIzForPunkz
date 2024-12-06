@@ -9,10 +9,15 @@ public class BossHeadScript : MonoBehaviour
     [SerializeField] public GameObject player;
     [SerializeField] GameObject right_hand;
     [SerializeField] GameObject left_hand;
-    [SerializeField] Animator anim;
+    [SerializeField] BoxCollider2D weakPoint;
+
+    //animators
+    [SerializeField] Animator idle_anim;
+    [SerializeField] Animator movement_anim;
 
     [Header("Boss Attributes")]
     [SerializeField] float speed;
+    [SerializeField] GameObject enemy_spawner;
 
     private bool idle = false;
     public bool dead = false;
@@ -25,6 +30,7 @@ public class BossHeadScript : MonoBehaviour
     private void Start()
     {
         DisableIdle();
+        weakPoint.enabled = false;
         damage_timer = 0f;
     }
 
@@ -78,9 +84,13 @@ public class BossHeadScript : MonoBehaviour
     public void PickAttack()
     {
         active = true;
-        int hand_choice = Random.Range(1, 3);
+        int hand_choice = Random.Range(1, 4);
 
-        if(hand_choice == 2 && right_hand)
+        if(hand_choice == 3)
+        {
+            StartCoroutine(SpawnAttack());
+        }
+        else if(hand_choice == 2 && right_hand)
         {
             right_hand.GetComponent<BossHandScript>().FollowPlayer();   
         }else if(hand_choice == 1 && left_hand)
@@ -93,19 +103,47 @@ public class BossHeadScript : MonoBehaviour
 
     public void EnableIdle()
     {
-        anim.enabled = true;
+        idle_anim.enabled = true;
         idle = true;
     }
 
     public void DisableIdle()
     {
-        anim.enabled = false;
+        idle_anim.enabled = false;
         idle = false;
     }
 
     public void ResetAttack()
     {
         active = false;
+        damage_timer = 0f;
+    }
+
+    public IEnumerator SpawnAttack()
+    {
+        DisableIdle();
+        movement_anim.SetBool("spawnAttack", true);
+        //wait until its done spawning
+        yield return new WaitForSeconds(3f);
+
+        weakPoint.enabled = true;
+
+        for(int i = 0; i < 5; i++)
+        {
+            GameObject e = Instantiate(enemy_spawner);
+            e.transform.position = transform.Find("WeakPoint").position;
+            e.transform.position = new Vector3(e.transform.position.x, e.transform.position.y - 1f, e.transform.position.z);
+            yield return new WaitForSeconds(1f);
+        }
+
+        //wait for a bit to allow player to hit the weak point
+        yield return new WaitForSeconds(10f);
+
+        weakPoint.enabled = false;
+        movement_anim.SetBool("spawnAttack", false);
+        yield return new WaitForSeconds(3f);
+
+        EnableIdle();
         damage_timer = 0f;
     }
 }
