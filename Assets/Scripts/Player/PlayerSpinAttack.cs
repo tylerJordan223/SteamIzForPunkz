@@ -153,7 +153,7 @@ public class PlayerSpinAttack : MonoBehaviour
         //loop infinite size alteration until normal size or fully charged
         while(true)
         {
-            if(Input.GetKey(KeyCode.Space))
+            if(Input.GetKey(KeyCode.Space) && spinParent.parent.GetComponent<PlayerScript>().canControl)
             {
                 //break if fully charged
                 if (size == (base_chargedSize + pstats.dynChargedSize))

@@ -90,5 +90,11 @@ public class EnemyHealth : MonoBehaviour
         {
             my_room.enemy_count--;
         }
+
+        //on boss fight so it doesnt get clogged
+        if(gameObject.GetComponent<EnemyMovement>().isWithBoss)
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

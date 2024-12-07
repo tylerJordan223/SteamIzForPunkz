@@ -70,7 +70,7 @@ public class BossHealth : MonoBehaviour
                 {
                     if(head)
                     {
-                        my_head.dead = true;
+                        my_head.StartBreak();
                     }else if(hand)
                     {
                         my_hand.dead = true;
@@ -80,4 +80,11 @@ public class BossHealth : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if(collision.collider.CompareTag("Player") && hand && !my_hand.dead)
+        {
+            collision.gameObject.GetComponent<PlayerScript>().Damage(1f);
+        }
+    }
 }

@@ -12,6 +12,7 @@ TagManager:
   - pickupable
   - Room
   - boss
+  - barrier
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - ProjectileLayer
   - Room
   - WallLayer
-  - 
+  - BarrierLayer
   - 
   - 
   - 

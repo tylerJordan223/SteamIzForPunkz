@@ -167,15 +167,18 @@ public class EnemyMovement : MonoBehaviour
 
     public void Knockback()
     {
-        kbDirection = trans.position - player.transform.position;
-        if (kb)
+        if(player != null)
         {
-            StopCoroutine(IKnockback());
-            StartCoroutine(IKnockback());
-        }
-        else
-        {
-            StartCoroutine(IKnockback());
+            kbDirection = trans.position - player.transform.position;
+            if (kb)
+            {
+                StopCoroutine(IKnockback());
+                StartCoroutine(IKnockback());
+            }
+            else
+            {
+                StartCoroutine(IKnockback());
+            }
         }
     }
 
