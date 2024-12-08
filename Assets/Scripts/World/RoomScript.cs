@@ -9,6 +9,7 @@ public class RoomScript : MonoBehaviour
 {
     public Room my_room;
     public int enemy_count;
+    public bool can_be_locked;
     public bool locked;
     public bool active;
 
@@ -23,6 +24,15 @@ public class RoomScript : MonoBehaviour
         }
         locked = false;
         active = false;
+
+        if(enemy_count >= 1)
+        {
+            can_be_locked = true;
+        }
+        else
+        {
+            can_be_locked = false;
+        }
     }
 
     private void Update()
@@ -31,6 +41,7 @@ public class RoomScript : MonoBehaviour
         {
             my_room.UpdateNeighbors();
             locked = false;
+            can_be_locked = false;
         }
     }
 }

@@ -71,7 +71,6 @@ public class PlayerScript : MonoBehaviour
 
         //graphics
         anim = GetComponent<Animator>();
-        sr = GetComponent<SpriteRenderer>();
 
         //character mechanics
         playerSpeed = 5f;
@@ -153,11 +152,11 @@ public class PlayerScript : MonoBehaviour
         {
             if (damageTimer < timeBetweenDamage)
             {
-                sr.color = new Color(Color.white.r, Color.white.g, Color.white.b, 0.5f);
+                //set face to red x
             }
             else
             {
-                sr.color = new Color(Color.white.r, Color.white.g, Color.white.b, 1f);
+                //set face to normal
             }
         }
 
