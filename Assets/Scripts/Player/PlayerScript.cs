@@ -1,21 +1,9 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-/*
-
-    Purpose: Main Character Control Script
-    Author: King_Korby
-    Date Created: 9/5/2024
-
-    Legend:
-    "//" - Regular Comment
-    "//**" - To Be Added
-    "*temp*" - Temporary line
-
-*/
 
 public class PlayerScript : MonoBehaviour
 {
@@ -51,6 +39,7 @@ public class PlayerScript : MonoBehaviour
     public GameObject currentRoom;
     public List<GameObject> itemList = new List<GameObject>();
     public bool holdingItem;
+    public GameObject currentCamera;
 
     //movement
     public bool canControl;
@@ -89,6 +78,7 @@ public class PlayerScript : MonoBehaviour
         //saved objects
         heldObject = null;
         currentRoom = null;
+        currentCamera = null;
 
         //flags
         canControl = true;
@@ -268,6 +258,8 @@ public class PlayerScript : MonoBehaviour
         {
             DataManager.g.setPlayerNodeAtNode(DataManager.g.getNode(trans));
         }
+
+        //update and close doors if entering a room wtih enemies
     }
 
     //to handle collisions

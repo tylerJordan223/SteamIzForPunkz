@@ -39,6 +39,7 @@ public class RoomScript : MonoBehaviour
     {
         if(enemy_count == 0 && locked)
         {
+            my_room.UpdateDoors();
             my_room.UpdateNeighbors();
             locked = false;
             can_be_locked = false;

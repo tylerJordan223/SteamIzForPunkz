@@ -78,7 +78,7 @@ public class EnemyMovement : MonoBehaviour
         //pick the type of movement, and only move if alive and player in room
         if (!dead && gameObject.GetComponent<EnemyHealth>().my_room != null && !attacking)
         {
-            if(gameObject.GetComponent<EnemyHealth>().my_room.active)
+            if(gameObject.GetComponent<EnemyHealth>().my_room.locked)
             {
                 if(directional)
                 {

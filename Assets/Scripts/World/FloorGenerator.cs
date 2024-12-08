@@ -130,7 +130,10 @@ public class FloorGenerator : MonoBehaviour
                 //spawn player and move it to the first room
                 GameObject p = Instantiate(player);
                 p.name = "Tric";
-                p.transform.position = rooms[0].room.transform.position;
+                //spawn the player at the spawn point
+                p.transform.position = rooms[0].room.transform.Find("SpawnPoint").position;
+                //set spawnpoint to be the playernode
+                DataManager.g.playerNode = DataManager.g.getNode(rooms[0].room.transform.Find("SpawnPoint"));
             }
         }
     }

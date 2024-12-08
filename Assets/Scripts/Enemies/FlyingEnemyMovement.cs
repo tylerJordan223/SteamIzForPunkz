@@ -51,7 +51,7 @@ public class FlyingEnemyMovement : MonoBehaviour
     private void FixedUpdate()
     {
         //pick the type of movement, and only move if alive and player in room
-        if (!dead && gameObject.GetComponent<FlyingEnemyHealth>().my_room.active == true)
+        if (!dead && gameObject.GetComponent<FlyingEnemyHealth>().my_room.locked == true)
         {
             if (directional)
             {
