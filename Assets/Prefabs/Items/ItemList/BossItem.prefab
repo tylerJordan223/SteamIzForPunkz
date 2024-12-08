@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7926277895136057976}
   - component: {fileID: 9064591210562297650}
   - component: {fileID: 1190064447922369405}
-  - component: {fileID: 7876533678464773003}
   m_Layer: 0
   m_Name: BossItem
   m_TagString: Untagged
@@ -169,24 +168,13 @@ MonoBehaviour:
   time_to_charge: 0
   max_ricochets: 0
   special: 1
-  normal: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  glow: {fileID: 2100000, guid: 4b1f31feb3eaee14b85c960c9aa22b25, type: 2}
-  vanish: {fileID: 2100000, guid: 7a7df999b6c6eea4c8d864f2236fbf48, type: 2}
   common_c: {r: 0, g: 0.8018868, b: 0.052463952, a: 1}
   rare_c: {r: 0, g: 0.8202615, b: 1, a: 1}
   epic_c: {r: 0.64169836, g: 0, b: 1, a: 1}
   legendary_c: {r: 1, g: 0.5240724, b: 0, a: 1}
   glow_color: {r: 0, g: 0, b: 0, a: 0}
---- !u!114 &7876533678464773003
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2875653410783181134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7aca21249852fee4a9086a8786afeb8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  goal_position: {x: -0.241, y: 0.669, z: 0}
+  normal: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  glow: {fileID: 2100000, guid: 4b1f31feb3eaee14b85c960c9aa22b25, type: 2}
+  vanish: {fileID: 2100000, guid: 7a7df999b6c6eea4c8d864f2236fbf48, type: 2}
+  starting_position: {x: 0, y: 0, z: 0}
+  goal_position: {x: 0, y: 0, z: 0}

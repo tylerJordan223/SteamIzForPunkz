@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 3f5a2add92f69bc41b9fd2bb6af9dbb0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -148,6 +148,7 @@ MonoBehaviour:
   stats_up: damage
   stats_down: acceleration
   isprite: {fileID: 21300000, guid: 3f5a2add92f69bc41b9fd2bb6af9dbb0, type: 3}
+  repeatable: 1
   common: 1
   rare: 0
   epic: 0
@@ -167,11 +168,14 @@ MonoBehaviour:
   size_when_charged: 0
   time_to_charge: 0
   max_ricochets: 0
-  normal: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  glow: {fileID: 2100000, guid: 4b1f31feb3eaee14b85c960c9aa22b25, type: 2}
-  vanish: {fileID: 2100000, guid: 7a7df999b6c6eea4c8d864f2236fbf48, type: 2}
+  special: 0
   common_c: {r: 0, g: 0.8018868, b: 0.052463952, a: 1}
   rare_c: {r: 0, g: 0.8202615, b: 1, a: 1}
   epic_c: {r: 0.64169836, g: 0, b: 1, a: 1}
   legendary_c: {r: 1, g: 0.5240724, b: 0, a: 1}
   glow_color: {r: 0, g: 0, b: 0, a: 0}
+  normal: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  glow: {fileID: 2100000, guid: 4b1f31feb3eaee14b85c960c9aa22b25, type: 2}
+  vanish: {fileID: 2100000, guid: 7a7df999b6c6eea4c8d864f2236fbf48, type: 2}
+  starting_position: {x: 0, y: 0, z: 0}
+  goal_position: {x: 0, y: 0, z: 0}

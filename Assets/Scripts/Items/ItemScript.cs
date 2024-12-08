@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class ItemScript : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class ItemScript : MonoBehaviour
     [SerializeField] public string stats_up;
     [SerializeField] public string stats_down;
     [SerializeField] public Sprite isprite;
+    [SerializeField] public bool repeatable;
 
     //rarities
     [Header("Item Rarity")]
@@ -40,7 +42,18 @@ public class ItemScript : MonoBehaviour
     public float max_ricochets;
     public float special;
 
+    public float charges;
+    public float health;
+
     //things that will be the same between all items
+
+    //rarity colors
+    [Header("Rarity")]
+    [SerializeField] Color common_c;
+    [SerializeField] Color rare_c;
+    [SerializeField] Color epic_c;
+    [SerializeField] Color legendary_c;
+    public Color glow_color;
 
     //materials
     [Header("Handling Materials")]
@@ -52,17 +65,18 @@ public class ItemScript : MonoBehaviour
     private float fade;
     private bool picked_up;
 
-    //rarity colors
-    [SerializeField] Color common_c;
-    [SerializeField] Color rare_c;
-    [SerializeField] Color epic_c;
-    [SerializeField] Color legendary_c;
-    public Color glow_color;
+    //positioning
+    [Header("positioning")]
+    public Vector3 starting_position;
+    public Vector3 goal_position;
 
     private void Start()
     {
         //setting the initial material to be nothing
         this.gameObject.GetComponent<SpriteRenderer>().material = normal;
+
+        //handling initialization
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
 
         on_player = false;
         picked_up = false;
@@ -105,6 +119,16 @@ public class ItemScript : MonoBehaviour
         if (this.gameObject.GetComponent<SpriteRenderer>().material.HasFloat("_Fade"))
         {
             this.gameObject.GetComponent<SpriteRenderer>().material.SetFloat("_Fade", fade);
+        }
+
+        //handling movement
+        if (transform.position.y > goal_position.y + 0.5 || transform.position.x > goal_position.x + 0.5)
+        {
+            transform.position = Vector3.Lerp(transform.position, goal_position, 1f * Time.deltaTime);
+        }
+        else
+        {
+            gameObject.GetComponent<BoxCollider2D>().enabled = true;
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -154,3 +178,4 @@ public class ItemScript : MonoBehaviour
         }
     }
 }
+

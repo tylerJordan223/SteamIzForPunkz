@@ -176,7 +176,7 @@ public class BossHeadScript : MonoBehaviour
     public void Break()
     {
         GameObject bd = Instantiate(bossDrop);
-        bd.transform.position = transform.position;
-        bd.GetComponent<BossItemScript>().goal_position = new Vector3(transform.position.x, transform.position.y - 10, transform.position.z);
+        bd.GetComponent<ItemScript>().starting_position = transform.position;
+        bd.GetComponent<ItemScript>().goal_position = new Vector3(transform.position.x, transform.position.y - 10, transform.position.z);
     }
 }

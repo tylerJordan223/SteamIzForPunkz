@@ -367,11 +367,6 @@ public class PlayerStats : MonoBehaviour
 
     public void NewItem(ItemScript item)
     {
-        //adding item to the list of held items
-        DataManager.inventory.Add(item);
-        //showing the item in the UI
-        StartCoroutine(iui.show_item(item));
-
         //updating all the stats
         dynSpeed += item.speed;
         dynDashSpeed += item.dash_speed;
@@ -389,6 +384,16 @@ public class PlayerStats : MonoBehaviour
         dynChargedSize += item.size_when_charged;
         maxRicochets += item.max_ricochets;
         special += item.special;
+        charges += item.charges;
+        health += item.health;
+
+        //adding item to the list of held items
+        ItemScript new_item;
+        new_item = item;
+        DataManager.inventory.Add(new_item);
+
+        //showing the item in the UI
+        StartCoroutine(iui.show_item(item));
     }
 
     //updates the player at the start of each floor

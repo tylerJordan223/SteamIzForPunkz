@@ -179,9 +179,9 @@ public class BossHandScript : MonoBehaviour
 
     public void Die()
     {
-        GameObject charge_item = Instantiate(drop);
-        charge_item.transform.position = transform.position;
-        charge_item.GetComponent<BossItemScript>().goal_position = new Vector3(transform.position.x, transform.position.y - 3, transform.position.z);
+        GameObject bd = Instantiate(drop);
+        bd.GetComponent<ItemScript>().starting_position = transform.position;
+        bd.GetComponent<ItemScript>().goal_position = new Vector3(transform.position.x, transform.position.y - 10, transform.position.z);
         Destroy(this.gameObject);
     }
 }
