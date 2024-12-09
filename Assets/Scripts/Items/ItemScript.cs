@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class ItemScript : MonoBehaviour
 {
@@ -122,13 +120,14 @@ public class ItemScript : MonoBehaviour
         }
 
         //handling movement
-        if (transform.position.y > goal_position.y + 0.5 || transform.position.x > goal_position.x + 0.5)
+        if (transform.position.y > goal_position.y + 0.2 || transform.position.x > goal_position.x + 0.2 || transform.position.y < goal_position.y - 0.2 || transform.position.x < goal_position.x - 0.2)
         {
             transform.position = Vector3.Lerp(transform.position, goal_position, 1f * Time.deltaTime);
         }
         else
         {
             gameObject.GetComponent<BoxCollider2D>().enabled = true;
+            transform.position = goal_position;
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)

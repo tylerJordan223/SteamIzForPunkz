@@ -7,6 +7,7 @@ public class MachineScript : MonoBehaviour
 {
     [SerializeField] ItemMachineScript my_machine;
     [SerializeField] SpriteRenderer my_sr;
+    [SerializeField] Animator anim;
 
     private void Update()
     {
@@ -24,6 +25,19 @@ public class MachineScript : MonoBehaviour
                 transform.GetChild(0).GetComponent<TextMeshPro>().sortingOrder = my_sr.sortingOrder+2;
             }
         }
+    }
+
+    //method to be used in animation to trigger the item spawn
+    public void EndAnimation()
+    {
+        anim.SetBool("cycling", false);
+        my_machine.SpinForItem();
+    }
+
+    public void StartAnimation()
+    {
+        anim.SetBool("cycling", true);
+        my_machine.spinning = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
