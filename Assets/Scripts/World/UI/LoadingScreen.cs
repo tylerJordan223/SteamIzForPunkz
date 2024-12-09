@@ -12,4 +12,8 @@ public class LoadingScreen : MonoBehaviour
     {
         DataManager.playing = true;
     }
+    public void TriggerSpawnPoint()
+    {
+        GameObject.Find("SpawnPoint").GetComponent<SpawnScript>().StartSpawn();
+    }
 }

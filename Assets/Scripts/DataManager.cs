@@ -82,8 +82,6 @@ public class DataManager : MonoBehaviour
             g.playerNode = g.getNode(GameObject.Find("Tric").transform);
         }
 
-        //allow the player to move
-        GameObject.Find("Tric").GetComponent<PlayerScript>().canControl = true;
     }
 
     public static void LoadNextFloor()
