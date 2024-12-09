@@ -45,13 +45,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   room_list:
-  - {fileID: 4065827680651785898, guid: 7f60e54467cbd8f41a6ef67fb80ec484, type: 3}
-  - {fileID: 4065827680651785898, guid: 3ac4f6f0f1959d5479336f93588d1d27, type: 3}
-  - {fileID: 4065827680651785898, guid: 8c5e872710d18514586f3c822eccc6d4, type: 3}
+  - {fileID: 4065827680651785898, guid: 2b4f94a1ba34396479e71b55d46d4c6c, type: 3}
+  - {fileID: 4065827680651785898, guid: e965d35ece057d8489f620b3eb18e24c, type: 3}
+  - {fileID: 4065827680651785898, guid: 31d235f59376e1045a610688663ec237, type: 3}
+  - {fileID: 4065827680651785898, guid: 958e4e76290156048ba293ebd735468f, type: 3}
+  - {fileID: 4065827680651785898, guid: b3c07319bd8df1c47966767eff2050e9, type: 3}
+  - {fileID: 4065827680651785898, guid: 522f32b2f5e53ca4eaa8c0cb3460fd38, type: 3}
   player: {fileID: 8678102156351474676, guid: bc9fb88e12f19384fad297d81bc70291, type: 3}
+  player_ui: {fileID: 0}
   floor_parent: {fileID: 0}
   first_room: {fileID: 0}
   exit_room: {fileID: 4065827680651785898, guid: 98116bbaea15bb047992807110e4f526, type: 3}
   item_room: {fileID: 4065827680651785898, guid: 15f0ef24523bf474c9fbd55fe82fd5e7, type: 3}
-  maxRooms: 30
-  minRooms: 15

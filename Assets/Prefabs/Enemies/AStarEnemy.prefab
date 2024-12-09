@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3280264584431541030}
   - component: {fileID: -4599647358918015069}
   m_Layer: 6
-  m_Name: TestEnemyAStar
+  m_Name: AStarEnemy
   m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,10 +49,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed9e70dfe07c53d42bbf2ab34b2d5efa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isWithBoss: 0
   directional: 0
   astar: 1
   flying: 0
-  speed: 3
+  speed: 2
   minDistanceFromPlayer: 0
   dead: 0
   aliveColor: {r: 0.7686275, g: 0.7843138, b: 0.34509805, a: 1}
