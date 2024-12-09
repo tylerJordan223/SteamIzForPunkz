@@ -139,6 +139,11 @@ public class PlayerScript : MonoBehaviour
                 StartCoroutine(Dash());
             }
         }
+        else
+        {
+            //if can't control then stop
+            inputVector = new Vector2(0f, 0f);
+        }
 
         //updates damage visually
         damageTimer += Time.deltaTime;

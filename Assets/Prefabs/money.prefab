@@ -77,8 +77,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0.7064719, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 3f10962b56e785c4f859d22bd24c715a, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -101,6 +101,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worth: 0
+  sr: {fileID: 2395235176547029339}
+  money:
+  - {fileID: 21300000, guid: 3f10962b56e785c4f859d22bd24c715a, type: 3}
+  - {fileID: 21300000, guid: 2e49325bf0f9aff49b743fa8c332155e, type: 3}
+  nickel: {fileID: 21300000, guid: 0cd326375b1ac0045b695c9f26490366, type: 3}
 --- !u!58 &9132252795950239949
 CircleCollider2D:
   m_ObjectHideFlags: 0

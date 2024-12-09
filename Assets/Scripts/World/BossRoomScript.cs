@@ -26,7 +26,7 @@ public class BossRoomScript : MonoBehaviour
 
     private void Update()
     {
-        if (room_script.active && entrance_playable)
+        if (room_script.active && entrance_playable && !DataManager.g.playerNode.isDoor)
         {
             entrance_playable = false;
             entrance_cutscene.Play();

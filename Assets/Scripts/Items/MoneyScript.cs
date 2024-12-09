@@ -21,7 +21,9 @@ public class MoneyScript : MonoBehaviour
     private PlayerScript player;
     private bool pickupable;
     private bool to_player;
+    private bool rush;
     public float worth;
+    private GameObject my_room;
 
     //random factors
     private float r_disx;
@@ -33,8 +35,15 @@ public class MoneyScript : MonoBehaviour
     private float lerpSpeed = 1f;
     private Rigidbody2D rb;
 
+    [Header("Sprites")]
+    [SerializeField] SpriteRenderer sr;
+    [SerializeField] List<Sprite> money;
+    [SerializeField] Sprite nickel;
+
     private void Start()
     {
+        my_room = GameObject.Find("Tric").GetComponent<PlayerScript>().currentRoom;
+
         //not pickupable initially
         pickupable = false;
         rb = GetComponent<Rigidbody2D>();
@@ -46,9 +55,18 @@ public class MoneyScript : MonoBehaviour
         }
 
         //determine the cost
-        float r = Random.Range(1f, 10f);
-        //20% chance to be worth 5 instead of 1 (Brass instead of Copper)
-        if (r < 8) { worth = 1f; } else { worth = 5f; };
+        float r = Random.Range(3f, 100f);
+        //3% chance to be worth 5 instead of 1 (Brass instead of Copper)
+        if (r > 3) 
+        {
+            worth = 1f;
+            sr.sprite = money[Random.Range(0,money.Count)];
+        }
+        else 
+        { 
+            worth = 5f;
+            sr.sprite = nickel;
+        }
 
         //get the random location's x and y, and also making sure its at least 0.05
         r_disx = Random.Range(-1f, 1f);
@@ -78,6 +96,17 @@ public class MoneyScript : MonoBehaviour
             //repeat from other code just with the player instead
             Vector3 iPosition = Vector3.Lerp(t.position, player.transform.position, Time.deltaTime * lerpSpeed * 1.5f);
             t.position = iPosition;
+        }
+
+        if(rush)
+        {
+            Vector3 iPosition = Vector3.Lerp(t.position, player.transform.position, Time.deltaTime * lerpSpeed * 5f);
+            t.position = iPosition;
+        }
+
+        if(my_room != GameObject.Find("Tric").GetComponent<PlayerScript>().currentRoom)
+        {
+            rush = true;
         }
 
         rb.velocity = new Vector3(0f,0f,0f);
