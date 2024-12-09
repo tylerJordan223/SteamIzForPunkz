@@ -50,3 +50,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: World
+    uniqueID: 735496957
+    locked: 0
+  - name: Player
+    uniqueID: 1521273449
+    locked: 0

@@ -17,7 +17,6 @@ public class PlayerSpinAttack : MonoBehaviour
 
     //changable variables
     [Header("Base Values")]
-    [SerializeField] public Color myColor;
     [SerializeField] public float base_range = 1.5f;
     [SerializeField] public float pdamage = 1f;
     [SerializeField] private LayerMask alayer;
@@ -43,9 +42,11 @@ public class PlayerSpinAttack : MonoBehaviour
     public float base_chargeTime = 1f;
     public float base_rechargeTime = 3f;
     public float base_chargedSize = 6f;
-    [SerializeField] public Color chargingColor;
-    [SerializeField] public Color chargedColor;
-    [SerializeField] public Color cooldownColor;
+    [SerializeField] SpriteRenderer CannonSprite;
+    [SerializeField] public Sprite baseCharge;
+    [SerializeField] public Sprite charging_s;
+    [SerializeField] public Sprite charged_s;
+    [SerializeField] public Sprite cooldown_s;
 
     private void Start()
     {
@@ -68,7 +69,7 @@ public class PlayerSpinAttack : MonoBehaviour
         //base stats for charge attack
         base_chargeTime = 1f;
         base_rechargeTime = 3f;
-        base_chargedSize = base_size + 5f;
+        base_chargedSize = base_size + 1f;
 
         //necessary objects
         ptrans = this.gameObject.transform;
@@ -97,6 +98,8 @@ public class PlayerSpinAttack : MonoBehaviour
         {
             Attack();
         }
+
+        UpdateAnimation();
     }
 
     //for all things movement
@@ -143,7 +146,7 @@ public class PlayerSpinAttack : MonoBehaviour
         //begin charging
         charging = true;
         //set the color to charging
-        aColor.color = chargingColor;
+        CannonSprite.sprite = charging_s;
 
         //save values to be re-applied possibly later
         float maxSpeed_holder = base_maxSpeed;
@@ -161,7 +164,7 @@ public class PlayerSpinAttack : MonoBehaviour
                     break;
                 }
                 //increase in size if held  
-                pstats.dynSize += 1f;
+                pstats.dynSize += 0.2f;
                 //slow down
                 base_spinAcceleration *= 0.7f;
                 base_maxSpeed -= 2.5f;
@@ -176,7 +179,7 @@ public class PlayerSpinAttack : MonoBehaviour
                 else
                 {
                     //decrease if not held
-                    pstats.dynSize -= 1f;
+                    pstats.dynSize -= 0.2f;
                     //speed up
                     base_spinAcceleration /= 0.7f;
                     base_maxSpeed += 2.5f;
@@ -190,7 +193,7 @@ public class PlayerSpinAttack : MonoBehaviour
         if(size == (base_chargedSize + pstats.dynChargedSize))
         {
             //set the color to charged
-            aColor.color = chargedColor;
+            CannonSprite.sprite = charged_s;
             while(true)
             {
                 if(!Input.GetKey(KeyCode.Space))
@@ -203,7 +206,7 @@ public class PlayerSpinAttack : MonoBehaviour
 
                     //wait a second before returning controls
                     canControl = false;
-                    aColor.color = cooldownColor;
+                    CannonSprite.sprite = cooldown_s;
                     yield return new WaitForSeconds(base_rechargeTime + pstats.dynRechargeTime);
 
                     //return controls back to normal
@@ -220,7 +223,7 @@ public class PlayerSpinAttack : MonoBehaviour
         }
 
         //no longer charging and color back to normal
-        aColor.color = myColor;
+        CannonSprite.sprite = baseCharge;
         charging = false;
     }
 
@@ -267,6 +270,21 @@ public class PlayerSpinAttack : MonoBehaviour
         p.transform.up = (atrans.position - ptrans.position).normalized;
         //remove a charge from the shot
         pstats.charges--;
+    }
+
+    private void UpdateAnimation()
+    {
+        //updating the sorting layer of the attacking arm
+        if (atrans.position.y > ptrans.position.y)
+        {
+            spinParent.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = ptrans.Find("Sprites").GetChild(0).GetComponent<SpriteRenderer>().sortingOrder - 1;
+            spinParent.GetChild(1).GetComponent<SpriteRenderer>().sortingOrder = ptrans.Find("Sprites").GetChild(0).GetComponent<SpriteRenderer>().sortingOrder - 2;
+        }
+        else
+        {
+            spinParent.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = ptrans.Find("Sprites").GetChild(0).GetComponent<SpriteRenderer>().sortingOrder + 2;
+            spinParent.GetChild(1).GetComponent<SpriteRenderer>().sortingOrder = ptrans.Find("Sprites").GetChild(0).GetComponent<SpriteRenderer>().sortingOrder + 1;
+        }
     }
 
     //DEBUG PURPOSES ONLY//

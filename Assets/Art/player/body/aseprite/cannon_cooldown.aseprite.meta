@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: eaf28c068b478594f81ee000ba54f3ec
+guid: 44e26965bc760b141b5f410dc3b6d859
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -121,18 +121,18 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: body_base
+  - name: cannon_cooldown
     originalName: 
-    pivot: {x: 0.48936167, y: 0}
+    pivot: {x: 0.5, y: -0.3888889}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 47
-      height: 64
-    spriteID: b2e8437ea315a294284ebca376280a25
+      width: 32
+      height: 18
+    spriteID: b22b29afe85ab864192b90db5ad75467
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -144,24 +144,24 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: -1176069798
-    name: body_base
+    guid: -1557542131
+    name: cannon_cooldown
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: body_base
+    - name: cannon_cooldown
       frameIndex: 0
       cellRect:
-        x: 9
-        y: 0
-        width: 47
-        height: 64
-      spriteId: b2e8437ea315a294284ebca376280a25
+        x: 0
+        y: 7
+        width: 32
+        height: 18
+      spriteId: b22b29afe85ab864192b90db5ad75467
     linkedCells: []
     parentIndex: -1
   platformSettings: []
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 64, y: 64}
+  canvasSize: {x: 32, y: 32}

@@ -51,6 +51,10 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] public float timeBetweenDamage;
     private float damageTimer;
 
+    [Header("Animation")]
+    [SerializeField] Animator head_anim;
+    [SerializeField] Animator body_anim;
+
     private void Start()
     {
         //object variables
@@ -130,7 +134,7 @@ public class PlayerScript : MonoBehaviour
             }
 
             //dash
-            if (Input.GetKeyDown(KeyCode.F) && canDash)
+            if (Input.GetKeyDown(KeyCode.F) && canDash && !(inputVector.x == 0f && inputVector.y == 0f))
             {
                 StartCoroutine(Dash());
             }
@@ -249,7 +253,36 @@ public class PlayerScript : MonoBehaviour
     //Update the Animation
     private void UpdateAnimation()
     {
-        //** Update all the animation
+        Vector2 anim_vector = lastInputVector.normalized;
+
+        //setting the values necessary
+        head_anim.SetFloat("x", anim_vector.x);
+        body_anim.SetFloat("x", anim_vector.x);
+        head_anim.SetFloat("y", anim_vector.y);
+        body_anim.SetFloat("y", anim_vector.y);
+
+        //updating for idle
+        if(inputVector.x == 0f && inputVector.y == 0f)
+        {
+            //make sure the animation speed of the body is 0 if this is the case
+            body_anim.SetBool("idle", true);
+        }
+        else
+        {
+            body_anim.SetBool("idle", false);
+            //scaling the animation speed with the player speed
+            body_anim.speed = 1 + pstats.dynSpeed;
+        }
+
+        //updating for damage
+        if(damageTimer < timeBetweenDamage)
+        {
+            head_anim.SetBool("hurt", true);
+        }
+        else
+        {
+            head_anim.SetBool("hurt", false);
+        }
     }
 
     private void UpdatePlayerNode()

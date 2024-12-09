@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: eaf28c068b478594f81ee000ba54f3ec
+guid: 847d237662aedd847a3232fc4e5c6e7e
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -121,18 +121,18 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: body_base
+  - name: damaged
     originalName: 
-    pivot: {x: 0.48936167, y: 0}
+    pivot: {x: 0.5, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 47
-      height: 64
-    spriteID: b2e8437ea315a294284ebca376280a25
+      width: 54
+      height: 62
+    spriteID: 864dd78b4101fe9429fbe384aab9375b
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -141,23 +141,51 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
+  - name: damaged_Frame_1
+    originalName: 
+    pivot: {x: 0.5, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 66
+      y: 4
+      width: 54
+      height: 62
+    spriteID: 7ffaed025283a4b47b5e1443c56dbb25
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 66, y: 4}
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: -1176069798
-    name: body_base
+    guid: -108371453
+    name: damaged
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: body_base
+    - name: damaged_Frame_0
       frameIndex: 0
       cellRect:
-        x: 9
+        x: 5
         y: 0
-        width: 47
-        height: 64
-      spriteId: b2e8437ea315a294284ebca376280a25
+        width: 54
+        height: 62
+      spriteId: 864dd78b4101fe9429fbe384aab9375b
+    - name: damaged_Frame_1
+      frameIndex: 1
+      cellRect:
+        x: 5
+        y: 0
+        width: 54
+        height: 62
+      spriteId: 7ffaed025283a4b47b5e1443c56dbb25
     linkedCells: []
     parentIndex: -1
   platformSettings: []
