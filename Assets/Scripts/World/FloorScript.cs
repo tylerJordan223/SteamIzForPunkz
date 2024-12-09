@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FloorScript : MonoBehaviour
 {
@@ -69,7 +70,10 @@ public class FloorScript : MonoBehaviour
                     {
                         parentRoom.GetComponent<RoomScript>().locked = true;
                         parentRoom.GetComponent<RoomScript>().my_room.CloseDoors();
-                        parentRoom.GetComponent<RoomScript>().my_room.CloseNeighbors();
+                        if(SceneManager.GetActiveScene().name != "BossRoom")
+                        {
+                            parentRoom.GetComponent<RoomScript>().my_room.CloseNeighbors();
+                        }
                     }
                 }
             }

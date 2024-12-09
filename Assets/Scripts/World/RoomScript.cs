@@ -2,8 +2,10 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RoomScript : MonoBehaviour
 {
@@ -20,7 +22,10 @@ public class RoomScript : MonoBehaviour
         for(int i = 0; i < transform.Find("Enemies").childCount; i++)
         {
             enemy_count++;
-            transform.Find("Enemies").GetChild(i).gameObject.GetComponent<EnemyHealth>().my_room = this;
+            if(transform.Find("Enemies").GetChild(i).CompareTag("enemy"))
+            {
+                transform.Find("Enemies").GetChild(i).gameObject.GetComponent<EnemyHealth>().my_room = this;
+            }
         }
         locked = false;
         active = false;
@@ -32,6 +37,12 @@ public class RoomScript : MonoBehaviour
         else
         {
             can_be_locked = false;
+        }
+
+        //ONLY DO THIS FOR SPAWN BECAUSE OF BOSSES
+        if(SceneManager.GetActiveScene().name == "BossRoom" && gameObject.name == "SpawnRoom")
+        {
+            my_room = new Room(gameObject, DataManager.g, null, 0, 0);
         }
     }
 
@@ -167,24 +178,27 @@ public class Room
         foreach (GameObject door in doors)
         {
             //get the node for the current door
-            WorldNode tempNode = g.getNode(door.transform);
+            if(!g.getNode(door.transform).IsUnityNull())
+            {
+                WorldNode tempNode = g.getNode(door.transform);
 
-            //check all 4 sides to see if theres a door, and if there is, add the room that the door is in to the script
-            if (g.getNode(tempNode.x + 1, tempNode.y).isDoor)
-            {
-                r.Add(g.getRoomGameObjectAtNode(g.getNode(tempNode.x + 1, tempNode.y)).GetComponent<RoomScript>().my_room);
-            }
-            if (g.getNode(tempNode.x - 1, tempNode.y).isDoor)
-            {
-                r.Add(g.getRoomGameObjectAtNode(g.getNode(tempNode.x - 1, tempNode.y)).GetComponent<RoomScript>().my_room);
-            }
-            if (g.getNode(tempNode.x, tempNode.y + 1).isDoor)
-            {
-                r.Add(g.getRoomGameObjectAtNode(g.getNode(tempNode.x, tempNode.y + 1)).GetComponent<RoomScript>().my_room);
-            }
-            if (g.getNode(tempNode.x, tempNode.y - 1).isDoor)
-            {
-                r.Add(g.getRoomGameObjectAtNode(g.getNode(tempNode.x, tempNode.y - 1)).GetComponent<RoomScript>().my_room);
+                //check all 4 sides to see if theres a door, and if there is, add the room that the door is in to the script
+                if (g.getNode(tempNode.x + 1, tempNode.y).isDoor)
+                {
+                    r.Add(g.getRoomGameObjectAtNode(g.getNode(tempNode.x + 1, tempNode.y)).GetComponent<RoomScript>().my_room);
+                }
+                if (g.getNode(tempNode.x - 1, tempNode.y).isDoor)
+                {
+                    r.Add(g.getRoomGameObjectAtNode(g.getNode(tempNode.x - 1, tempNode.y)).GetComponent<RoomScript>().my_room);
+                }
+                if (g.getNode(tempNode.x, tempNode.y + 1).isDoor)
+                {
+                    r.Add(g.getRoomGameObjectAtNode(g.getNode(tempNode.x, tempNode.y + 1)).GetComponent<RoomScript>().my_room);
+                }
+                if (g.getNode(tempNode.x, tempNode.y - 1).isDoor)
+                {
+                    r.Add(g.getRoomGameObjectAtNode(g.getNode(tempNode.x, tempNode.y - 1)).GetComponent<RoomScript>().my_room);
+                }
             }
         }
         return r;

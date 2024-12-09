@@ -17,6 +17,7 @@ public class BossRoomScript : MonoBehaviour
     private void Start()
     {
         room_script = GetComponent<RoomScript>();
+        room_script.my_room = new Room(gameObject, DataManager.g, null, 0, 1);
 
         //cutscene flags
         entrance_playable = true;
@@ -25,7 +26,7 @@ public class BossRoomScript : MonoBehaviour
 
     private void Update()
     {
-        if(room_script.active && entrance_playable)
+        if (room_script.active && entrance_playable)
         {
             entrance_playable = false;
             entrance_cutscene.Play();
