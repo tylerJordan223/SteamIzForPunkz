@@ -39,8 +39,8 @@ public class RoomScript : MonoBehaviour
     {
         if(enemy_count == 0 && locked)
         {
-            my_room.UpdateDoors();
-            my_room.UpdateNeighbors();
+            my_room.OpenDoors();
+            my_room.OpenNeighbors();
             locked = false;
             can_be_locked = false;
         }
@@ -212,8 +212,14 @@ public class Room
             //check all 4 sides to see if theres a door, and if there is then change sprite to clear and disable collision
             if ((g.getNode(tempNode.x + 1, tempNode.y).isDoor) || (g.getNode(tempNode.x - 1, tempNode.y).isDoor) || (g.getNode(tempNode.x, tempNode.y + 1).isDoor) || (g.getNode(tempNode.x, tempNode.y - 1).isDoor))
             {
-                door.GetComponent<SpriteRenderer>().color = Color.clear;
+                door.GetComponent<DoorScript>().open = true;
                 door.GetComponent<BoxCollider2D>().enabled = false;
+            }
+            else
+            {
+                //if there is no room through a door it becomes a wall
+                door.GetComponent<DoorScript>().wall = true;
+                door.GetComponent<BoxCollider2D>().enabled = true;
             }
         }
     }
@@ -238,8 +244,8 @@ public class Room
     {
         foreach (GameObject door in doors)
         {
-            door.GetComponent<SpriteRenderer>().color = Color.clear;
             door.GetComponent<BoxCollider2D>().enabled = false;
+            door.GetComponent<DoorScript>().open = true;
         }
     }
 
@@ -248,8 +254,8 @@ public class Room
     {
         foreach (GameObject door in doors)
         {
-            door.GetComponent<SpriteRenderer>().color = Color.white;
             door.GetComponent<BoxCollider2D>().enabled = true;
+            door.GetComponent<DoorScript>().open = false;
         }
     }
 

@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ae25cc76fe4b57e4189ec780839ba7ff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -190,7 +190,7 @@ TrailRenderer:
   m_MaskInteraction: 0
   m_Autodestruct: 0
   m_Emitting: 1
-  m_ApplyActiveColorSpace: 1
+  m_ApplyActiveColorSpace: 0
 --- !u!114 &212032627974828472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,7 +203,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfee390699497f443be633590da4efa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRicochets: 3
+  projectileDamage: 0
+  ricochetCount: 0
 --- !u!58 &4192416132506642427
 CircleCollider2D:
   m_ObjectHideFlags: 0
