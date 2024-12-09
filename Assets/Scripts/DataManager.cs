@@ -79,6 +79,9 @@ public class DataManager : MonoBehaviour
             g = new Grid(300, 300, 1);
             g.checkGrid();
         }
+
+        //allow the player to move
+        GameObject.Find("Tric").GetComponent<PlayerScript>().canControl = true;
     }
 
     public static void LoadNextFloor()

@@ -18,7 +18,10 @@ public class MenuManager : MonoBehaviour
         //swap between paused and not paused by pressing escape
         if (DataManager.playing && Input.GetKeyDown(KeyCode.Escape))
         {
-            CyclePause();
+            if(GameObject.Find("Tric").GetComponent<PlayerScript>().canControl)
+            {
+                CyclePause();
+            }
         }
     }
 

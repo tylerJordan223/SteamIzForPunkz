@@ -142,17 +142,6 @@ public class PlayerScript : MonoBehaviour
 
         //updates damage visually
         damageTimer += Time.deltaTime;
-        if (pstats.health > 0)
-        {
-            if (damageTimer < timeBetweenDamage)
-            {
-                //set face to red x
-            }
-            else
-            {
-                //set face to normal
-            }
-        }
 
         //checks for when the player is dashing
         if (dashing)
@@ -217,10 +206,10 @@ public class PlayerScript : MonoBehaviour
     //handle the death sequence
     IEnumerator Death()
     {
-        //** set animation to dead
-        //** wait for animation to end
-        Application.Quit();
-        /*temp*/yield return null;
+        inputVector = new Vector2(0f, 0f);
+        head_anim.SetBool("dead", true);
+        yield return new WaitForSeconds(4f);
+        GameObject.Find("GameOver").GetComponent<Animator>().SetBool("over", true);
     }
 
     //handle the dash
@@ -275,7 +264,7 @@ public class PlayerScript : MonoBehaviour
         }
 
         //updating for damage
-        if(damageTimer < timeBetweenDamage)
+        if((damageTimer < timeBetweenDamage) && (pstats.health > 0))
         {
             head_anim.SetBool("hurt", true);
         }

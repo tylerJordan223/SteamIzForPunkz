@@ -134,6 +134,8 @@ public class FloorGenerator : MonoBehaviour
                 p.transform.position = rooms[0].room.transform.Find("SpawnPoint").position;
                 //set spawnpoint to be the playernode
                 DataManager.g.playerNode = DataManager.g.getNode(rooms[0].room.transform.Find("SpawnPoint"));
+                //make sure the player cannot be controlled
+                p.GetComponent<PlayerScript>().canControl = false;
             }
         }
     }
