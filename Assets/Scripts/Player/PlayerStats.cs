@@ -392,6 +392,17 @@ public class PlayerStats : MonoBehaviour
         new_item = item;
         DataManager.inventory.Add(new_item);
 
+        //make sure it doesnt overfill
+        if(health > maxHealth)
+        {
+            health = maxHealth;
+        }
+
+        if(charges > dynMaxCharges)
+        {
+            charges = dynMaxCharges;
+        }
+
         //showing the item in the UI
         StartCoroutine(iui.show_item(item));
     }
