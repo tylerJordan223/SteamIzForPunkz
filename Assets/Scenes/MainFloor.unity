@@ -283,10 +283,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8267879865244459677, guid: e661d0651369cca44944622ab2f5cd72, type: 3}
-      propertyPath: m_fontColor32.rgba
-      value: 16777215
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -302,7 +298,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5371533020003731381, guid: 2f67193223ed9234fab641124a1b7c26, type: 3}
   m_PrefabInstance: {fileID: 1785748359}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 466932479}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14353b0b9778b204e9e385983f9b2a23, type: 3}
@@ -365,6 +361,26 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07989151b35116742af714393017afea, type: 3}
+--- !u!1 &466932479 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2402435340389559683, guid: 2f67193223ed9234fab641124a1b7c26, type: 3}
+  m_PrefabInstance: {fileID: 1785748359}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &466932481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466932479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d49c2cfcfe0c0714983aec408d02a17e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items:
+  - {fileID: 2875653410783181134, guid: ac0f6f8a3a61efd4ebcfd5a5c8142db7, type: 3}
+  - {fileID: 2875653410783181134, guid: 1f7840c452e956b48abe369dd9c59030, type: 3}
 --- !u!1 &720247297
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,6 +752,10 @@ PrefabInstance:
       propertyPath: floor_parent
       value: 
       objectReference: {fileID: 939640381}
+    - target: {fileID: 3821903205521187604, guid: a115b3c5397e3ed4fb7853a8cb6b6bf1, type: 3}
+      propertyPath: room_list.Array.data[0]
+      value: 
+      objectReference: {fileID: 4065827680651785898, guid: e594180b86b1f1f419be9d5ff8078d68, type: 3}
     - target: {fileID: 3869123886197327295, guid: a115b3c5397e3ed4fb7853a8cb6b6bf1, type: 3}
       propertyPath: m_Name
       value: FloorGenerator
@@ -864,11 +884,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 9061716970855636369, guid: 2f67193223ed9234fab641124a1b7c26, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2402435340389559683, guid: 2f67193223ed9234fab641124a1b7c26, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 466932481}
   m_SourcePrefab: {fileID: 100100000, guid: 2f67193223ed9234fab641124a1b7c26, type: 3}
 --- !u!1 &1924003751 stripped
 GameObject:

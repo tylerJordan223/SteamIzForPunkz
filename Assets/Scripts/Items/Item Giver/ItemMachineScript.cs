@@ -113,7 +113,7 @@ public class ItemMachineScript : MonoBehaviour
         }
         else
         {
-            my_item = DataManager.items[Random.Range(0, DataManager.items.Count)];
+            my_item = GameObject.Find("DataManager").GetComponent<DataManager>().getRandomItem();
         }
 
         //a quick check to mkae sure it doesnt double up on any items that you can only have one of

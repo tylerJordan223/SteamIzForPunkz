@@ -23,9 +23,7 @@ public class DataManager : MonoBehaviour
     private static GameObject loadingScreen;
     private static Animator anim;
 
-    //possible items
-    [SerializeField] public static List<GameObject> items;
-
+    public static List<GameObject> items;
 
     #region initialization
     // CHECKING TO MAKE SURE THERE ARE NOT DUPLICATES OF THIS OBJECT! //
@@ -44,6 +42,8 @@ public class DataManager : MonoBehaviour
             dataManager_instance = this.gameObject;
             //makes sure this stays
             DontDestroyOnLoad(this.gameObject);
+            //load the item list
+            items = GetComponent<ItemList>().getList();
         }
     }
     #endregion
@@ -71,6 +71,22 @@ public class DataManager : MonoBehaviour
         playerMoney = (int)GameObject.Find("Tric").GetComponent<PlayerStats>().moneyCount;
         playing = false;
         anim.SetBool("loading", true);
+    }
+
+    public static void StartRunFromSave()
+    {
+        //make sure the is a load to save
+        if(SaveFileScript.LoadFloorNumber() != -1)
+        {
+            playerHealth = SaveFileScript.LoadHealth();
+            playerCharges = SaveFileScript.LoadCharges();
+            playerMoney = SaveFileScript.LoadCharges();
+            SceneManager.LoadScene("MainFloor");
+        }
+        else
+        {
+            RunStart();
+        }
     }
 
     public static void EndLoad()
@@ -107,11 +123,24 @@ public class DataManager : MonoBehaviour
         playerCharges = 3;
         playerMoney = 0;
         floorNumber = 0;
+        inventory = new List<ItemScript>();
         SceneManager.LoadScene("MainFloor");
     }
 
     public static void QuitGame()
     {
+
+        //only make a save if its worth saving
+        if (floorNumber > 0)
+        {
+            SaveFileScript.SaveFile(floorNumber, playerHealth, playerCharges, playerMoney, inventory);
+        }
+
         Application.Quit();
+    }
+
+    public GameObject getRandomItem()
+    {
+        return items[Random.Range(0, items.Count)];
     }
 }
