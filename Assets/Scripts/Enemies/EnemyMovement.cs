@@ -34,7 +34,7 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] public Color aliveColor;
     private Vector3 targetDirection;
     private WorldNode my_node;
-    private Animator anim;
+    [SerializeField] Animator anim;
 
     //for flying enemies
     BoxCollider2D flying_enemy;
@@ -54,7 +54,6 @@ public class EnemyMovement : MonoBehaviour
         dead = false;
         //sets the alive color at the child sprite
         transform.GetChild(0).GetComponent<SpriteRenderer>().color = aliveColor;
-        anim = GetComponent<Animator>();
 
         //get the node and center it
         my_node = DataManager.g.getNode(transform);
@@ -110,6 +109,8 @@ public class EnemyMovement : MonoBehaviour
                 active_timer = 0f;
             }
         }
+
+        UpdateAnimation();
 
         //specifically for boss
         if (!dead && isWithBoss && !attacking)
@@ -234,6 +235,34 @@ public class EnemyMovement : MonoBehaviour
     {
         flying_enemy.enabled = true;
         flying = false;
+    }
+
+    private void UpdateAnimation()
+    {
+        if(flying)
+        {
+
+        }
+        else
+        {
+            if(gameObject.GetComponent<EnemyHealth>().my_room.locked)
+            {
+                anim.SetBool("moving", true);
+            }
+            if(dead)
+            {
+                anim.SetBool("dead", true);
+            }
+
+            //update direction
+            if(targetDirection != null)
+            {
+                anim.SetFloat("x", targetDirection.normalized.x);
+                anim.SetFloat("y", targetDirection.normalized.y);
+            }
+
+            anim.speed = speed;
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)

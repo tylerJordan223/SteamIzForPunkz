@@ -352,6 +352,7 @@ MonoBehaviour:
   minDistanceFromPlayer: 0
   dead: 0
   aliveColor: {r: 1, g: 0.5801887, b: 0.9173784, a: 0}
+  anim: {fileID: 1282323833639289698}
 --- !u!95 &1282323833639289698
 Animator:
   serializedVersion: 5
