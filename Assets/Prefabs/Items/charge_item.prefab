@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: -3951101787966752553, guid: 9922dcdb817342b4ba36e5b8888363c1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 53a3ee31c82dc7d4e898bbb3b4315816, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -122,7 +122,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.28125, y: 0.5}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 0.69, y: 0.71}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -143,11 +143,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9b8b1f27c4bee54f8229771eae0de2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item_name: LEAD PLATES
-  description: thick heavy plates to hit harder
-  stats_up: damage
-  stats_down: acceleration
-  isprite: {fileID: 21300000, guid: 3f5a2add92f69bc41b9fd2bb6af9dbb0, type: 3}
+  item_name: Battery
+  description: You feel full of energy
+  stats_up: charge
+  stats_down: 
+  isprite: {fileID: 21300000, guid: 53a3ee31c82dc7d4e898bbb3b4315816, type: 3}
   repeatable: 1
   common: 1
   rare: 0

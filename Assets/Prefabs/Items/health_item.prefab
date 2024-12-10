@@ -143,11 +143,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9b8b1f27c4bee54f8229771eae0de2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item_name: LEAD PLATES
-  description: thick heavy plates to hit harder
-  stats_up: damage
-  stats_down: acceleration
-  isprite: {fileID: 21300000, guid: 3f5a2add92f69bc41b9fd2bb6af9dbb0, type: 3}
+  item_name: Gear
+  description: You feel slightly repaired
+  stats_up: health
+  stats_down: 
+  isprite: {fileID: 6850466782234138598, guid: 0a2de8e48c2e6654f912d227fe99ea8c, type: 3}
   repeatable: 1
   common: 1
   rare: 0
