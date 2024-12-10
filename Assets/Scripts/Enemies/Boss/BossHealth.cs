@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class BossHealth : MonoBehaviour
 {
@@ -61,6 +62,7 @@ public class BossHealth : MonoBehaviour
         {
             //reset the timer
             damageTimer = 0f;
+
 
             if (health > 0)
             {

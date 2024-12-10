@@ -10,13 +10,14 @@ public class BossHeadScript : MonoBehaviour
     [SerializeField] GameObject right_hand;
     [SerializeField] GameObject left_hand;
     [SerializeField] BoxCollider2D weakPoint;
+    [SerializeField] public BoxCollider2D FinalCollider;
 
     [Header("Boss Drop")]
     [SerializeField] GameObject bossDrop;
 
     //animators
     [SerializeField] Animator idle_anim;
-    [SerializeField] Animator movement_anim;
+    [SerializeField] public Animator movement_anim;
 
     [Header("Boss Attributes")]
     [SerializeField] float speed;
@@ -35,6 +36,7 @@ public class BossHeadScript : MonoBehaviour
         DisableIdle();
         weakPoint.enabled = false;
         damage_timer = 0f;
+        FinalCollider.enabled = false;
     }
 
     private void Update()
@@ -83,6 +85,12 @@ public class BossHeadScript : MonoBehaviour
             }
         }
 
+        //enable the collider at the end
+        if(left_hand == null && right_hand == null && weakPoint.GetComponent<BossHealth>().health == 0 && FinalCollider.enabled == false && idle)
+        {
+            FinalCollider.enabled = true;
+        }
+
     }
 
     public void PickAttack()
@@ -106,7 +114,7 @@ public class BossHeadScript : MonoBehaviour
         }
 
         //makes sure if the attack picked was broken to reroll until it finds a suitable attack
-        if(!active)
+        if(!active && (left_hand != null || right_hand != null || weakPoint.GetComponent<BossHealth>().health != 0))
         {
             PickAttack();
         }
@@ -179,5 +187,20 @@ public class BossHeadScript : MonoBehaviour
         bd.GetComponent<ItemScript>().transform.position = transform.position;
         bd.GetComponent<ItemScript>().starting_position = transform.position;
         bd.GetComponent<ItemScript>().goal_position = new Vector3(transform.position.x, transform.position.y - 10, transform.position.z);
+    }
+
+    public void Death()
+    {
+        DisableIdle();
+        movement_anim.SetBool("dead", true);
+        Time.timeScale = 0.2f;
+        GameObject.Find("Tric").GetComponent<PlayerStats>().special = 0f;
+    }
+
+    public void ResetTime()
+    {
+        Time.timeScale = 1f;
+        GameObject.Find("WinScreen").GetComponent<Animator>().SetBool("over", true);
+        GameObject.Find("Tric").GetComponent<PlayerScript>().canControl = false;
     }
 }

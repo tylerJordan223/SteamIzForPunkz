@@ -55,8 +55,15 @@ public class ProjectileScript : MonoBehaviour
                             }
                             else if(h.collider.CompareTag("boss"))
                             {
-                                BossHealth b = h.collider.gameObject.GetComponent<BossHealth>();
-                                b.Damage(projectileDamage);
+                                if(h.collider.GetComponent<BossHealth>() != null)
+                                {
+                                    BossHealth b = h.collider.gameObject.GetComponent<BossHealth>();
+                                    b.Damage(projectileDamage);
+                                }
+                                else
+                                {
+                                    h.collider.gameObject.GetComponent<BossHeadScript>().Death();
+                                }
                             }
                         }
                     }

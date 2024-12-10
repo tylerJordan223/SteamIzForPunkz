@@ -20,7 +20,7 @@ public class PlayerSpinAttack : MonoBehaviour
     [SerializeField] public float base_range = 1.5f;
     [SerializeField] public float pdamage = 1f;
     [SerializeField] private LayerMask alayer;
-    private float size;
+    public float size;
 
     [Header("Melee Attack")]
     //base values
@@ -47,6 +47,11 @@ public class PlayerSpinAttack : MonoBehaviour
     [SerializeField] public Sprite charging_s;
     [SerializeField] public Sprite charged_s;
     [SerializeField] public Sprite cooldown_s;
+
+    [Header("Special")]
+    [SerializeField] public Sprite specialCharge;
+    [SerializeField] public Sprite special_charging_s;
+    [SerializeField] public Sprite special_charged_s;
 
     private void Start()
     {
@@ -99,6 +104,8 @@ public class PlayerSpinAttack : MonoBehaviour
             Attack();
         }
 
+        canControl = ptrans.gameObject.GetComponent<PlayerScript>().canControl;
+
         UpdateAnimation();
     }
 
@@ -139,6 +146,11 @@ public class PlayerSpinAttack : MonoBehaviour
                 spinParent.Rotate(new Vector3(0f, 0f, 1f), rotationSpeed);
             }
         }
+
+        if(pstats.special == 3 && !charging)
+        {
+            CannonSprite.sprite = specialCharge;
+        }
     }
 
     private IEnumerator Charge()
@@ -146,7 +158,14 @@ public class PlayerSpinAttack : MonoBehaviour
         //begin charging
         charging = true;
         //set the color to charging
-        CannonSprite.sprite = charging_s;
+        if(pstats.special == 3)
+        {
+            CannonSprite.sprite = special_charging_s;
+        }
+        else
+        {
+            CannonSprite.sprite = charging_s;   
+        }
 
         //save values to be re-applied possibly later
         float maxSpeed_holder = base_maxSpeed;
@@ -193,7 +212,15 @@ public class PlayerSpinAttack : MonoBehaviour
         if(size == (base_chargedSize + pstats.dynChargedSize))
         {
             //set the color to charged
-            CannonSprite.sprite = charged_s;
+            if(pstats.special == 3)
+            {
+                CannonSprite.sprite = special_charged_s;
+            }
+            else
+            {
+                CannonSprite.sprite = charged_s;
+            }
+            
             while(true)
             {
                 if(!Input.GetKey(KeyCode.Space))
@@ -270,6 +297,13 @@ public class PlayerSpinAttack : MonoBehaviour
         p.transform.up = (atrans.position - ptrans.position).normalized;
         //remove a charge from the shot
         pstats.charges--;
+
+        //reset if this was the final attack
+        if(pstats.special == 3)
+        {
+            pstats.special = 0;
+            CannonSprite.sprite = cooldown_s;
+        }
     }
 
     private void UpdateAnimation()

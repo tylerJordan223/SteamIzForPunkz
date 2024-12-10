@@ -148,6 +148,12 @@ public class EnemyMovement : MonoBehaviour
         {
             my_node = DataManager.g.getNode(transform);
         }
+
+        //kills a boss enemy if the fight is over
+        if(GameObject.Find("Tric").GetComponent<PlayerStats>().special == 3)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     private void DirectionalMovement()

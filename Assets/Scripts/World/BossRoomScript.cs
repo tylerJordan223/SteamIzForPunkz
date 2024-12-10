@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -9,6 +10,13 @@ public class BossRoomScript : MonoBehaviour
 {
     [SerializeField] PlayableDirector entrance_cutscene;
     private RoomScript room_script;
+
+    //handling cameras
+    [Header("Cameras")]
+    [SerializeField] GameObject player;
+    [SerializeField] CinemachineVirtualCamera roomcam;
+    [SerializeField] CinemachineVirtualCamera finalcam;
+    private float base_ortho;
 
     //flags for cutscenes being playable
     private bool entrance_playable;
@@ -22,6 +30,9 @@ public class BossRoomScript : MonoBehaviour
         //cutscene flags
         entrance_playable = true;
         win_playable = true;
+
+        //base
+        base_ortho = finalcam.m_Lens.OrthographicSize;
     }
 
     private void Update()
@@ -30,6 +41,25 @@ public class BossRoomScript : MonoBehaviour
         {
             entrance_playable = false;
             entrance_cutscene.Play();
+        }
+
+        if(player.GetComponent<PlayerStats>().special == 3)
+        {
+            if(roomcam.gameObject.activeInHierarchy)
+            {
+                roomcam.gameObject.SetActive(false);
+                finalcam.gameObject.SetActive(true);
+            }
+
+            finalcam.m_Lens.OrthographicSize = base_ortho - player.GetComponent<PlayerSpinAttack>().size;
+        }
+        else
+        {
+            if(finalcam.gameObject.activeInHierarchy)
+            {
+                finalcam.gameObject.SetActive(false);
+                roomcam.gameObject.SetActive(true);
+            }
         }
     }
 }

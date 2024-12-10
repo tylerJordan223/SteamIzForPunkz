@@ -209,6 +209,7 @@ public class BossHandScript : MonoBehaviour
         bd.GetComponent<ItemScript>().transform.position = transform.position;
         bd.GetComponent<ItemScript>().starting_position = transform.position;
         bd.GetComponent<ItemScript>().goal_position = new Vector3(transform.position.x, transform.position.y - 5, transform.position.z);
+        boss_head.GetComponent<BossHeadScript>().ResetAttack();
         Destroy(this.gameObject);
     }
 }

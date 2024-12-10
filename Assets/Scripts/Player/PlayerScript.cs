@@ -55,6 +55,7 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] Animator head_anim;
     [SerializeField] Animator body_anim;
 
+
     private void Start()
     {
         //object variables
@@ -141,8 +142,11 @@ public class PlayerScript : MonoBehaviour
         }
         else
         {
-            //if can't control then stop
-            inputVector = new Vector2(0f, 0f);
+            if(!dashing)
+            {
+                //if can't control then stop
+                inputVector = new Vector2(0f, 0f);
+            }
         }
 
         //updates damage visually
@@ -178,6 +182,7 @@ public class PlayerScript : MonoBehaviour
             DataManager.g.checkGrid();
         }
 
+        
     }
 
 

@@ -13,6 +13,7 @@ TagManager:
   - Room
   - boss
   - barrier
+  - ignore
   layers:
   - Default
   - TransparentFX
