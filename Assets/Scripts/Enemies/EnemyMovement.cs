@@ -41,6 +41,10 @@ public class EnemyMovement : MonoBehaviour
     CapsuleCollider2D shadow;
     private bool attacking;
 
+    //timer
+    private float active_timer;
+    private float time_to_activate;
+
     private void Start()
     {
         player = null;
@@ -66,6 +70,10 @@ public class EnemyMovement : MonoBehaviour
             anim.SetBool("flying", flying);
             attacking = false;
         }
+
+        //timer to start moving
+        active_timer = 0f;
+        time_to_activate = 1f;
     }
 
     private void FixedUpdate()
@@ -80,16 +88,26 @@ public class EnemyMovement : MonoBehaviour
         {
             if(gameObject.GetComponent<EnemyHealth>().my_room.locked)
             {
-                if(directional)
+                if(active_timer >= time_to_activate)
                 {
-                    DirectionalMovement();
-                }else if(astar)
-                {
-                    AstarMovement();
+                    if(directional)
+                    {
+                        DirectionalMovement();
+                    }else if(astar)
+                    {
+                        AstarMovement();
+                    }
+
+                    //actually add the movement
+                    trans.position += speed * Time.deltaTime * targetDirection.normalized;
                 }
 
-                //actually add the movement
-                trans.position += speed * Time.deltaTime * targetDirection.normalized;
+                //increase the timer to activate
+                active_timer += Time.deltaTime;
+            }
+            else
+            {
+                active_timer = 0f;
             }
         }
 

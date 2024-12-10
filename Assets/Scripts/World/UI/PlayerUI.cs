@@ -47,7 +47,7 @@ public class PlayerUI : MonoBehaviour
         else
         {
             //everything that the UI needs to reflect
-            moneyCount.text = pstats.moneyCount.ToString();
+            moneyCount.text = "x" + pstats.moneyCount.ToString();
 
             //update stats
             UpdateStats();

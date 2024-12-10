@@ -23,6 +23,10 @@ public class DataManager : MonoBehaviour
     private static GameObject loadingScreen;
     private static Animator anim;
 
+    //possible items
+    [SerializeField] public static List<GameObject> items;
+
+
     #region initialization
     // CHECKING TO MAKE SURE THERE ARE NOT DUPLICATES OF THIS OBJECT! //
     private static GameObject dataManager_instance;

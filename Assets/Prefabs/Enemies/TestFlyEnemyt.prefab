@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3508117839256673054}
   - component: {fileID: 8008229788660426416}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: EnemyShadow
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 2546196086513455856}
   - component: {fileID: 5699632066950095770}
   - component: {fileID: 4382985829892106516}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: EnemyBody
   m_TagString: enemy
   m_Icon: {fileID: 0}
@@ -344,6 +344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed9e70dfe07c53d42bbf2ab34b2d5efa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isWithBoss: 0
   directional: 1
   astar: 0
   flying: 1

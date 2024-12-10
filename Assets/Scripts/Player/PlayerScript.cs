@@ -85,7 +85,7 @@ public class PlayerScript : MonoBehaviour
         currentCamera = null;
 
         //flags
-        canControl = true;
+        canControl = false;
         holdingItem = false;
 
         //damage timer

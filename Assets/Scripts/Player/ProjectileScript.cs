@@ -34,8 +34,6 @@ public class ProjectileScript : MonoBehaviour
             //if it hits
             if(hit)
             {
-                Debug.Log(hit.collider.gameObject.name);
-
                 //get the direction of the point to the object
                 Vector2 dir = ((Vector3)hit.point - trans.position);
 

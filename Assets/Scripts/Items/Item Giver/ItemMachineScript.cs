@@ -14,7 +14,6 @@ public class ItemMachineScript : MonoBehaviour
     private GameObject my_item;
 
     [Header("PossibleItems")]
-    [SerializeField] List<GameObject> items;
     [SerializeField] GameObject chargeItem;
     [SerializeField] GameObject healthItem;
     public bool health_machine;
@@ -114,7 +113,7 @@ public class ItemMachineScript : MonoBehaviour
         }
         else
         {
-            my_item = items[Random.Range(0, items.Count)];
+            my_item = DataManager.items[Random.Range(0, DataManager.items.Count)];
         }
 
         //a quick check to mkae sure it doesnt double up on any items that you can only have one of
