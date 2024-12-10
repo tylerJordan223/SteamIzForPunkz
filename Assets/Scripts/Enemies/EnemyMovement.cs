@@ -241,7 +241,10 @@ public class EnemyMovement : MonoBehaviour
     {
         if(flying)
         {
-
+            if(dead)
+            {
+                anim.SetBool("dead", true);
+            }
         }
         else
         {

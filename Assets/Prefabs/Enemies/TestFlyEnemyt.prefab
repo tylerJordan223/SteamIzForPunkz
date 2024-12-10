@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 57e400d33bfa06944a23d783f9659aac, type: 3}
   m_Color: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -112,7 +112,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.46, z: -13.06979}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4541812515363142951}
@@ -158,7 +158,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 46e0e97257f137345b2b97cb32ac54e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -330,7 +330,7 @@ MonoBehaviour:
   maxHealth: 3
   health: 0
   timeBetweenDamage: 1
-  deathColor: {r: 0, g: 0, b: 0, a: 1}
+  deathColor: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 1}
   drop: {fileID: 5876721434184401939, guid: fd39ce91f0c96584792c2a10a170314c, type: 3}
 --- !u!114 &9202013583455970644
 MonoBehaviour:
@@ -351,7 +351,7 @@ MonoBehaviour:
   speed: 1
   minDistanceFromPlayer: 0
   dead: 0
-  aliveColor: {r: 1, g: 0.5801887, b: 0.9173784, a: 0}
+  aliveColor: {r: 1, g: 1, b: 1, a: 1}
   anim: {fileID: 1282323833639289698}
 --- !u!95 &1282323833639289698
 Animator:
