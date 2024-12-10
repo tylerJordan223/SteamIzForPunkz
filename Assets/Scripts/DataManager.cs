@@ -143,4 +143,6 @@ public class DataManager : MonoBehaviour
     {
         return items[Random.Range(0, items.Count)];
     }
+
+    
 }
