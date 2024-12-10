@@ -56,7 +56,7 @@ MonoBehaviour:
   minDistanceFromPlayer: 0
   dead: 0
   aliveColor: {r: 1, g: 1, b: 1, a: 1}
-  anim: {fileID: 0}
+  anim: {fileID: 6895279380260435032}
 --- !u!114 &1779198955233067887
 MonoBehaviour:
   m_ObjectHideFlags: 0

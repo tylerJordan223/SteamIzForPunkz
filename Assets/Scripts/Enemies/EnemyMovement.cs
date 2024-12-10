@@ -70,6 +70,12 @@ public class EnemyMovement : MonoBehaviour
             attacking = false;
         }
 
+        //randomizing the speed if boss
+        if(isWithBoss)
+        {
+            speed = Random.Range(1, 5);
+        }
+
         //timer to start moving
         active_timer = 0f;
         time_to_activate = 1f;
@@ -246,7 +252,7 @@ public class EnemyMovement : MonoBehaviour
                 anim.SetBool("dead", true);
             }
         }
-        else
+        else if (!isWithBoss)
         {
             if(gameObject.GetComponent<EnemyHealth>().my_room.locked)
             {
@@ -259,6 +265,18 @@ public class EnemyMovement : MonoBehaviour
 
             //update direction
             if(targetDirection != null)
+            {
+                anim.SetFloat("x", targetDirection.normalized.x);
+                anim.SetFloat("y", targetDirection.normalized.y);
+            }
+
+            anim.speed = speed;
+        }
+        else
+        {
+            anim.SetBool("moving", true);
+
+            if (targetDirection != null)
             {
                 anim.SetFloat("x", targetDirection.normalized.x);
                 anim.SetFloat("y", targetDirection.normalized.y);
