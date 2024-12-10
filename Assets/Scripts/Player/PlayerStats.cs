@@ -259,7 +259,7 @@ public class PlayerStats : MonoBehaviour
             health = (float)DataManager.playerHealth;
             charges = (float)DataManager.playerCharges;
 
-            moneyCount = 0f;
+            moneyCount = (float)DataManager.playerMoney;
 
             //weapon stats
             dynRange = 0f;
