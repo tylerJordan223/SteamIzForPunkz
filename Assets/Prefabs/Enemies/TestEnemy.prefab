@@ -56,6 +56,7 @@ MonoBehaviour:
   minDistanceFromPlayer: 0
   dead: 0
   aliveColor: {r: 1, g: 1, b: 1, a: 1}
+  anim: {fileID: 0}
 --- !u!114 &1779198955233067887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,7 +107,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.01591134, y: -0.000000029802322}
+  m_Offset: {x: -0.017393112, y: -0.05630175}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -117,7 +118,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.45902395, y: 0.45902395}
+  m_Size: {x: 0.31382465, y: 0.34642053}
   m_EdgeRadius: 0.21
 --- !u!50 &3280264584431541030
 Rigidbody2D:

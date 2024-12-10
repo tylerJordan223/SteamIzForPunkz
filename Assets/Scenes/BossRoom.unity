@@ -442,7 +442,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3.23
+  orthographic size: 5.22
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -467,7 +467,7 @@ Transform:
   m_GameObject: {fileID: 720247297}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 44.71, y: 13.135965, z: -24.127666}
+  m_LocalPosition: {x: 44.59, y: 7.125965, z: -24.127666}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1205,12 +1205,28 @@ PrefabInstance:
       value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 8599112980081250054, guid: 4a8fcc715c9d77047ba435d153347ec4, type: 3}
+      propertyPath: m_Size.y
+      value: 1.2763116
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599112980081250054, guid: 4a8fcc715c9d77047ba435d153347ec4, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.13815579
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599112980081250054, guid: 4a8fcc715c9d77047ba435d153347ec4, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
       value: 1.28
       objectReference: {fileID: 0}
     - target: {fileID: 8599112980081250054, guid: 4a8fcc715c9d77047ba435d153347ec4, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8870302917484211798, guid: 4a8fcc715c9d77047ba435d153347ec4, type: 3}
+      propertyPath: m_Size.y
+      value: 1.3662722
+      objectReference: {fileID: 0}
+    - target: {fileID: 8870302917484211798, guid: 4a8fcc715c9d77047ba435d153347ec4, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.11887774
       objectReference: {fileID: 0}
     - target: {fileID: 8870302917484211798, guid: 4a8fcc715c9d77047ba435d153347ec4, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x

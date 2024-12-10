@@ -233,8 +233,11 @@ public class PlayerSpinAttack : MonoBehaviour
 
                     //wait a second before returning controls
                     canControl = false;
-                    CannonSprite.sprite = cooldown_s;
-                    yield return new WaitForSeconds(base_rechargeTime + pstats.dynRechargeTime);
+                    if(pstats.special != 3)
+                    {
+                        CannonSprite.sprite = cooldown_s;
+                        yield return new WaitForSeconds(base_rechargeTime + pstats.dynRechargeTime);
+                    }
 
                     //return controls back to normal
                     base_spinAcceleration = spinAcceleration_holder;
@@ -250,7 +253,11 @@ public class PlayerSpinAttack : MonoBehaviour
         }
 
         //no longer charging and color back to normal
-        CannonSprite.sprite = baseCharge;
+        if(pstats.special != 3)
+        {
+            CannonSprite.sprite = baseCharge;
+        }
+        
         charging = false;
     }
 
@@ -297,13 +304,6 @@ public class PlayerSpinAttack : MonoBehaviour
         p.transform.up = (atrans.position - ptrans.position).normalized;
         //remove a charge from the shot
         pstats.charges--;
-
-        //reset if this was the final attack
-        if(pstats.special == 3)
-        {
-            pstats.special = 0;
-            CannonSprite.sprite = cooldown_s;
-        }
     }
 
     private void UpdateAnimation()
