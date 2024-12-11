@@ -229,6 +229,10 @@ public class EnemyMovement : MonoBehaviour
         //shadow.enabled = false;
         anim.SetBool("flying", false);
 
+        yield return new WaitForSeconds(1.2f);
+
+        AudioManager.instance.PlaySingleSFX(AudioManager.instance.fly_drop);
+
         yield return new WaitForSeconds(5f);
 
         //if it died during landing it doesnt get up

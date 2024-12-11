@@ -67,7 +67,17 @@ public class BossHealth : MonoBehaviour
             if (health > 0)
             {
                 health -= d;
-                //** PLAY DAMAGE ANIMATION
+
+                if(head)
+                {
+                    AudioManager.instance.PlaySingleSFX(AudioManager.instance.head_hit);
+                }
+                else if(hand)
+                {
+                    AudioManager.instance.PlaySingleSFX(AudioManager.instance.e_damage);
+                }
+
+
                 if (health <= 0)
                 {
                     if(head)

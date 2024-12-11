@@ -17,9 +17,37 @@ public class AudioManager : MonoBehaviour
     [SerializeField] public AudioClip bossSong;
     [SerializeField] public AudioClip normalSong;
 
+    //world events
     [SerializeField] public AudioClip spawn;
     [SerializeField] public AudioClip exit;
+    
+    //pickup
     [SerializeField] public AudioClip coin;
+    [SerializeField] public AudioClip item;
+    [SerializeField] public AudioClip item_machine;
+
+    //gun
+    [SerializeField] public AudioClip charging;
+    [SerializeField] public AudioClip charged;
+    [SerializeField] public AudioClip blast;
+
+    //enemies
+    [SerializeField] public AudioClip e_damage;
+    [SerializeField] public AudioClip fly_drop;
+    [SerializeField] public AudioClip e_deathSound;
+
+    //player
+    [SerializeField] public AudioClip p_damage;
+
+    //boss sounds
+    [SerializeField] public AudioClip head_hit;
+    [SerializeField] public AudioClip hand_death;
+    [SerializeField] public AudioClip hand_smash;
+
+    //UI
+    [SerializeField] public AudioClip pause;
+    [SerializeField] public AudioClip unpause;
+    [SerializeField] public AudioClip buttonpress;
 
     #endregion audios
 
@@ -44,13 +72,20 @@ public class AudioManager : MonoBehaviour
         ignore_volume = false;
         music.loop = true;
         music.Play();
-        music_volume = 1.0f;
+        music_volume = 0.5f;
         sfx_volume = 1.0f;
     }
 
     public void PlaySingleSFX(AudioClip clip)
     {
         sfx.PlayOneShot(clip);
+    }
+
+    public void PlaySFXPitched(AudioClip clip, float pitch)
+    {
+        sfx.pitch = pitch;
+        sfx.PlayOneShot(clip);
+        sfx.pitch = 1f;
     }
 
     public void EndSong(AudioClip song)
@@ -62,6 +97,15 @@ public class AudioManager : MonoBehaviour
     {
         music.clip = song;
         music.Play();
+    }
+
+    public void PlayMainSong()
+    {
+        if(!music.isPlaying)
+        {
+            music.clip = normalSong;
+            music.Play();
+        }
     }
 
     //music fadeout transition

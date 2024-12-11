@@ -119,6 +119,7 @@ public class DataManager : MonoBehaviour
 
     public static void RunStart()
     {
+        AudioManager.instance.PlaySingleSFX(AudioManager.instance.buttonpress);
         playerHealth = 3;
         playerCharges = 3;
         playerMoney = 0;
@@ -129,7 +130,7 @@ public class DataManager : MonoBehaviour
 
     public static void QuitGame()
     {
-
+        AudioManager.instance.PlaySingleSFX(AudioManager.instance.buttonpress);
         //only make a save if its worth saving
         if (floorNumber > 0)
         {

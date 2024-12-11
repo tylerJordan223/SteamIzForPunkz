@@ -182,6 +182,22 @@ MonoBehaviour:
   normalSong: {fileID: 8300000, guid: b780009440c474c4ca3344367b9b6f8a, type: 3}
   spawn: {fileID: 8300000, guid: a1ac938ebe96dd34f8b7ddfd75728a98, type: 3}
   exit: {fileID: 8300000, guid: 10a0ce74ab3f5f64e961658529e81db3, type: 3}
+  coin: {fileID: 8300000, guid: 412ece9dc83578446b2451c2c28c7918, type: 3}
+  item: {fileID: 8300000, guid: e3d87e19b75c8ea48863ce1a4ab44c1d, type: 3}
+  item_machine: {fileID: 8300000, guid: 28b75706a967f8740ab324bf26960f2e, type: 3}
+  charging: {fileID: 8300000, guid: a2e6d2422d89bdc4a8e83696157894b8, type: 3}
+  charged: {fileID: 8300000, guid: bafb642e387fd2749b0958103372dc49, type: 3}
+  blast: {fileID: 8300000, guid: 6eae071eacadcc74ab35b813750ea0ef, type: 3}
+  e_damage: {fileID: 8300000, guid: 64148cfd6aad5e448a5c90a0814e1377, type: 3}
+  fly_drop: {fileID: 8300000, guid: 1f6030bfd38640542a50f158042a2c56, type: 3}
+  e_deathSound: {fileID: 8300000, guid: b2094cc5de783ac46bcf28152fcafbf0, type: 3}
+  p_damage: {fileID: 8300000, guid: 8f1c76e5a05203544b7fc647335573d6, type: 3}
+  head_hit: {fileID: 8300000, guid: b854202856baffb47a3eef202b1a893f, type: 3}
+  hand_death: {fileID: 8300000, guid: 1260ab8c72392984ba55d8495d0d8198, type: 3}
+  hand_smash: {fileID: 8300000, guid: 7879bed4f3c1dc74f9005d2cd293735b, type: 3}
+  pause: {fileID: 8300000, guid: ffb24656932ad5e448eb03044a72b1f2, type: 3}
+  unpause: {fileID: 8300000, guid: 6f53c91e424ff6a4ca59860cd5a264c4, type: 3}
+  buttonpress: {fileID: 8300000, guid: 6ff3660b3c3e43e4e98d8efd6275265d, type: 3}
 --- !u!1 &6361753421747555969
 GameObject:
   m_ObjectHideFlags: 0

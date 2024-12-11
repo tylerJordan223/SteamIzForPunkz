@@ -92,6 +92,7 @@ public class ItemScript : MonoBehaviour
             if (fade <= 0f && picked_up)
             {
                 GameObject.FindWithTag("Player").GetComponent<PlayerStats>().NewItem(this);
+                AudioManager.instance.PlaySingleSFX(AudioManager.instance.item);
                 Destroy(this.gameObject);
             }
         }

@@ -207,15 +207,23 @@ public class PlayerScript : MonoBehaviour
     {
         if (damageTimer > timeBetweenDamage)
         {
+            
+
             //reset the timer
             damageTimer = 0f;
             pstats.health -= 1;
+
+            if(pstats.health > 0)
+            {
+                AudioManager.instance.PlaySingleSFX(AudioManager.instance.p_damage);
+            }
         }
     }
 
     //handle the death sequence
     IEnumerator Death()
     {
+        AudioManager.instance.EndSong(AudioManager.instance.normalSong);
         inputVector = new Vector2(0f, 0f);
         head_anim.SetBool("dead", true);
         yield return new WaitForSeconds(4f);

@@ -57,7 +57,9 @@ public class EnemyHealth : MonoBehaviour
             //** PLAY DAMAGE ANIMATION
             //knockback
             em.Knockback();
-            
+
+            AudioManager.instance.PlaySingleSFX(AudioManager.instance.e_damage);
+
             if(health > 0)
             {
                 health -= d;
@@ -71,6 +73,9 @@ public class EnemyHealth : MonoBehaviour
     }
     private void Die()
     {
+        //play audio
+        AudioManager.instance.PlaySingleSFX(AudioManager.instance.e_deathSound);
+
         //kill the enemy
         this.gameObject.GetComponent<EnemyMovement>().dead = true;
         this.transform.GetChild(0).GetComponent<SpriteRenderer>().color = deathColor;

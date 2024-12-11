@@ -99,6 +99,9 @@ public class ItemMachineScript : MonoBehaviour
 
             //start the animation
             item_machine.GetComponent<MachineScript>().StartAnimation();
+
+            //play sound
+            AudioManager.instance.PlaySingleSFX(AudioManager.instance.item_machine);
         }
     }
 

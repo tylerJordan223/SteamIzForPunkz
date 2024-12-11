@@ -242,7 +242,11 @@ PrefabInstance:
     - target: {fileID: 2341368061404004178, guid: e661d0651369cca44944622ab2f5cd72, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 448034359}
+      objectReference: {fileID: 85968684}
+    - target: {fileID: 2341368061404004178, guid: e661d0651369cca44944622ab2f5cd72, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RestartRun
+      objectReference: {fileID: 0}
     - target: {fileID: 2430231917606493881, guid: e661d0651369cca44944622ab2f5cd72, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -300,22 +304,22 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e661d0651369cca44944622ab2f5cd72, type: 3}
+--- !u!114 &85968684 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1556964071413392931, guid: e661d0651369cca44944622ab2f5cd72, type: 3}
+  m_PrefabInstance: {fileID: 85968683}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb416a2ad21f71b42bfb25015e3a2029, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &372448276 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2767959262161774147, guid: e661d0651369cca44944622ab2f5cd72, type: 3}
   m_PrefabInstance: {fileID: 85968683}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &448034359 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5371533020003731381, guid: 2f67193223ed9234fab641124a1b7c26, type: 3}
-  m_PrefabInstance: {fileID: 1785748359}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14353b0b9778b204e9e385983f9b2a23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &465806304
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -965,7 +969,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 720247300}
   - {fileID: 1785748359}
+  - {fileID: 531019566}
   - {fileID: 1273321021}
   - {fileID: 939640382}
   - {fileID: 1522143883}
-  - {fileID: 531019566}

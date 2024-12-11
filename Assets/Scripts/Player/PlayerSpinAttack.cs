@@ -53,6 +53,9 @@ public class PlayerSpinAttack : MonoBehaviour
     [SerializeField] public Sprite special_charging_s;
     [SerializeField] public Sprite special_charged_s;
 
+    [Header("Sound")]
+    [SerializeField] public AudioSource weapon_audio;
+
     private void Start()
     {
         //set the attack point to the right color
@@ -81,6 +84,9 @@ public class PlayerSpinAttack : MonoBehaviour
         pstats = this.gameObject.GetComponent<PlayerStats>();
 
         charging = false;
+
+        //handling sound
+        weapon_audio.loop = true;
     }
 
     private void Update()
@@ -151,21 +157,29 @@ public class PlayerSpinAttack : MonoBehaviour
         {
             CannonSprite.sprite = specialCharge;
         }
+
+        //handling the audio
+        if(rotationSpeed != 0 && !charging && pstats.health > 0)
+        {
+            if(!weapon_audio.isPlaying)
+            {
+                weapon_audio.volume = AudioManager.instance.sfx_volume;
+                weapon_audio.Play();
+            }
+            
+            //making the speed scale
+            weapon_audio.pitch = 1 + (3 * (Mathf.Abs(rotationSpeed) / (base_maxSpeed + pstats.dynMaxSpeed)));
+        }
+        else
+        {
+            weapon_audio.Stop();
+        }
     }
 
     private IEnumerator Charge()
     {
         //begin charging
         charging = true;
-        //set the color to charging
-        if(pstats.special == 3)
-        {
-            CannonSprite.sprite = special_charging_s;
-        }
-        else
-        {
-            CannonSprite.sprite = charging_s;   
-        }
 
         //save values to be re-applied possibly later
         float maxSpeed_holder = base_maxSpeed;
@@ -177,6 +191,16 @@ public class PlayerSpinAttack : MonoBehaviour
         {
             if(Input.GetKey(KeyCode.Space) && spinParent.parent.GetComponent<PlayerScript>().canControl)
             {
+                //set the color to charging
+                if (pstats.special == 3)
+                {
+                    CannonSprite.sprite = special_charging_s;
+                }
+                else
+                {
+                    CannonSprite.sprite = charging_s;
+                }
+
                 //break if fully charged
                 if (size == (base_chargedSize + pstats.dynChargedSize))
                 {
@@ -187,6 +211,8 @@ public class PlayerSpinAttack : MonoBehaviour
                 //slow down
                 base_spinAcceleration *= 0.7f;
                 base_maxSpeed -= 2.5f;
+
+                AudioManager.instance.PlaySFXPitched(AudioManager.instance.charging, size);
             }
             else
             {
@@ -197,11 +223,23 @@ public class PlayerSpinAttack : MonoBehaviour
                 }
                 else
                 {
+                    //set the color to charging
+                    if (pstats.special == 3)
+                    {
+                        CannonSprite.sprite = special_charging_s;
+                    }
+                    else
+                    {
+                        CannonSprite.sprite = charging_s;
+                    }
+
                     //decrease if not held
                     pstats.dynSize -= 0.2f;
                     //speed up
                     base_spinAcceleration /= 0.7f;
                     base_maxSpeed += 2.5f;
+
+                    AudioManager.instance.PlaySFXPitched(AudioManager.instance.charging, size);
                 }
             }
             //wait a second between checks
@@ -220,13 +258,14 @@ public class PlayerSpinAttack : MonoBehaviour
             {
                 CannonSprite.sprite = charged_s;
             }
-            
-            while(true)
+            AudioManager.instance.PlaySingleSFX(AudioManager.instance.charged);
+            while (true)
             {
                 if(!Input.GetKey(KeyCode.Space))
                 {
                     //ATTACK!
                     RangeAttack();
+                    AudioManager.instance.PlaySingleSFX(AudioManager.instance.blast);
                     //reset to base
                     pstats.dynSize = dynSize_holder;
                     size = base_size + pstats.dynSize;

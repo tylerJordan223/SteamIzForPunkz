@@ -13,6 +13,7 @@ public class SettingsScript : MonoBehaviour
     //handling the settings menu
     public void openSettings()
     {
+        AudioManager.instance.PlaySingleSFX(AudioManager.instance.buttonpress);
         s_menu.SetActive(true);
     }
 

@@ -37,6 +37,8 @@ public class BossHandScript : MonoBehaviour
     private float fade_dx;
     public bool dead;
 
+    private bool sound_flag = true;
+
     private void Start()
     {
         //setting the initial material to be nothing on the sprite
@@ -118,6 +120,12 @@ public class BossHandScript : MonoBehaviour
                     sprite_mat = fade_mat;
                     transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().material = sprite_mat;
                     transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().material.SetColor("_Color", fade_color);
+                }
+
+                if(sound_flag)
+                {
+                    AudioManager.instance.PlaySingleSFX(AudioManager.instance.hand_death);
+                    sound_flag = false;
                 }
 
                 fade_away -= Time.deltaTime;
@@ -205,6 +213,7 @@ public class BossHandScript : MonoBehaviour
 
     public void Die()
     {
+        boss_head.GetComponent<BossHeadScript>().attacksLeft -= 1;
         GameObject bd = Instantiate(drop);
         bd.GetComponent<ItemScript>().transform.position = transform.position;
         bd.GetComponent<ItemScript>().starting_position = transform.position;

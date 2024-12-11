@@ -26,6 +26,7 @@ public class BossHeadScript : MonoBehaviour
     private bool idle = false;
     public bool dead = false;
     public bool active = false;
+    public int attacksLeft = 3;
 
     //attacking system
     public float damage_timer;
@@ -114,7 +115,7 @@ public class BossHeadScript : MonoBehaviour
         }
 
         //makes sure if the attack picked was broken to reroll until it finds a suitable attack
-        if(!active && (left_hand != null || right_hand != null || weakPoint.GetComponent<BossHealth>().health != 0))
+        if(!active && (left_hand != null || right_hand != null || weakPoint.GetComponent<BossHealth>().health != 0) && attacksLeft > 0)
         {
             PickAttack();
         }
@@ -183,6 +184,7 @@ public class BossHeadScript : MonoBehaviour
 
     public void Break()
     {
+        attacksLeft -= 1;
         GameObject bd = Instantiate(bossDrop);
         bd.GetComponent<ItemScript>().transform.position = transform.position;
         bd.GetComponent<ItemScript>().starting_position = transform.position;
@@ -193,7 +195,7 @@ public class BossHeadScript : MonoBehaviour
     {
         DisableIdle();
         movement_anim.SetBool("dead", true);
-        Time.timeScale = 0.2f;
+        Time.timeScale = 0.5f;
         GameObject.Find("Tric").GetComponent<PlayerStats>().special = 0f;
     }
 
