@@ -150,7 +150,7 @@ public class EnemyMovement : MonoBehaviour
         }
 
         //kills a boss enemy if the fight is over
-        if(DataManager.playing)
+        if(isWithBoss)
         {
             if(GameObject.Find("Tric").GetComponent<PlayerStats>().special == 3)
             {

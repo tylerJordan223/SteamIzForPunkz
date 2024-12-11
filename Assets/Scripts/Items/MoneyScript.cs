@@ -135,7 +135,7 @@ public class MoneyScript : MonoBehaviour
         {
             //give player money and destroy
             player.gameObject.GetComponent<PlayerStats>().moneyCount += worth;
-            //INSERT AUDIO FOR COIN PICKUP HERE
+            AudioManager.instance.PlaySingleSFX(AudioManager.instance.coin);
             Destroy(this.gameObject);
         }
     }

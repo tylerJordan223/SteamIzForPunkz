@@ -47,6 +47,7 @@ public class ExitScript : MonoBehaviour
     {
         GameObject.Find("Tric").transform.Find("Sprites").GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = -15;
         GameObject.Find("Tric").transform.Find("Sprites").GetChild(1).GetComponent<SpriteRenderer>().sortingOrder = -15;
+        AudioManager.instance.PlaySingleSFX(AudioManager.instance.exit);
 
         anim.SetBool("exiting", true);
     }

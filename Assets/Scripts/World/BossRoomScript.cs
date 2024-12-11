@@ -33,6 +33,9 @@ public class BossRoomScript : MonoBehaviour
 
         //base
         base_ortho = finalcam.m_Lens.OrthographicSize;
+
+        //fade out the current music
+        AudioManager.instance.EndSong(AudioManager.instance.bossSong);
     }
 
     private void Update()
@@ -41,6 +44,7 @@ public class BossRoomScript : MonoBehaviour
         {
             entrance_playable = false;
             entrance_cutscene.Play();
+            AudioManager.instance.PlaySong(AudioManager.instance.bossSong);
         }
 
         if(player.GetComponent<PlayerStats>().special == 3)

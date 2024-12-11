@@ -9,6 +9,7 @@ public class SpawnScript : MonoBehaviour
     public void StartSpawn()
     {
         anim.SetBool("spawning", true);
+        AudioManager.instance.PlaySingleSFX(AudioManager.instance.spawn);
     }
 
     public void EndSpawn()
