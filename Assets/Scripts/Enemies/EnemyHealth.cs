@@ -24,7 +24,8 @@ public class EnemyHealth : MonoBehaviour
 
     private void Start()
     {
-        health = maxHealth;
+        //enemies get stronger each floor
+        health = maxHealth + (maxHealth * DataManager.floorNumber);
         em = GetComponent<EnemyMovement>();
         sr = transform.GetChild(0).GetComponent<SpriteRenderer>();
         damageTimer = timeBetweenDamage;
