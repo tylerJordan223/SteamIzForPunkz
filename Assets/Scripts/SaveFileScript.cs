@@ -212,4 +212,62 @@ public class SaveFileScript : MonoBehaviour
             }
         }
     }
+
+    //saving and loading audio
+    public static void LoadAudio()
+    {
+        //get the initial directory path
+        pathToData = Application.dataPath.Substring(0, Application.dataPath.LastIndexOf('/'));
+
+        //if there is no save file signify that by returning null
+        if (!Directory.Exists(pathToData + "/Files/Settings/"))
+        {
+            Debug.Log("There is not audio data");
+            AudioManager.instance.music_volume = 0.5f;
+            AudioManager.instance.sfx_volume = 1.0f;
+        }
+        else
+        {
+            pathToData += "/Files/Settings/";
+            string file_content = File.ReadAllText(pathToData + "Audio.txt");
+            string[] content_lines = file_content.Split("\n");
+
+            //try to parse it to make sure its a real number
+            if (!float.TryParse(content_lines[0].Trim(), out _) || !float.TryParse(content_lines[1].Trim(), out _))
+            {
+                Debug.Log("There is no audio data");
+            }
+            else
+            {
+                AudioManager.instance.music_volume = float.Parse(content_lines[0].Trim());
+                AudioManager.instance.sfx_volume = float.Parse(content_lines[1].Trim());
+            }
+        }
+    }
+
+    public static void SaveAudio()
+    {
+        //unity file
+        pathToData = Application.dataPath.Substring(0, Application.dataPath.LastIndexOf('/'));
+
+        //check to make sure there is a folder before making it
+        if (!Directory.Exists(pathToData + "/Files/Settings/"))
+        {
+            Directory.CreateDirectory(pathToData + "/Files/Settings/");
+        }
+
+        pathToData += "/Files/Settings/";
+
+        //create the files
+        string AudioFileName = pathToData + "Audio.txt";
+        string combinedStringAudio = AudioManager.instance.music_volume + "\n" + AudioManager.instance.sfx_volume;
+
+        //save the information to the files
+        if (File.Exists(AudioFileName))
+        {
+            File.Delete(AudioFileName);
+        }
+
+        File.WriteAllText(AudioFileName, combinedStringAudio);
+    }
 }

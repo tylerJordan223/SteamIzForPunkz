@@ -131,8 +131,11 @@ public class DataManager : MonoBehaviour
         //only make a save if its worth saving
         if (floorNumber > 0)
         {
-            SaveFileScript.SaveFile(floorNumber, playerHealth, playerCharges, playerMoney, inventory);
+            //SaveFileScript.SaveFile(floorNumber, playerHealth, playerCharges, playerMoney, inventory);
         }
+
+        //save audio
+        SaveFileScript.SaveAudio();
 
         Application.Quit();
     }

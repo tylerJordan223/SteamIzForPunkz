@@ -67,13 +67,14 @@ public class AudioManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(this.gameObject);
 
+        //load the audio data
+        SaveFileScript.LoadAudio();
+
         //playing the normal first music
         music.clip = normalSong;
         ignore_volume = false;
         music.loop = true;
         music.Play();
-        music_volume = 0.5f;
-        sfx_volume = 1.0f;
     }
 
     public void PlaySingleSFX(AudioClip clip)

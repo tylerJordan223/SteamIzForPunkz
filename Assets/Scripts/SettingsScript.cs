@@ -15,6 +15,9 @@ public class SettingsScript : MonoBehaviour
     //handling the settings menu
     public void openSettings()
     {
+        m_slider.value = AudioManager.instance.music_volume;
+        sfx_slider.value = AudioManager.instance.sfx_volume;
+
         AudioManager.instance.PlaySingleSFX(AudioManager.instance.buttonpress);
         s_menu.SetActive(true);
         active = true;
