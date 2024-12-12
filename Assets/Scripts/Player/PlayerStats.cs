@@ -322,10 +322,13 @@ public class PlayerStats : MonoBehaviour
         }
 
         //activates debug stats
+
+        /*
         if (Input.GetKeyDown(KeyCode.P))
         {
             debug = !debug;
         }
+        */
 
         //DEBUG STAT CHANGER
         if (debug)
