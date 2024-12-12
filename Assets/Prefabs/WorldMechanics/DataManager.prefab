@@ -57,6 +57,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d49c2cfcfe0c0714983aec408d02a17e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items:
-  - {fileID: 2875653410783181134, guid: ac0f6f8a3a61efd4ebcfd5a5c8142db7, type: 3}
-  - {fileID: 2875653410783181134, guid: 1f7840c452e956b48abe369dd9c59030, type: 3}
+  common_items:
+  - {fileID: 2875653410783181134, guid: 999b141aff2eb1f4688203b724f30f0c, type: 3}
+  - {fileID: 2875653410783181134, guid: a4aa01ff08290364b8538adfd6907dda, type: 3}
+  - {fileID: 2875653410783181134, guid: 009f49d153adadd4681af712a12a52c7, type: 3}
+  - {fileID: 2875653410783181134, guid: ec68ac794bfb9024db6f9657d2efea75, type: 3}
+  - {fileID: 2875653410783181134, guid: 7deed28268065e941900cac8ba33f57d, type: 3}
+  rare_items:
+  - {fileID: 2875653410783181134, guid: 09fc6121e070a954a987220386be7993, type: 3}
+  - {fileID: 2875653410783181134, guid: eee98ff905f2273448c9b05c0820f855, type: 3}
+  - {fileID: 2875653410783181134, guid: d539d31a33bb7984fb4f7efc10298da9, type: 3}
+  - {fileID: 2875653410783181134, guid: a0990543103daac4e8073a10bcce92ca, type: 3}
+  - {fileID: 2875653410783181134, guid: 8e69481549b97214f9d093277be4dfc4, type: 3}
+  epic_items:
+  - {fileID: 2875653410783181134, guid: e6d75a7cc1b83294ba424504b01b2ccd, type: 3}
+  - {fileID: 2875653410783181134, guid: cebdc1d63e94d5647ae3f8736b2bbf02, type: 3}
+  - {fileID: 2875653410783181134, guid: 0cd637dba81ee154499cab161c70d120, type: 3}
+  - {fileID: 2875653410783181134, guid: fcff4dc9e2b4b344299a7ecda80581cf, type: 3}
+  - {fileID: 2875653410783181134, guid: fea1ffa0de892c240858cd1b56249f7e, type: 3}
+  legendary_items:
+  - {fileID: 2875653410783181134, guid: 8898b31c8ba61f54b9f4e8f82e03b21f, type: 3}
+  - {fileID: 2875653410783181134, guid: b45333d20875d744fbe4a0bba918acda, type: 3}
+  - {fileID: 2875653410783181134, guid: 7d5e1f3ff4e90924a8ff994f255eaafa, type: 3}
+  - {fileID: 2875653410783181134, guid: fc5a50929f7bb2744bfa3905e10988b6, type: 3}
+  - {fileID: 2875653410783181134, guid: 73c904bc385855d4dbacba4b24796df9, type: 3}

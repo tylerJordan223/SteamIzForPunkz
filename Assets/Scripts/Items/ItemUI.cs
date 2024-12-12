@@ -48,7 +48,7 @@ public class ItemUI : MonoBehaviour
 
             anim.SetBool("active", true);
             flag = false;
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(5f);
             anim.SetBool("active", false);
             yield return new WaitForSeconds(1.5f);
             flag = true;

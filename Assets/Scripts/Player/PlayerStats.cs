@@ -429,6 +429,17 @@ public class PlayerStats : MonoBehaviour
             health += item.health;
         }
 
+        //scale damages
+        if(dynBlastDamage < -2)
+        {
+            dynBlastDamage = -2;
+        }
+
+        if(dynMeleeDamage < 0)
+        {
+            dynMeleeDamage = 0;
+        }
+
         //check everything and make sure its not in a bad place
 
         //playerspeed
@@ -498,7 +509,7 @@ public class PlayerStats : MonoBehaviour
         if(dynChargeTime > max_charge_time)
         {
             dynChargeTime = max_charge_time;
-        }else if(dynChargeTime < max_charge_time)
+        }else if(dynChargeTime < minimum_charge_time)
         {
             dynChargeTime = minimum_charge_time;
         }

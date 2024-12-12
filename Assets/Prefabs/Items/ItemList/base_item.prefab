@@ -155,20 +155,22 @@ MonoBehaviour:
   legendary: 0
   speed: 0
   dash_speed: 0
-  melee_damage: 2
+  melee_damage: 0
   blast_damage: 0
   max_charges: 0
   max_health: 0
   luck: 0
   range_from_player: 0
   max_spin_speed: 0
-  spin_acceleration: -1
+  spin_acceleration: 0
   time_to_recharge: 0
   weapon_size: 0
   size_when_charged: 0
   time_to_charge: 0
   max_ricochets: 0
   special: 0
+  charges: 0
+  health: 0
   common_c: {r: 0, g: 0.8018868, b: 0.052463952, a: 1}
   rare_c: {r: 0, g: 0.8202615, b: 1, a: 1}
   epic_c: {r: 0.64169836, g: 0, b: 1, a: 1}
