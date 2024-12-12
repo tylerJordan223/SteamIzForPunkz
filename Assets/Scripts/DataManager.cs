@@ -52,16 +52,13 @@ public class DataManager : MonoBehaviour
 
     private void Awake()
     {
-        loadingScreen = GameObject.Find("LoadingScreen");
-        anim = loadingScreen.GetComponent<Animator>();
-        if(SceneManager.GetActiveScene().name == "MainMenu")
+        if(SceneManager.GetActiveScene().name != "MainMenu")
         {
-            anim.SetBool("loading", false);
-        }
-        else
-        {
+            loadingScreen = GameObject.Find("LoadingScreen");
+            anim = loadingScreen.GetComponent<Animator>();
             anim.SetBool("loading", true);
         }
+        
     }
 
     public static void StartLoad()

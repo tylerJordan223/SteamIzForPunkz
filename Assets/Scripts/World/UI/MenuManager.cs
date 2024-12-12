@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,6 +23,11 @@ public class MenuManager : MonoBehaviour
                 CyclePause();
             }
         }
+
+        if(paused && !transform.GetChild(0).gameObject.activeInHierarchy)
+        {
+            paused = false;
+        }
     }
 
     public void CyclePause()
@@ -32,7 +38,10 @@ public class MenuManager : MonoBehaviour
             transform.GetChild(0).gameObject.SetActive(false);
             paused = false;
             Time.timeScale = 1;
-            GameObject.Find("DataManager").GetComponent<SettingsScript>().closeSettings();
+            if(!GameObject.Find("SettingsMenu").IsUnityNull())
+            {
+                GameObject.Find("SettingsMenu").GetComponent<SettingsScript>().closeSettings();
+            }
         }
         else
         {
