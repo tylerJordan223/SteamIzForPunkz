@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -206,6 +207,32 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    //maximum stat values;
+    private float max_speed = 2.0f;
+    private float max_possible_charges = 8f;
+    private float max_possible_health = 8f;
+    private float max_luck = 2.5f;
+    private float max_spinspeed = 10f;
+    private float max_acceleration = 20f;
+    private float max_recharge_time = 8f;
+    private float max_size; //currently not working
+    private float max_charged_size; //currently not working
+    private float max_possible_ricochets = 5f;
+    private float max_charge_time = 5f;
+
+    //minimum stats
+    private float minimum_speed = 0.75f;
+    private float minimum_possible_charges = 1f;
+    private float minimum_possible_health = 1f;
+    private float minimum_luck = 0.5f;
+    private float minimum_spinspeed = -2f;
+    private float minimum_acceleration = -2f;
+    private float minimum_recharge_time = -1.5f;
+    private float minimum_size = 0f; //currently not working
+    private float minimum_charged_size = 0f; //currently not working
+    private float minimum_possible_ricochets = 0f;
+    private float minimum_charge_time = -5f;
+
     //special boss stats
     public float special
     {
@@ -372,8 +399,14 @@ public class PlayerStats : MonoBehaviour
         dynDashSpeed += item.dash_speed;
         dynMeleeDamage += item.melee_damage;
         dynBlastDamage += item.blast_damage;
-        dynMaxCharges += item.max_charges;
-        maxHealth += item.max_health;
+        if(dynMaxCharges + item.max_charges > 0)
+        {
+            dynMaxCharges += item.max_charges;
+        }
+        if(maxHealth + item.max_health > 1f)
+        {
+            maxHealth += item.max_health;
+        }
         luck += item.luck;
         dynRange += item.range_from_player;
         dynMaxSpeed += item.max_spin_speed;
@@ -384,8 +417,98 @@ public class PlayerStats : MonoBehaviour
         dynChargedSize += item.size_when_charged;
         maxRicochets += item.max_ricochets;
         special += item.special;
-        charges += item.charges;
-        health += item.health;
+        if(charges + item.charges > 0f)
+        {
+            charges += item.charges;
+        }
+        if(health + item.health > 0f)
+        {
+            health += item.health;
+        }
+
+        //check everything and make sure its not in a bad place
+
+        //playerspeed
+        if(dynSpeed > max_speed)
+        {
+            dynSpeed = max_speed;
+        }else if(dynSpeed < minimum_speed)
+        {
+            dynSpeed = minimum_speed;
+        }
+
+        //max charges
+        if(dynMaxCharges > max_possible_charges)
+        {
+            dynMaxCharges = max_possible_charges;
+        }else if(dynMaxCharges < minimum_possible_charges)
+        {
+            dynMaxCharges = minimum_possible_charges;
+        }
+
+        //max health
+        if(maxHealth > max_possible_health)
+        {
+            maxHealth = max_possible_health;
+        }else if(maxHealth < minimum_possible_health)
+        {
+            maxHealth = minimum_possible_health;
+        }
+
+        //luck
+        if(luck > max_luck)
+        {
+            luck = max_luck;
+        }else if(luck < minimum_luck)
+        {
+            luck = minimum_luck;
+        }
+        
+        //rotational speed
+        if(dynMaxSpeed > max_spinspeed)
+        {
+            dynMaxSpeed = max_spinspeed;
+        }else if(dynMaxSpeed < minimum_spinspeed)
+        {
+            dynMaxSpeed = minimum_spinspeed;
+        }
+
+        //acceleration
+        if(dynSpinAcceleration > max_acceleration)
+        {
+            dynSpinAcceleration = max_acceleration;
+        }else if(dynSpinAcceleration < minimum_acceleration)
+        {
+            dynSpinAcceleration = minimum_acceleration;
+        }
+
+        //time it takes to recharge
+        if(dynRechargeTime > max_recharge_time)
+        {
+            dynRechargeTime = max_recharge_time;
+        }else if(dynRechargeTime < minimum_recharge_time)
+        {
+            dynRechargeTime = minimum_recharge_time;
+        }
+
+        //time it takes between chargges
+        if(dynChargeTime > max_charge_time)
+        {
+            dynChargeTime = max_charge_time;
+        }else if(dynChargeTime < max_charge_time)
+        {
+            dynChargeTime = minimum_charge_time;
+        }
+
+        //ricochets
+        if(maxRicochets > max_possible_ricochets)
+        {
+            maxRicochets = max_possible_ricochets;
+        }else if(maxRicochets < minimum_possible_ricochets)
+        {
+            maxRicochets = minimum_possible_ricochets;
+        }
+
 
         //adding item to the list of held items
         ItemScript new_item;

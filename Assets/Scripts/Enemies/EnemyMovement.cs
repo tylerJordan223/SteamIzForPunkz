@@ -226,6 +226,7 @@ public class EnemyMovement : MonoBehaviour
     private IEnumerator FlyingAnimation()
     {
         attacking = true;
+        directional = false;
         //shadow.enabled = false;
         anim.SetBool("flying", false);
 
@@ -243,6 +244,7 @@ public class EnemyMovement : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             flying = true;
             attacking = false;
+            directional = true;
 
             //an extra second before it can attack again (cooldown)
             yield return new WaitForSeconds(1f);
@@ -285,7 +287,7 @@ public class EnemyMovement : MonoBehaviour
 
             anim.speed = speed;
         }
-        else
+        else if(directional)
         {
             anim.SetBool("moving", true);
 

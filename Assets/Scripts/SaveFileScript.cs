@@ -229,18 +229,26 @@ public class SaveFileScript : MonoBehaviour
         else
         {
             pathToData += "/Files/Settings/";
-            string file_content = File.ReadAllText(pathToData + "Audio.txt");
-            string[] content_lines = file_content.Split("\n");
 
-            //try to parse it to make sure its a real number
-            if (!float.TryParse(content_lines[0].Trim(), out _) || !float.TryParse(content_lines[1].Trim(), out _))
+            //quick check to make sure the file is there
+            if(File.Exists(pathToData + "Audio.txt"))
             {
-                Debug.Log("There is no audio data");
-            }
-            else
-            {
-                AudioManager.instance.music_volume = float.Parse(content_lines[0].Trim());
-                AudioManager.instance.sfx_volume = float.Parse(content_lines[1].Trim());
+                string file_content = File.ReadAllText(pathToData + "Audio.txt");
+                string[] content_lines = file_content.Split("\n");
+
+                //try to parse it to make sure its a real number
+                if (!float.TryParse(content_lines[0].Trim(), out _) || !float.TryParse(content_lines[1].Trim(), out _))
+                {
+                    Debug.Log("There is no audio data");
+
+                    AudioManager.instance.music_volume = 0.5f;
+                    AudioManager.instance.sfx_volume = 1.0f;
+                }
+                else
+                {
+                    AudioManager.instance.music_volume = float.Parse(content_lines[0].Trim());
+                    AudioManager.instance.sfx_volume = float.Parse(content_lines[1].Trim());
+                }
             }
         }
     }

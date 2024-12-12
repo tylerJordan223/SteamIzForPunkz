@@ -244,6 +244,7 @@ public class PlayerSpinAttack : MonoBehaviour
             }
             //wait a second between checks
             yield return new WaitForSeconds(base_chargeTime - (pstats.dynChargeTime * 0.1f));
+            AudioManager.instance.PlaySingleSFX(AudioManager.instance.recharged);
         }
         
         //if fully charged, wait until release and attack

@@ -30,6 +30,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] public AudioClip charging;
     [SerializeField] public AudioClip charged;
     [SerializeField] public AudioClip blast;
+    [SerializeField] public AudioClip recharged;
 
     //enemies
     [SerializeField] public AudioClip e_damage;

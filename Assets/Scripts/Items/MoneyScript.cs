@@ -55,9 +55,9 @@ public class MoneyScript : MonoBehaviour
         }
 
         //determine the cost
-        float r = Random.Range(3f, 100f);
+        float r = Random.Range(0, 100);
         //3% chance to be worth 5 instead of 1 (Brass instead of Copper)
-        if (r > 3) 
+        if (r > 2) 
         {
             worth = 1f;
             sr.sprite = money[Random.Range(0,money.Count)];

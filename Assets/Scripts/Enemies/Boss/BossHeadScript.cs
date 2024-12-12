@@ -197,6 +197,7 @@ public class BossHeadScript : MonoBehaviour
         movement_anim.SetBool("dead", true);
         Time.timeScale = 0.5f;
         GameObject.Find("Tric").GetComponent<PlayerStats>().special = 0f;
+        AudioManager.instance.EndSong(AudioManager.instance.bossSong);
     }
 
     public void ResetTime()
