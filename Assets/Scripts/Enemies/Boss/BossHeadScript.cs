@@ -87,7 +87,7 @@ public class BossHeadScript : MonoBehaviour
         }
 
         //enable the collider at the end
-        if(left_hand == null && right_hand == null && weakPoint.GetComponent<BossHealth>().health == 0 && FinalCollider.enabled == false && idle)
+        if(player.GetComponent<PlayerStats>().special == 3)
         {
             FinalCollider.enabled = true;
         }

@@ -280,7 +280,7 @@ public class PlayerStats : MonoBehaviour
             dynBlastDamage = 5f;
             dynMaxCharges = 3f;
             maxHealth = 3f;
-            luck = 1f;
+            luck = 5f;
             special = 0f;
 
             health = (float)DataManager.playerHealth;

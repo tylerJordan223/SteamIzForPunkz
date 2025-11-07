@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerSpinAttack : MonoBehaviour
 {
@@ -122,14 +123,14 @@ public class PlayerSpinAttack : MonoBehaviour
         //movement
         if(canControl)
         {
-            if ((Input.GetMouseButton(0) || Input.GetKeyDown(KeyCode.LeftArrow)) && (rotationSpeed < (base_maxSpeed + pstats.dynMaxSpeed)))
+            if ((Input.GetMouseButton(0) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetButtonDown("Fire1")) && (rotationSpeed < (base_maxSpeed + pstats.dynMaxSpeed)))
             {
                 if(rotationSpeed < (base_maxSpeed + pstats.dynMaxSpeed))
                 {
                     rotationSpeed += (base_spinAcceleration + (pstats.dynSpinAcceleration * 0.02f));
                 }
                 spinParent.Rotate(new Vector3(0f, 0f, 1f), rotationSpeed);
-            }else if ((Input.GetMouseButton(1) || Input.GetKeyDown(KeyCode.RightArrow)) && (rotationSpeed > -(base_maxSpeed + pstats.dynMaxSpeed)))
+            }else if ((Input.GetMouseButton(1) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetButtonDown("Fire2")) && (rotationSpeed > -(base_maxSpeed + pstats.dynMaxSpeed)))
             {
                 if(rotationSpeed > -(base_maxSpeed + pstats.dynMaxSpeed))
                 {
@@ -365,5 +366,10 @@ public class PlayerSpinAttack : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireSphere(atrans.position, attackRange);
+    }
+
+    private void OnSpinLeft(InputValue value)
+    {
+        Debug.Log("spinning left: " + value);
     }
 }
