@@ -211,7 +211,7 @@ public class PlayerStats : MonoBehaviour
     private float max_speed = 2.0f;
     private float max_possible_charges = 8f;
     private float max_possible_health = 8f;
-    private float max_luck = 2.5f;
+    private float max_luck = 5f;
     private float max_spinspeed = 10f;
     private float max_acceleration = 20f;
     private float max_recharge_time = 8f;

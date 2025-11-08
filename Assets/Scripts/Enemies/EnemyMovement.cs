@@ -64,7 +64,7 @@ public class EnemyMovement : MonoBehaviour
         {
             flying_enemy = transform.GetChild(0).gameObject.GetComponent<BoxCollider2D>();
             flying_enemy.enabled = false;
-            shadow = GetComponent<CapsuleCollider2D>();
+            shadow = transform.Find("EnemyShadow").GetComponent<CapsuleCollider2D>();
             shadow.enabled = true;
             anim.SetBool("flying", flying);
             attacking = false;

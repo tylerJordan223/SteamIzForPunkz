@@ -50,8 +50,16 @@ public class ProjectileScript : MonoBehaviour
                         {
                             if(h.collider.CompareTag("enemy"))
                             {
-                                EnemyHealth e = h.collider.gameObject.GetComponent<EnemyHealth>();
-                                e.Damage(projectileDamage);
+                                if(h.collider.gameObject.name == "EnemyBody")
+                                {
+                                    EnemyHealth e = h.collider.gameObject.transform.parent.GetComponent<EnemyHealth>();
+                                    e.Damage(projectileDamage);
+                                }
+                                else
+                                {
+                                    EnemyHealth e = h.collider.gameObject.GetComponent<EnemyHealth>();
+                                    e.Damage(projectileDamage);
+                                }
                             }
                             else if(h.collider.CompareTag("boss"))
                             {

@@ -5704,7 +5704,7 @@ MonoBehaviour:
   hand: 1
   maxHealth: 30
   health: 0
-  timeBetweenDamage: 5
+  timeBetweenDamage: 3
 --- !u!1 &2036440215175344607
 GameObject:
   m_ObjectHideFlags: 0
@@ -10552,7 +10552,7 @@ MonoBehaviour:
   hand: 1
   maxHealth: 30
   health: 0
-  timeBetweenDamage: 5
+  timeBetweenDamage: 3
 --- !u!1 &9018027450731167304
 GameObject:
   m_ObjectHideFlags: 0
@@ -10617,7 +10617,7 @@ MonoBehaviour:
   active: 0
   attacksLeft: 3
   damage_timer: 0
-  time_between_attacks: 10
+  time_between_attacks: 7
 --- !u!95 &3473611030751141907
 Animator:
   serializedVersion: 5

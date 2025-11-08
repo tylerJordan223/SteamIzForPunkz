@@ -169,7 +169,7 @@ MonoBehaviour:
   time_to_charge: 0
   max_ricochets: 0
   special: 0
-  charges: 1
+  charges: 999
   health: 0
   common_c: {r: 0, g: 0.8018868, b: 0.052463952, a: 1}
   rare_c: {r: 0, g: 0.8202615, b: 1, a: 1}

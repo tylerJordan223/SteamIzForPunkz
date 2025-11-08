@@ -93,7 +93,6 @@ public class DataManager : MonoBehaviour
         //if there is no floor generator at the end of a load then generate a base grid
         if (!GameObject.Find("FloorGenerator"))
         {
-            Debug.Log("amde new grid");
             g = new Grid(300, 300, 1);
             g.checkGrid();
             g.playerNode = g.getNode(GameObject.Find("Tric").transform);

@@ -102,7 +102,8 @@ public class PlayerSpinAttack : MonoBehaviour
         }
 
         //update weapon size
-        size = base_size + pstats.dynSize;
+        size = Mathf.Round(10 * (base_size + pstats.dynSize)) * 0.1f;
+        size.ToString("0.00");
         atrans.localScale = new Vector3(size, size, 1f);
 
         //attack if rotation is a certain speed
@@ -203,8 +204,10 @@ public class PlayerSpinAttack : MonoBehaviour
                 }
 
                 //break if fully charged
-                if (size == (base_chargedSize + pstats.dynChargedSize))
+                if (size >= (base_chargedSize + pstats.dynChargedSize))
                 {
+                    //sets it to the size so its not off by any value
+                    size = base_chargedSize + pstats.dynChargedSize;
                     break;
                 }
                 //increase in size if held  
@@ -218,8 +221,10 @@ public class PlayerSpinAttack : MonoBehaviour
             else
             {
                 //break loop if normal size
-                if(size == (base_size + dynSize_holder))
+                if(size <= (base_size + dynSize_holder))
                 {
+                    //sets it to the size so its not off by any value
+                    size = base_size + dynSize_holder;
                     break;
                 }
                 else
@@ -316,6 +321,13 @@ public class PlayerSpinAttack : MonoBehaviour
                 EnemyHealth eh = hits[i].collider.gameObject.GetComponent<EnemyHealth>();
                 EnemyMovement em = hits[i].collider.gameObject.GetComponent<EnemyMovement>();
 
+                //check for flying enemy FIX LATER
+                if (hits[i].collider.transform.name == "EnemyBody")
+                {
+                    eh = hits[i].collider.transform.parent.GetComponent<EnemyHealth>();
+                    em = hits[i].collider.transform.parent.GetComponent<EnemyMovement>();
+                }
+
                 //if the collision was an enemy then damage it
                 if (eh != null && !em.flying)
                 {
@@ -341,7 +353,7 @@ public class PlayerSpinAttack : MonoBehaviour
         p.GetComponent<ProjectileScript>().projectileDamage += pstats.dynBlastDamage;
         p.GetComponent<ProjectileScript>().ricochetCount = (int)pstats.maxRicochets;
         //move the position and rotation
-        p.transform.position = ptrans.transform.position;
+        p.transform.position = ptrans.transform.Find("SpinAttack").Find("AttackPoint").position;
         p.transform.up = (atrans.position - ptrans.position).normalized;
         //remove a charge from the shot
         pstats.charges--;

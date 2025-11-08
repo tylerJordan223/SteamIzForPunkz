@@ -200,8 +200,6 @@ public class BossHandScript : MonoBehaviour
 
             //an extra second before it can attack again (cooldown)
             yield return new WaitForSeconds(1f);
-
-            my_shadow.GetComponent<CircleCollider2D>().enabled = true;
         }
         else
         {

@@ -156,7 +156,7 @@ MonoBehaviour:
   speed: 0
   dash_speed: 0
   melee_damage: 0
-  blast_damage: 0
+  blast_damage: 10
   max_charges: 0
   max_health: 0
   luck: 0
