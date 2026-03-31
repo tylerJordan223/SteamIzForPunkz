@@ -75,7 +75,7 @@ public class FlyingEnemyMovement : MonoBehaviour
         }
 
         //slow down any velocity pushed
-        rb.velocity *= new Vector2(0.3f, 0.3f);
+        rb.linearVelocity *= new Vector2(0.3f, 0.3f);
 
         if (player == null && GameObject.Find("Tric"))
         {

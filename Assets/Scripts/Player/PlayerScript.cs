@@ -195,11 +195,11 @@ public class PlayerScript : MonoBehaviour
         //update on speed if alive, stop if else
         if(pstats.health > 0)
         {
-            rb.velocity = inputVector * playerSpeed * pstats.dynSpeed;
+            rb.linearVelocity = inputVector * playerSpeed * pstats.dynSpeed;
         }
         else
         {
-            rb.velocity = new Vector2(0, 0);
+            rb.linearVelocity = new Vector2(0, 0);
         }
     }
 
@@ -241,7 +241,7 @@ public class PlayerScript : MonoBehaviour
         //get the direction
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
-        rb.velocity = new Vector2(transform.localScale.x * dashDistance, 0f);
+        rb.linearVelocity = new Vector2(transform.localScale.x * dashDistance, 0f);
 
         //have the trail and dash and disable it
         dashTrail.emitting = true;

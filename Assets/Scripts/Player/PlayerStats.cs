@@ -429,13 +429,28 @@ public class PlayerStats : MonoBehaviour
             health += item.health;
         }
 
+        //make sure nothing is over or under scaled
+        ItemBoundsCheck();
+
+        //adding item to the list of held items
+        ItemScript new_item;
+        new_item = item;
+        DataManager.inventory.Add(new_item);
+
+        //showing the item in the UI
+        StartCoroutine(iui.show_item(item));
+    }
+
+    //function to update everything and make sure its fine
+    private void ItemBoundsCheck()
+    {
         //scale damages
-        if(dynBlastDamage < -2)
+        if (dynBlastDamage < -2)
         {
             dynBlastDamage = -2;
         }
 
-        if(dynMeleeDamage < 0)
+        if (dynMeleeDamage < 0)
         {
             dynMeleeDamage = 0;
         }
@@ -443,105 +458,105 @@ public class PlayerStats : MonoBehaviour
         //check everything and make sure its not in a bad place
 
         //playerspeed
-        if(dynSpeed > max_speed)
+        if (dynSpeed > max_speed)
         {
             dynSpeed = max_speed;
-        }else if(dynSpeed < minimum_speed)
+        }
+        else if (dynSpeed < minimum_speed)
         {
             dynSpeed = minimum_speed;
         }
 
         //max charges
-        if(dynMaxCharges > max_possible_charges)
+        if (dynMaxCharges > max_possible_charges)
         {
             dynMaxCharges = max_possible_charges;
-        }else if(dynMaxCharges < minimum_possible_charges)
+        }
+        else if (dynMaxCharges < minimum_possible_charges)
         {
             dynMaxCharges = minimum_possible_charges;
         }
 
         //max health
-        if(maxHealth > max_possible_health)
+        if (maxHealth > max_possible_health)
         {
             maxHealth = max_possible_health;
-        }else if(maxHealth < minimum_possible_health)
+        }
+        else if (maxHealth < minimum_possible_health)
         {
             maxHealth = minimum_possible_health;
         }
 
         //luck
-        if(luck > max_luck)
+        if (luck > max_luck)
         {
             luck = max_luck;
-        }else if(luck < minimum_luck)
+        }
+        else if (luck < minimum_luck)
         {
             luck = minimum_luck;
         }
-        
+
         //rotational speed
-        if(dynMaxSpeed > max_spinspeed)
+        if (dynMaxSpeed > max_spinspeed)
         {
             dynMaxSpeed = max_spinspeed;
-        }else if(dynMaxSpeed < minimum_spinspeed)
+        }
+        else if (dynMaxSpeed < minimum_spinspeed)
         {
             dynMaxSpeed = minimum_spinspeed;
         }
 
         //acceleration
-        if(dynSpinAcceleration > max_acceleration)
+        if (dynSpinAcceleration > max_acceleration)
         {
             dynSpinAcceleration = max_acceleration;
-        }else if(dynSpinAcceleration < minimum_acceleration)
+        }
+        else if (dynSpinAcceleration < minimum_acceleration)
         {
             dynSpinAcceleration = minimum_acceleration;
         }
 
         //time it takes to recharge
-        if(dynRechargeTime > max_recharge_time)
+        if (dynRechargeTime > max_recharge_time)
         {
             dynRechargeTime = max_recharge_time;
-        }else if(dynRechargeTime < minimum_recharge_time)
+        }
+        else if (dynRechargeTime < minimum_recharge_time)
         {
             dynRechargeTime = minimum_recharge_time;
         }
 
         //time it takes between chargges
-        if(dynChargeTime > max_charge_time)
+        if (dynChargeTime > max_charge_time)
         {
             dynChargeTime = max_charge_time;
-        }else if(dynChargeTime < minimum_charge_time)
+        }
+        else if (dynChargeTime < minimum_charge_time)
         {
             dynChargeTime = minimum_charge_time;
         }
 
         //ricochets
-        if(maxRicochets > max_possible_ricochets)
+        if (maxRicochets > max_possible_ricochets)
         {
             maxRicochets = max_possible_ricochets;
-        }else if(maxRicochets < minimum_possible_ricochets)
+        }
+        else if (maxRicochets < minimum_possible_ricochets)
         {
             maxRicochets = minimum_possible_ricochets;
         }
 
-
-        //adding item to the list of held items
-        ItemScript new_item;
-        new_item = item;
-        DataManager.inventory.Add(new_item);
-
         //make sure it doesnt overfill
-        if(health > maxHealth)
+        if (health > maxHealth)
         {
             health = maxHealth;
         }
 
-        if(charges > dynMaxCharges)
+        if (charges > dynMaxCharges)
         {
             charges = dynMaxCharges;
         }
-
-        //showing the item in the UI
-        StartCoroutine(iui.show_item(item));
     }
 
     //updates the player at the start of each floor
@@ -566,6 +581,9 @@ public class PlayerStats : MonoBehaviour
             maxRicochets += item.max_ricochets;
             special += item.special;
         }
+
+        //check to make sure everythings fine
+        ItemBoundsCheck();
 
         //finished loading once the player has all their items
         DataManager.EndLoad();

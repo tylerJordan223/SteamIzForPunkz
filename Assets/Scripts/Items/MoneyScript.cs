@@ -109,7 +109,7 @@ public class MoneyScript : MonoBehaviour
             rush = true;
         }
 
-        rb.velocity = new Vector3(0f,0f,0f);
+        rb.linearVelocity = new Vector3(0f,0f,0f);
     }
 
     //function to wait before the money goes towards player

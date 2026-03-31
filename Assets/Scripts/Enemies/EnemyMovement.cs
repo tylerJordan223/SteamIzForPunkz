@@ -141,7 +141,7 @@ public class EnemyMovement : MonoBehaviour
         }
 
         //slow down any velocity pushed
-        rb.velocity *= new Vector2(0.3f,0.3f);
+        rb.linearVelocity *= new Vector2(0.3f,0.3f);
 
         //update my node
         if(DataManager.g.getNode(transform) != my_node)
@@ -260,7 +260,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void UpdateAnimation()
     {
-        if(flying)
+        if(anim.GetParameter(0).name == "flying")
         {
             if(dead)
             {

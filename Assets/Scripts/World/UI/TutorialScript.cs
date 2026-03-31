@@ -44,7 +44,7 @@ public class TutorialScript : MonoBehaviour
     {
         if (page_number == 0)
         {
-            page_number = tutorial_images.Count;
+            page_number = tutorial_images.Count-1;
         }
         else
         {
