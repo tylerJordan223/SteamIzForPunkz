@@ -1,3 +1,4 @@
+using GInput;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -57,6 +58,9 @@ public class PlayerSpinAttack : MonoBehaviour
     [Header("Sound")]
     [SerializeField] public AudioSource weapon_audio;
 
+    //player input
+    private GameInput input;
+
     private void Start()
     {
         //set the attack point to the right color
@@ -90,10 +94,23 @@ public class PlayerSpinAttack : MonoBehaviour
         weapon_audio.loop = true;
     }
 
+    private void OnEnable()
+    {
+        //enable the player controls
+        input = new GameInput();
+        input.Player.Spin.Enable();
+        input.Player.Charge.Enable();
+    }
+
+    private void OnDisable()
+    {
+        input.Player.Spin.Disable();
+        input.Player.Charge.Enable();
+    }
     private void Update()
     {
         //CHARGE ATTACK
-        if (Input.GetKeyDown(KeyCode.Space) && pstats.charges > 0 && spinParent.parent.GetComponent<PlayerScript>().canControl)
+        if (input.Player.Charge.IsPressed() && pstats.charges > 0 && spinParent.parent.GetComponent<PlayerScript>().canControl)
         {
             if (!charging)
             {
@@ -124,14 +141,14 @@ public class PlayerSpinAttack : MonoBehaviour
         //movement
         if(canControl)
         {
-            if ((Input.GetMouseButton(0) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetButtonDown("Fire1")) && (rotationSpeed < (base_maxSpeed + pstats.dynMaxSpeed)))
+            if (input.Player.Spin.ReadValue<float>() == -1f && (rotationSpeed < (base_maxSpeed + pstats.dynMaxSpeed)))
             {
                 if(rotationSpeed < (base_maxSpeed + pstats.dynMaxSpeed))
                 {
                     rotationSpeed += (base_spinAcceleration + (pstats.dynSpinAcceleration * 0.02f));
                 }
                 spinParent.Rotate(new Vector3(0f, 0f, 1f), rotationSpeed);
-            }else if ((Input.GetMouseButton(1) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetButtonDown("Fire2")) && (rotationSpeed > -(base_maxSpeed + pstats.dynMaxSpeed)))
+            }else if (input.Player.Spin.ReadValue<float>() == 1f && (rotationSpeed > -(base_maxSpeed + pstats.dynMaxSpeed)))
             {
                 if(rotationSpeed > -(base_maxSpeed + pstats.dynMaxSpeed))
                 {
@@ -191,7 +208,7 @@ public class PlayerSpinAttack : MonoBehaviour
         //loop infinite size alteration until normal size or fully charged
         while(true)
         {
-            if(Input.GetKey(KeyCode.Space) && spinParent.parent.GetComponent<PlayerScript>().canControl)
+            if(input.Player.Charge.IsPressed() && spinParent.parent.GetComponent<PlayerScript>().canControl)
             {
                 //set the color to charging
                 if (pstats.special == 3)
@@ -268,7 +285,7 @@ public class PlayerSpinAttack : MonoBehaviour
             AudioManager.instance.PlaySingleSFX(AudioManager.instance.charged);
             while (true)
             {
-                if(!Input.GetKey(KeyCode.Space))
+                if(!input.Player.Charge.IsPressed())
                 {
                     //ATTACK!
                     RangeAttack();

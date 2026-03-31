@@ -1,3 +1,4 @@
+using GInput;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -32,6 +33,8 @@ public class ItemMachineScript : MonoBehaviour
     public bool on_player;
     public bool spinning;
 
+    private GameInput input;
+
     private void Start()
     {
         my_material = normal;
@@ -41,6 +44,17 @@ public class ItemMachineScript : MonoBehaviour
         //setting the initial cost (scales per floor)
         cost = 5 + DataManager.floorNumber * 5;
         cost_text.text = cost.ToString();
+    }
+
+    private void OnEnable()
+    {
+        input = new GameInput();
+        input.Player.Enable();
+    }
+
+    private void OnDisable()
+    {
+        input.Player.Disable();
     }
 
     private void Update()
@@ -68,7 +82,7 @@ public class ItemMachineScript : MonoBehaviour
                 sr.material = my_material;
             }
 
-            if(on_player && Input.GetKeyDown(KeyCode.E))
+            if(on_player && input.Player.Interact.IsPressed())
             {
                 Interact();
             }

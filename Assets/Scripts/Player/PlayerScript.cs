@@ -1,4 +1,5 @@
 using Cinemachine;
+using GInput;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -55,6 +56,8 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] Animator head_anim;
     [SerializeField] Animator body_anim;
 
+    //player input
+    public GameInput input;
 
     private void Start()
     {
@@ -91,7 +94,18 @@ public class PlayerScript : MonoBehaviour
 
         //damage timer
         damageTimer = timeBetweenDamage;
+    }
 
+    private void OnEnable()
+    {
+        //enable the player controls
+        input = new GameInput();
+        input.Player.Enable();
+    }
+
+    private void OnDisable()
+    {
+        input.Player.Disable();
     }
 
     //use for anything non-movement related like math
@@ -100,7 +114,7 @@ public class PlayerScript : MonoBehaviour
         if(canControl)
         {
             //update input
-            inputVector = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            inputVector = input.Player.Movement.ReadValue<Vector2>();
 
             //update last input if actual input and not 0
             // CURRENTLY SET UP FOR 4 DIRECTIONAL, IF HORIZONTAL THEN USE THAT
@@ -112,7 +126,7 @@ public class PlayerScript : MonoBehaviour
             //place/pickup item
             if(holdingItem)
             {
-                if(Input.GetKeyDown(KeyCode.E))
+                if(input.Player.Interact.IsPressed())
                 {
                     //Setting object's parent to current room
                     heldObject.transform.SetParent(currentRoom.transform.Find("Items").transform, true);
@@ -123,7 +137,7 @@ public class PlayerScript : MonoBehaviour
                 }
             }else
             {
-                if(itemList.Count != 0 && Input.GetKeyDown(KeyCode.E))
+                if(itemList.Count != 0 && input.Player.Interact.IsPressed())
                 {
                     GameObject item = itemList[0];
                     itemList.RemoveAt(0);
@@ -177,12 +191,11 @@ public class PlayerScript : MonoBehaviour
             UpdatePlayerNode();
         }
 
+        //debug to check grid
         if(Input.GetKeyDown(KeyCode.U))
         {
             DataManager.g.checkGrid();
         }
-
-        
     }
 
 

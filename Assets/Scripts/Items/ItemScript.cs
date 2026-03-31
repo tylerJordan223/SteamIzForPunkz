@@ -1,3 +1,4 @@
+using GInput;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -68,6 +69,9 @@ public class ItemScript : MonoBehaviour
     public Vector3 starting_position;
     public Vector3 goal_position;
 
+    //player input
+    private GameInput input;
+
     private void Start()
     {
         //setting the initial material to be nothing
@@ -80,6 +84,18 @@ public class ItemScript : MonoBehaviour
         picked_up = false;
         fade = 1f;
         glow_color = common_c;
+    }
+
+    private void OnEnable()
+    {
+        //enable the player controls
+        input = new GameInput();
+        input.Player.Enable();
+    }
+
+    private void OnDisable()
+    {
+        input.Player.Disable();
     }
 
     private void Update()
@@ -107,7 +123,7 @@ public class ItemScript : MonoBehaviour
         }
 
         //actual pickup
-        if (Input.GetKey(KeyCode.E) && on_player)
+        if (input.Player.Interact.IsPressed() && on_player)
         {
             this.gameObject.GetComponent<SpriteRenderer>().material = vanish;
             this.gameObject.GetComponent<SpriteRenderer>().material.SetColor("_Color", glow_color);
