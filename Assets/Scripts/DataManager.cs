@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class DataManager : MonoBehaviour
@@ -55,8 +56,11 @@ public class DataManager : MonoBehaviour
         if(SceneManager.GetActiveScene().name != "MainMenu")
         {
             loadingScreen = GameObject.Find("LoadingScreen");
-            anim = loadingScreen.GetComponent<Animator>();
-            anim.SetBool("loading", true);
+            if(loadingScreen)
+            {
+                anim = loadingScreen.GetComponent<Animator>();
+                anim.SetBool("loading", true);
+            }
         }
         
     }
