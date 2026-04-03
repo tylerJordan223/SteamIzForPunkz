@@ -464,6 +464,7 @@ MonoBehaviour:
   - {fileID: 830872383}
   - {fileID: 419845702}
   - {fileID: 30339751}
+  spin_speed: 250
 --- !u!1 &622997674
 GameObject:
   m_ObjectHideFlags: 0
