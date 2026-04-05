@@ -4,6 +4,20 @@ using UnityEngine;
 
 public class ItemList : MonoBehaviour
 {
+    #region singleton
+    public static ItemList instance;
+
+    private void Awake()
+    {
+        if(instance)
+        {
+            DestroyImmediate(this.gameObject);
+        }
+
+        instance = this;
+    }
+    #endregion singleton
+
     [SerializeField] public List<GameObject> common_items;
     [SerializeField] public List<GameObject> rare_items;
     [SerializeField] public List<GameObject> epic_items;
@@ -45,18 +59,41 @@ public class ItemList : MonoBehaviour
 
         if(random_number < 50)
         {
-            return common_items[Random.Range(0, common_items.Count)];
+            return GetRandomCommonItem();
         }else if(random_number < 80)
         {
-            return rare_items[Random.Range(0, rare_items.Count)];
+            return GetRandomRareItem();
         }else if(random_number < 95)
         {
-            return epic_items[Random.Range(0, epic_items.Count)];
+            return GetRandomEpicItem();
         }
         else
         {
-            return legendary_items[Random.Range(0, legendary_items.Count)];
+            return GetRandomLegendaryItem();
         }
     }
 
+    #region Item Rarity Gets
+
+    public GameObject GetRandomCommonItem()
+    {
+        return common_items[Random.Range(0, common_items.Count)];
+    }
+
+    public GameObject GetRandomRareItem()
+    {
+        return rare_items[Random.Range(0, rare_items.Count)];
+    }
+
+    public GameObject GetRandomEpicItem()
+    {
+        return epic_items[Random.Range(0, epic_items.Count)];
+    }
+
+    public GameObject GetRandomLegendaryItem()
+    {
+        return legendary_items[Random.Range(0, legendary_items.Count)];
+    }
+
+    #endregion Item Rarity Gets
 }

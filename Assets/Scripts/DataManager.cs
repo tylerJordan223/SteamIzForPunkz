@@ -142,11 +142,5 @@ public class DataManager : MonoBehaviour
 
         Application.Quit();
     }
-
-    public GameObject getRandomItem()
-    {
-        return items[Random.Range(0, items.Count)];
-    }
-
     
 }
