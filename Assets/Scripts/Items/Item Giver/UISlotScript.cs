@@ -98,6 +98,7 @@ public class UISlotScript : MonoBehaviour
         }
     }
 
+    //selects the 3 items per slot
     private void RefreshItems()
     {
         //load in a common/rare item
@@ -151,6 +152,86 @@ public class UISlotScript : MonoBehaviour
             {
                 visual_grid[i, j].sprite = full_grid[gambling_grid[i, j] , j].GetComponent<SpriteRenderer>().sprite;
             }
+        }
+    }
+
+    //function used to check for 3 in a line horizontal
+    private bool CheckForSuccessHorizontal(int r, int c)
+    {
+        //if it gets to the last column then return success//
+        if(c == visual_grid.GetLength(1)-1)
+        {
+            return true;
+        }
+        else if (visual_grid[r, c+1].sprite == visual_grid[r,c].sprite)
+        {
+            //if the one to the right is the same keep going
+            return CheckForSuccessHorizontal(r, c + 1);
+        }
+        else
+        {
+            //breaks the chain
+            return false;
+        }
+    }
+
+    //function used to check for 3 in a line vertical
+    private bool CheckForSuccessVertical(int r, int c)
+    {
+        //if it gets to the last row then return success//
+        if (r == visual_grid.GetLength(0) - 1)
+        {
+            return true;
+        }
+        else if (visual_grid[r + 1, c].sprite == visual_grid[r, c].sprite)
+        {
+            //if the one to the bottom is the same keep going
+            return CheckForSuccessVertical(r + 1, c);
+        }
+        else
+        {
+            //breaks the chain
+            return false;
+        }
+    }
+
+    //function used to check for 3 in a line diagonal down
+    private bool CheckForSuccessDiagonalDown(int r, int c)
+    {
+        //if it gets to the last row then return success//
+        if (r == visual_grid.GetLength(0) - 1 && c == visual_grid.GetLength(1) - 1)
+        {
+            return true;
+        }
+        else if (visual_grid[r + 1, c + 1].sprite == visual_grid[r, c].sprite)
+        {
+            //if the one to the bottom is the same keep going
+            return CheckForSuccessDiagonalDown(r + 1, c + 1);
+        }
+        else
+        {
+            //breaks the chain
+            return false;
+        }
+    }
+
+    //function used to check for 3 in a line diagonal up
+    private bool CheckForSuccessDiagonalUp(int r, int c)
+    {
+        //if it gets to the last row then return success//
+        if (r == 1 && c == visual_grid.GetLength(1) - 1)
+        {
+            return true;
+        }
+        else if (visual_grid[r - 1, c + 1].sprite == visual_grid[r, c].sprite)
+        {
+            //if the one to the bottom is the same keep going
+            return CheckForSuccessDiagonalUp(r - 1, c + 1);
+        }
+        else
+        {
+            //breaks the chain
+            return false;
         }
     }
 
@@ -259,12 +340,41 @@ public class UISlotScript : MonoBehaviour
             //RUN CODE TO CALCULATE ITEM OUTPUT
             spinning = false;
 
-            //show output
+            //show output//
+
             //prints out the current number values
             Debug.Log($"[{gambling_grid[0, 0]}, {gambling_grid[0, 1]}, {gambling_grid[0, 2]}] \n " +
                 $"[{gambling_grid[1, 0]}, {gambling_grid[1, 1]}, {gambling_grid[1, 2]}] " +
                 $"\n [{gambling_grid[2, 0]}, {gambling_grid[2, 1]}, {gambling_grid[2, 2]}] " +
                 $"\n [{gambling_grid[3, 0]}, {gambling_grid[3, 1]}, {gambling_grid[3, 2]}]");
+
+            //OUTPUTS//
+
+            bool check = false;
+
+            //horizontal
+            for(int i = 1; i < gambling_grid.GetLength(0); i++)
+            {
+                //check for each spot
+                check = CheckForSuccessHorizontal(i, 0);
+                Debug.Log("Horizontal: " + check);
+            }
+
+            //vertical
+            for (int i = 0; i < gambling_grid.GetLength(1); i++)
+            {
+                //check for each spot
+                check = CheckForSuccessVertical(1, i);
+                Debug.Log("Vertical: " + check);
+            }
+
+            //diagonal up
+            check = CheckForSuccessDiagonalDown(1, 0);
+            Debug.Log("D Down: " + check);
+
+            //diagonal down
+            check = CheckForSuccessDiagonalUp(gambling_grid.GetLength(0)-1, 0);
+            Debug.Log("D UP: " + check);
         }
 
         yield return null;
