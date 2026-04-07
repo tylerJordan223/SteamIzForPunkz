@@ -6,6 +6,22 @@ using UnityEngine.SceneManagement;
 
 public class PlayerStats : MonoBehaviour
 {
+    #region singleton
+
+    public static PlayerStats instance;
+
+    private void Awake()
+    {
+        if(instance)
+        {
+            DestroyImmediate(this.gameObject);
+        }
+
+        instance = this;
+    }
+
+    #endregion singleton
+
     //handling the visuals and list
     public ItemUI iui;
 

@@ -1,6 +1,7 @@
 using GInput;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,19 +11,50 @@ public class UISlotScript : MonoBehaviour
 
     //info for the spinning of the reels
     [Header("Wheel Information")]
+    
     [SerializeField] List<GameObject> reels = new List<GameObject>();
     [SerializeField] List<Image> images_on_wheel;
     public float spin_speed;
 
     [Header("Item Possibility Information")]
+    
     [SerializeField] Image common_item_image;
     [SerializeField] GameObject common_item;
     [SerializeField] Image rare_item_image;
     [SerializeField] GameObject rare_item;
     [SerializeField] Image legendary_item_image;
     [SerializeField] GameObject legendary_item;
-
     [SerializeField] GameObject EMPTY_item;
+
+    [Header("Price Information")]
+
+    //total price alltogether
+    [SerializeField] TextMeshProUGUI total_text;
+    private int total;
+
+    //reset price
+    [SerializeField] TextMeshProUGUI reset_price_text;
+    private int reset_price;
+
+    //common item
+    [SerializeField] TextMeshProUGUI common_price_text;
+    private int common_price;
+    [SerializeField] TextMeshProUGUI common_tokens_text;
+    private int common_tokens;
+
+    //rare item
+    [SerializeField] TextMeshProUGUI rare_price_text;
+    private int rare_price;
+    [SerializeField] TextMeshProUGUI rare_tokens_text;
+    private int rare_tokens;
+
+    //legendary item
+    [SerializeField] TextMeshProUGUI legendary_price_text;
+    private int legendary_price;
+    [SerializeField] TextMeshProUGUI legendary_tokens_text;
+    private int legendary_tokens;
+
+    [Header("Item Options")]
 
     private List<GameObject> items_list;
 
@@ -61,6 +93,9 @@ public class UISlotScript : MonoBehaviour
             $"[{visual_grid[1, 0]}, {visual_grid[1, 1]}, {visual_grid[1, 2]}] " +
             $"\n [{visual_grid[2, 0]}, {visual_grid[2, 1]}, {visual_grid[2, 2]}] " +
             $"\n [{visual_grid[3, 0]}, {visual_grid[3, 1]}, {visual_grid[3, 2]}]");
+
+        //initialize reset price
+        reset_price = 5 * DataManager.floorNumber;
 
         //get the first items
         RefreshItems();
@@ -101,9 +136,14 @@ public class UISlotScript : MonoBehaviour
     //selects the 3 items per slot
     private void RefreshItems()
     {
-        //load in a common/rare item
+        //load in a common/rare item and set price
         common_item = ItemList.instance.GetRandomCommonItem();
+        common_price = Random.Range(3, 5);
+        common_price_text.text = common_price.ToString("D2");
+
         rare_item = ItemList.instance.GetRandomRareItem();
+        rare_price = Random.Range(6, 10);
+        rare_price_text.text = rare_price.ToString("D2");
 
         //20% chance to be legendary and 80% to be Epic
         int chance = Random.Range(0, 10);
@@ -111,11 +151,19 @@ public class UISlotScript : MonoBehaviour
         if (chance < 8)
         {
             legendary_item = ItemList.instance.GetRandomEpicItem();
+
+            //less expensive
+            legendary_price = Random.Range(13, 20);
         }
         else
         {
             legendary_item = ItemList.instance.GetRandomLegendaryItem();
+
+            //more expensive
+            legendary_price = Random.Range(20, 30);
         }
+        //update price visually
+        legendary_price_text.text = legendary_price.ToString("D2");
 
         //change the items visually
         common_item_image.sprite = common_item.GetComponent<SpriteRenderer>().sprite;
@@ -155,6 +203,7 @@ public class UISlotScript : MonoBehaviour
         }
     }
 
+    #region checks
     //function used to check for 3 in a line horizontal
     private bool CheckForSuccessHorizontal(int r, int c)
     {
@@ -234,6 +283,7 @@ public class UISlotScript : MonoBehaviour
             return false;
         }
     }
+    #endregion checks
 
     private IEnumerator SpinReel(RectTransform r, int delay)
     {
@@ -378,5 +428,103 @@ public class UISlotScript : MonoBehaviour
         }
 
         yield return null;
+    }
+
+    #region token code
+
+    //common functions
+    public void RaiseCommonToken()
+    {
+        //maxes out at 10
+        if(common_tokens < 10)
+        {
+            common_tokens++;
+            common_tokens_text.text = common_tokens.ToString("D2");
+            UpdateTotal(common_price);
+        }
+    }
+
+    public void LowerCommonToken()
+    {
+        //cant go negative
+        if(common_tokens > 0)
+        {
+            common_tokens--;
+            common_tokens_text.text = common_tokens.ToString("D2");
+            UpdateTotal(-common_price);
+        }
+    }
+
+    //rare functions
+    public void RaiseRareToken()
+    {
+        //maxes out at 10
+        if (rare_tokens < 10)
+        {
+            rare_tokens++;
+            rare_tokens_text.text = rare_tokens.ToString("D2");
+            UpdateTotal(rare_price);
+        }
+    }
+
+    public void LowerRareToken()
+    {
+        //cant go negative
+        if (rare_tokens > 0)
+        {
+            rare_tokens--;
+            rare_tokens_text.text = rare_tokens.ToString("D2");
+            UpdateTotal(-rare_price);
+        }
+    }
+
+    //legendary functions
+    public void RaiseLegendaryToken()
+    {
+        //maxes out at 10
+        if (legendary_tokens < 10)
+        {
+            legendary_tokens++;
+            legendary_tokens_text.text = legendary_tokens.ToString("D2");
+            UpdateTotal(legendary_price);
+        }
+    }
+
+    public void LowerLegendaryToken()
+    {
+        //cant go negative
+        if (legendary_tokens > 0)
+        {
+            legendary_tokens--;
+            legendary_tokens_text.text = legendary_tokens.ToString("D2");
+            UpdateTotal(-legendary_price);
+        }
+    }
+
+    //update the total with amounts
+    private void UpdateTotal(int amount)
+    {
+        total += amount;
+        total_text.text = total.ToString("D3");
+    }
+
+    #endregion token code
+
+    public void ResetItems()
+    {
+        //make sure you have the money for it
+        if(reset_price < PlayerStats.instance.moneyCount)
+        {
+            //play sfx, subtract money, and increase reset price
+            AudioManager.instance.PlaySingleSFX(AudioManager.instance.buttonpress);
+            PlayerStats.instance.moneyCount -= reset_price;
+            reset_price += 5;
+            reset_price_text.text = reset_price.ToString("D2");
+            RefreshItems();
+        }
+        else
+        {
+            //play error sound effect//
+        }
     }
 }
