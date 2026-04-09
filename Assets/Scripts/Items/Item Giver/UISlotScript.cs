@@ -156,13 +156,20 @@ public class UISlotScript : MonoBehaviour
     //function to initialize the coroutines that spin the slots
     public void BeginRoll()
     {
-        //cant spin more
-        spinning = true;
-
-        //for each reel run the coroutine to spin it
-        for (int i = 0; i < reels.Count; i++)
+        if(total <= PlayerStats.instance.moneyCount)
         {
-            StartCoroutine(SpinReel(reels[i].GetComponent<RectTransform>(), i));
+            //cant spin more
+            spinning = true;
+
+            //for each reel run the coroutine to spin it
+            for (int i = 0; i < reels.Count; i++)
+            {
+                StartCoroutine(SpinReel(reels[i].GetComponent<RectTransform>(), i));
+            }
+        }
+        else
+        {
+            //play error sound effect//
         }
     }
 
@@ -171,11 +178,11 @@ public class UISlotScript : MonoBehaviour
     {
         //load in a common/rare item and set price
         common_item = ItemList.instance.GetRandomCommonItem();
-        common_price = Random.Range(3, 5);
+        common_price = Random.Range(1, 3);
         common_price_text.text = common_price.ToString("D2");
 
         rare_item = ItemList.instance.GetRandomRareItem();
-        rare_price = Random.Range(6, 10);
+        rare_price = Random.Range(3, 5);
         rare_price_text.text = rare_price.ToString("D2");
 
         //20% chance to be legendary and 80% to be Epic
@@ -186,14 +193,14 @@ public class UISlotScript : MonoBehaviour
             legendary_item = ItemList.instance.GetRandomEpicItem();
 
             //less expensive
-            legendary_price = Random.Range(13, 20);
+            legendary_price = Random.Range(5, 7);
         }
         else
         {
             legendary_item = ItemList.instance.GetRandomLegendaryItem();
 
             //more expensive
-            legendary_price = Random.Range(20, 30);
+            legendary_price = Random.Range(7, 10);
         }
         //update price visually
         legendary_price_text.text = legendary_price.ToString("D2");
@@ -598,7 +605,7 @@ public class UISlotScript : MonoBehaviour
     public void ResetItems()
     {
         //make sure you have the money for it
-        if(reset_price < PlayerStats.instance.moneyCount && !spinning)
+        if(reset_price <= PlayerStats.instance.moneyCount && !spinning)
         {
             //play sfx, subtract money, and increase reset price
             AudioManager.instance.PlaySingleSFX(AudioManager.instance.buttonpress);

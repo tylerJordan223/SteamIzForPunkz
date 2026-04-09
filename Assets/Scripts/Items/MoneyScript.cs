@@ -59,12 +59,12 @@ public class MoneyScript : MonoBehaviour
         //3% chance to be worth 5 instead of 1 (Brass instead of Copper)
         if (r > 2) 
         {
-            worth = 1f;
+            worth = 3f;
             sr.sprite = money[Random.Range(0,money.Count)];
         }
         else 
         { 
-            worth = 5f;
+            worth = 10f;
             sr.sprite = nickel;
         }
 
