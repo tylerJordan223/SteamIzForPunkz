@@ -121,7 +121,7 @@ public class UISlotScript : MonoBehaviour
 
         //enable necessary input
         input = new GameInput();
-        input.Player.Interact.Enable();
+        //input.Player.Interact.Enable();
     }
 
     private void OnDisable()
@@ -134,16 +134,20 @@ public class UISlotScript : MonoBehaviour
     {
         if(input.Player.Interact.IsPressed() && !spinning)
         {
-            spinning = true;
             BeginRoll();
         }
+
+        Debug.Log(spinning);
     }
 
     //function to initialize the coroutines that spin the slots
-    private void BeginRoll()
+    public void BeginRoll()
     {
+        //cant spin more
+        spinning = true;
+
         //for each reel run the coroutine to spin it
-        for(int i = 0; i < reels.Count; i++)
+        for (int i = 0; i < reels.Count; i++)
         {
             StartCoroutine(SpinReel(reels[i].GetComponent<RectTransform>(), i));
         }
@@ -503,7 +507,7 @@ public class UISlotScript : MonoBehaviour
     public void RaiseCommonPercent()
     {
         //maxes out at 10
-        if(common_percent < 100 && total_percent < 100)
+        if(common_percent < 100 && total_percent < 100 && !spinning)
         {
             common_percent += 5;
             common_percent_text.text = common_percent.ToString("D3");
@@ -514,7 +518,7 @@ public class UISlotScript : MonoBehaviour
     public void LowerCommonPercent()
     {
         //cant go negative
-        if(common_percent > 0)
+        if(common_percent > 0 && !spinning)
         {
             common_percent -= 5;
             common_percent_text.text = common_percent.ToString("D3");
@@ -526,7 +530,7 @@ public class UISlotScript : MonoBehaviour
     public void RaiseRarePercent()
     {
         //maxes out at 10
-        if (rare_percent < 100 && total_percent < 100)
+        if (rare_percent < 100 && total_percent < 100 && !spinning)
         {
             rare_percent += 5;
             rare_percent_text.text = rare_percent.ToString("D3");
@@ -537,7 +541,7 @@ public class UISlotScript : MonoBehaviour
     public void LowerRarePercent()
     {
         //cant go negative
-        if (rare_percent > 0)
+        if (rare_percent > 0 && !spinning)
         {
             rare_percent -= 5;
             rare_percent_text.text = rare_percent.ToString("D3");
@@ -549,7 +553,7 @@ public class UISlotScript : MonoBehaviour
     public void RaiseLegendaryPercent()
     {
         //maxes out at 10
-        if (legendary_percent < 100 && total_percent < 100)
+        if (legendary_percent < 100 && total_percent < 100 && !spinning)
         {
             legendary_percent += 5;
             legendary_percent_text.text = legendary_percent.ToString("D3");
@@ -560,7 +564,7 @@ public class UISlotScript : MonoBehaviour
     public void LowerLegendaryPercent()
     {
         //cant go negative
-        if (legendary_percent > 0)
+        if (legendary_percent > 0 && !spinning)
         {
             legendary_percent -= 5;
             legendary_percent_text.text = legendary_percent.ToString("D3");
@@ -581,7 +585,7 @@ public class UISlotScript : MonoBehaviour
     public void ResetItems()
     {
         //make sure you have the money for it
-        if(reset_price < PlayerStats.instance.moneyCount)
+        if(reset_price < PlayerStats.instance.moneyCount && !spinning)
         {
             //play sfx, subtract money, and increase reset price
             AudioManager.instance.PlaySingleSFX(AudioManager.instance.buttonpress);
