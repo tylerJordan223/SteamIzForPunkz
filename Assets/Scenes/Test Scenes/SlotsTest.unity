@@ -1152,7 +1152,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 545860904}
         m_TargetAssemblyTypeName: UISlotScript, Assembly-CSharp
-        m_MethodName: LowerCommonToken
+        m_MethodName: LowerCommonPercent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1360,7 +1360,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 545860904}
         m_TargetAssemblyTypeName: UISlotScript, Assembly-CSharp
-        m_MethodName: LowerRareToken
+        m_MethodName: LowerRarePercent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1536,6 +1536,7 @@ GameObject:
   - component: {fileID: 545860901}
   - component: {fileID: 545860900}
   - component: {fileID: 545860904}
+  - component: {fileID: 545860905}
   m_Layer: 5
   m_Name: SlotCanvas
   m_TagString: Untagged
@@ -1667,13 +1668,30 @@ MonoBehaviour:
   legendary_item: {fileID: 0}
   EMPTY_item: {fileID: 2875653410783181134, guid: 7286cbb5af9d40a47bb08b628c3322eb, type: 3}
   total_text: {fileID: 234435875}
-  reset_price_text: {fileID: 0}
+  reset_price_text: {fileID: 111530869}
   common_price_text: {fileID: 1604607452}
-  common_tokens_text: {fileID: 1183744937}
+  common_percent_text: {fileID: 1183744937}
   rare_price_text: {fileID: 358161363}
-  rare_tokens_text: {fileID: 1291754338}
+  rare_percent_text: {fileID: 1291754338}
   legendary_price_text: {fileID: 1660582148}
-  legendary_tokens_text: {fileID: 1024091593}
+  legendary_percent_text: {fileID: 1024091593}
+--- !u!114 &545860905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545860899}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf40e634b102cd14b8f741e5a5b9d575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GamblingTestScript
+  spin_speed: 250
+  percent_common: 25
+  percent_rare: 25
+  percent_legendary: 25
+  total_spins: 1
 --- !u!1 &560510480
 GameObject:
   m_ObjectHideFlags: 0
@@ -1759,7 +1777,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 545860904}
         m_TargetAssemblyTypeName: UISlotScript, Assembly-CSharp
-        m_MethodName: LowerLegendaryToken
+        m_MethodName: LowerLegendaryPercent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2709,8 +2727,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 21, y: 0}
-  m_SizeDelta: {x: 15, y: 25}
+  m_AnchoredPosition: {x: 0, y: -20}
+  m_SizeDelta: {x: 25, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1052011194
 GameObject:
@@ -2958,8 +2976,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 21, y: 0}
-  m_SizeDelta: {x: 15, y: 25}
+  m_AnchoredPosition: {x: 0, y: -20}
+  m_SizeDelta: {x: 25, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1183744936
 CanvasRenderer:
@@ -3269,8 +3287,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 21, y: 0}
-  m_SizeDelta: {x: 15, y: 25}
+  m_AnchoredPosition: {x: 0, y: -20}
+  m_SizeDelta: {x: 25, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1291754337
 CanvasRenderer:
@@ -3727,7 +3745,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 545860904}
         m_TargetAssemblyTypeName: UISlotScript, Assembly-CSharp
-        m_MethodName: RaiseCommonToken
+        m_MethodName: RaiseCommonPercent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5055,7 +5073,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 545860904}
         m_TargetAssemblyTypeName: UISlotScript, Assembly-CSharp
-        m_MethodName: RaiseRareToken
+        m_MethodName: RaiseRarePercent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5188,7 +5206,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 545860904}
         m_TargetAssemblyTypeName: UISlotScript, Assembly-CSharp
-        m_MethodName: RaiseLegendaryToken
+        m_MethodName: RaiseLegendaryPercent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

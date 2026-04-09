@@ -1,6 +1,7 @@
 using GInput;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -40,20 +41,20 @@ public class UISlotScript : MonoBehaviour
     //common item
     [SerializeField] TextMeshProUGUI common_price_text;
     private int common_price;
-    [SerializeField] TextMeshProUGUI common_tokens_text;
-    private int common_tokens;
+    [SerializeField] TextMeshProUGUI common_percent_text;
+    private int common_percent;
 
     //rare item
     [SerializeField] TextMeshProUGUI rare_price_text;
     private int rare_price;
-    [SerializeField] TextMeshProUGUI rare_tokens_text;
-    private int rare_tokens;
+    [SerializeField] TextMeshProUGUI rare_percent_text;
+    private int rare_percent;
 
     //legendary item
     [SerializeField] TextMeshProUGUI legendary_price_text;
     private int legendary_price;
-    [SerializeField] TextMeshProUGUI legendary_tokens_text;
-    private int legendary_tokens;
+    [SerializeField] TextMeshProUGUI legendary_percent_text;
+    private int legendary_percent;
 
     [Header("Item Options")]
 
@@ -62,11 +63,20 @@ public class UISlotScript : MonoBehaviour
     //tracking information
     private int[,] gambling_grid = new int[4,3];
     private Image[,] visual_grid = new Image[4, 3];
-    private GameObject[,] full_grid = new GameObject[12, 3];
+    private GameObject[,] full_grid = new GameObject[20, 3];
 
     //input
     private bool spinning;
     private GameInput input;
+
+    //percentage handling
+    private int total_percent
+    {
+        get
+        {
+            return common_percent + rare_percent + legendary_percent;
+        }
+    }
 
     private void Start()
     {
@@ -190,12 +200,44 @@ public class UISlotScript : MonoBehaviour
     //function that fills out the board according to likelihood
     private void FillBoard()
     {
-        //for now just pick random items to populate it
-        for(int i = 0; i < full_grid.GetLength(0); i++)
+        //dont pick random items use percentages//
+
+        List<GameObject> items_per_column = new List<GameObject>();
+
+        //common item//
+        for (int i = 0; i < common_percent / 5; i++)
         {
-            for(int j = 0; j < full_grid.GetLength(1); j++)
+            items_per_column.Add(common_item);
+        }
+
+        //rare item//
+        for (int i = 0; i < rare_percent / 5; i++)
+        {
+            items_per_column.Add(rare_item);
+        }
+
+        //legendary item
+        for (int i = 0; i < legendary_percent / 5; i++)
+        {
+            items_per_column.Add(legendary_item);
+        }
+
+        //math to get # of empty items//
+        int total_percent = common_percent + rare_percent + legendary_percent;
+        int percent_blank = 100 - total_percent;
+
+        for (int i = 0; i < percent_blank / 5; i++)
+        {
+            items_per_column.Add(EMPTY_item);
+        }
+
+        //for now just pick random items to populate it
+        for (int i = 0; i < full_grid.GetLength(1); i++)
+        {
+            Shuffle(items_per_column);
+            for (int j = 0; j < full_grid.GetLength(0); j++)
             {
-                full_grid[i, j] = items_list[Random.Range(0, items_list.Count)];
+                full_grid[j, i] = items_per_column[j];
             }
         }
 
@@ -206,6 +248,21 @@ public class UISlotScript : MonoBehaviour
             {
                 visual_grid[i, j].sprite = full_grid[gambling_grid[i, j] , j].GetComponent<SpriteRenderer>().sprite;
             }
+        }
+    }
+
+    //making a Fisher-Yates Shuffle
+    public void Shuffle(List<GameObject> list)
+    {
+        int slot1 = list.Count;
+        while (slot1 > 1)
+        {
+            //move from top down
+            slot1--;
+            //get a random slot for the second one
+            int slot2 = Random.Range(0, slot1 + 1);
+            //tuple swap
+            (list[slot2], list[slot1]) = (list[slot1], list[slot2]);
         }
     }
 
@@ -314,7 +371,7 @@ public class UISlotScript : MonoBehaviour
                     gambling_grid[j, delay] -= 1;
                     if (gambling_grid[j, delay] == -1)
                     {
-                        gambling_grid[j, delay] = 11;
+                        gambling_grid[j, delay] = full_grid.GetLength(0) - 1;
                     }
                 }
 
@@ -354,7 +411,7 @@ public class UISlotScript : MonoBehaviour
                     gambling_grid[j, delay] -= 1;
                     if (gambling_grid[j, delay] == -1)
                     {
-                        gambling_grid[j, delay] = 11;
+                        gambling_grid[j, delay] = gambling_grid[j, delay] = full_grid.GetLength(0) - 1;
                     }
                 }
 
@@ -443,70 +500,70 @@ public class UISlotScript : MonoBehaviour
     #region token code
 
     //common functions
-    public void RaiseCommonToken()
+    public void RaiseCommonPercent()
     {
         //maxes out at 10
-        if(common_tokens < 10)
+        if(common_percent < 100 && total_percent < 100)
         {
-            common_tokens++;
-            common_tokens_text.text = common_tokens.ToString("D2");
+            common_percent += 5;
+            common_percent_text.text = common_percent.ToString("D3");
             UpdateTotal(common_price);
         }
     }
 
-    public void LowerCommonToken()
+    public void LowerCommonPercent()
     {
         //cant go negative
-        if(common_tokens > 0)
+        if(common_percent > 0)
         {
-            common_tokens--;
-            common_tokens_text.text = common_tokens.ToString("D2");
+            common_percent -= 5;
+            common_percent_text.text = common_percent.ToString("D3");
             UpdateTotal(-common_price);
         }
     }
 
     //rare functions
-    public void RaiseRareToken()
+    public void RaiseRarePercent()
     {
         //maxes out at 10
-        if (rare_tokens < 10)
+        if (rare_percent < 100 && total_percent < 100)
         {
-            rare_tokens++;
-            rare_tokens_text.text = rare_tokens.ToString("D2");
+            rare_percent += 5;
+            rare_percent_text.text = rare_percent.ToString("D3");
             UpdateTotal(rare_price);
         }
     }
 
-    public void LowerRareToken()
+    public void LowerRarePercent()
     {
         //cant go negative
-        if (rare_tokens > 0)
+        if (rare_percent > 0)
         {
-            rare_tokens--;
-            rare_tokens_text.text = rare_tokens.ToString("D2");
+            rare_percent -= 5;
+            rare_percent_text.text = rare_percent.ToString("D3");
             UpdateTotal(-rare_price);
         }
     }
 
     //legendary functions
-    public void RaiseLegendaryToken()
+    public void RaiseLegendaryPercent()
     {
         //maxes out at 10
-        if (legendary_tokens < 10)
+        if (legendary_percent < 100 && total_percent < 100)
         {
-            legendary_tokens++;
-            legendary_tokens_text.text = legendary_tokens.ToString("D2");
+            legendary_percent += 5;
+            legendary_percent_text.text = legendary_percent.ToString("D3");
             UpdateTotal(legendary_price);
         }
     }
 
-    public void LowerLegendaryToken()
+    public void LowerLegendaryPercent()
     {
         //cant go negative
-        if (legendary_tokens > 0)
+        if (legendary_percent > 0)
         {
-            legendary_tokens--;
-            legendary_tokens_text.text = legendary_tokens.ToString("D2");
+            legendary_percent -= 5;
+            legendary_percent_text.text = legendary_percent.ToString("D3");
             UpdateTotal(-legendary_price);
         }
     }
@@ -516,6 +573,7 @@ public class UISlotScript : MonoBehaviour
     {
         total += amount;
         total_text.text = total.ToString("D3");
+        FillBoard(); //reset the board
     }
 
     #endregion token code
