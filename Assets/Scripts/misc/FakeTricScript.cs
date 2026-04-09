@@ -8,6 +8,6 @@ public class FakeTricScript : MonoBehaviour
 
     public void NextLevel()
     {
-        DataManager.StartLoad();
+        DataManager.instance.StartLoad();
     }
 }

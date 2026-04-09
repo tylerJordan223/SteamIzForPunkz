@@ -14,9 +14,11 @@ public class RoomScript : MonoBehaviour
     public bool can_be_locked;
     public bool locked;
     public bool active;
+    public bool onDoor;
 
     private void Start()
     {
+        onDoor = false;
         enemy_count = 0;
         //get the amount of enemies in the room, and make sure they know that this is theri parent room
         for(int i = 0; i < transform.Find("Enemies").childCount; i++)

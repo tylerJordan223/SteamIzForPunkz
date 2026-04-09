@@ -25,6 +25,9 @@ public class PlayerStats : MonoBehaviour
     //handling the visuals and list
     public ItemUI iui;
 
+    //check for doors
+    public bool isOnDoor;
+
     //Script to handle all of the player's stats and items
     [Header("Player Stats")]
     public float[] stats;
@@ -325,6 +328,9 @@ public class PlayerStats : MonoBehaviour
         debug = false;
         selected_stat = 0;
 
+        //door check
+        isOnDoor = false;
+
         //load inventory from data manager
         LoadInventory();
     }
@@ -408,7 +414,6 @@ public class PlayerStats : MonoBehaviour
             }
         }
 
-        
     }
 
     public void NewItem(ItemScript item)
@@ -602,6 +607,6 @@ public class PlayerStats : MonoBehaviour
         ItemBoundsCheck();
 
         //finished loading once the player has all their items
-        DataManager.EndLoad();
+        DataManager.instance.EndLoad();
     }
 }

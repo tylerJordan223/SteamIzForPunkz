@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class UISlotScript : MonoBehaviour
@@ -103,6 +104,11 @@ public class UISlotScript : MonoBehaviour
 
     private void OnEnable()
     {
+        if(Gamepad.all.Count > 0)
+        {
+            Debug.Log("controller connected");
+        }
+
         //enable necessary input
         input = new GameInput();
         input.Player.Interact.Enable();
@@ -205,12 +211,12 @@ public class UISlotScript : MonoBehaviour
 
     #region checks
     //function used to check for 3 in a line horizontal
-    private bool CheckForSuccessHorizontal(int r, int c)
+    private GameObject CheckForSuccessHorizontal(int r, int c)
     {
         //if it gets to the last column then return success//
         if(c == visual_grid.GetLength(1)-1)
         {
-            return true;
+            return full_grid[gambling_grid[r,c],c];
         }
         else if (visual_grid[r, c+1].sprite == visual_grid[r,c].sprite)
         {
@@ -220,17 +226,17 @@ public class UISlotScript : MonoBehaviour
         else
         {
             //breaks the chain
-            return false;
+            return null;
         }
     }
 
     //function used to check for 3 in a line vertical
-    private bool CheckForSuccessVertical(int r, int c)
+    private GameObject CheckForSuccessVertical(int r, int c)
     {
         //if it gets to the last row then return success//
         if (r == visual_grid.GetLength(0) - 1)
         {
-            return true;
+            return full_grid[gambling_grid[r, c], c];
         }
         else if (visual_grid[r + 1, c].sprite == visual_grid[r, c].sprite)
         {
@@ -240,17 +246,17 @@ public class UISlotScript : MonoBehaviour
         else
         {
             //breaks the chain
-            return false;
+            return null;
         }
     }
 
     //function used to check for 3 in a line diagonal down
-    private bool CheckForSuccessDiagonalDown(int r, int c)
+    private GameObject CheckForSuccessDiagonalDown(int r, int c)
     {
         //if it gets to the last row then return success//
         if (r == visual_grid.GetLength(0) - 1 && c == visual_grid.GetLength(1) - 1)
         {
-            return true;
+            return full_grid[gambling_grid[r, c], c];
         }
         else if (visual_grid[r + 1, c + 1].sprite == visual_grid[r, c].sprite)
         {
@@ -260,17 +266,17 @@ public class UISlotScript : MonoBehaviour
         else
         {
             //breaks the chain
-            return false;
+            return null;
         }
     }
 
     //function used to check for 3 in a line diagonal up
-    private bool CheckForSuccessDiagonalUp(int r, int c)
+    private GameObject CheckForSuccessDiagonalUp(int r, int c)
     {
         //if it gets to the last row then return success//
         if (r == 1 && c == visual_grid.GetLength(1) - 1)
         {
-            return true;
+            return full_grid[gambling_grid[r, c], c];
         }
         else if (visual_grid[r - 1, c + 1].sprite == visual_grid[r, c].sprite)
         {
@@ -280,7 +286,7 @@ public class UISlotScript : MonoBehaviour
         else
         {
             //breaks the chain
-            return false;
+            return null;
         }
     }
     #endregion checks
@@ -288,13 +294,13 @@ public class UISlotScript : MonoBehaviour
     private IEnumerator SpinReel(RectTransform r, int delay)
     {
         //wait based on delay
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay + Random.Range(0.1f, 0.3f));
 
         //starting velocity
         float velocity = 0.1f;
         float timer = 0.0f;
 
-        while(timer < 5f)
+        while(timer < (5 + delay + Random.Range(1f, 2f)))
         {
             Vector3 pos = r.localPosition;
             pos.y -= velocity * spin_speed * Time.deltaTime;
@@ -327,7 +333,7 @@ public class UISlotScript : MonoBehaviour
             //increase velocity overtime
             if(velocity < 1)
             {
-                velocity += 0.001f;
+                velocity += 0.001f + Random.Range(0.001f, 0.005f); //slight randomness to keep it interesting
             }
 
             //increase the timer and wait until end of frame
@@ -378,7 +384,7 @@ public class UISlotScript : MonoBehaviour
             //decrease velocity overtime
             if (velocity > 0.1f)
             {
-                velocity -= 0.001f;
+                velocity -= 0.001f + Random.Range(0.001f, 0.005f);
             }
 
             yield return new WaitForEndOfFrame();
@@ -400,31 +406,35 @@ public class UISlotScript : MonoBehaviour
 
             //OUTPUTS//
 
-            bool check = false;
+            List<GameObject> check = new List<GameObject>();
 
             //horizontal
             for(int i = 1; i < gambling_grid.GetLength(0); i++)
             {
                 //check for each spot
-                check = CheckForSuccessHorizontal(i, 0);
-                Debug.Log("Horizontal: " + check);
+                check.Add(CheckForSuccessHorizontal(i, 0));
             }
 
             //vertical
             for (int i = 0; i < gambling_grid.GetLength(1); i++)
             {
                 //check for each spot
-                check = CheckForSuccessVertical(1, i);
-                Debug.Log("Vertical: " + check);
+                check.Add(CheckForSuccessVertical(1, i));
             }
 
             //diagonal up
-            check = CheckForSuccessDiagonalDown(1, 0);
-            Debug.Log("D Down: " + check);
+            check.Add(CheckForSuccessDiagonalDown(1, 0));
 
             //diagonal down
-            check = CheckForSuccessDiagonalUp(gambling_grid.GetLength(0)-1, 0);
-            Debug.Log("D UP: " + check);
+            check.Add(CheckForSuccessDiagonalUp(gambling_grid.GetLength(0)-1, 0));
+
+            foreach(GameObject go in check)
+            {
+                if(go)
+                {
+                    Debug.Log(go);
+                }
+            }
         }
 
         yield return null;

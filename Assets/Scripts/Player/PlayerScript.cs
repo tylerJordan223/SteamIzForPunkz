@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour
@@ -111,7 +112,7 @@ public class PlayerScript : MonoBehaviour
     //use for anything non-movement related like math
     private void Update()
     {
-        if(canControl)
+        if (canControl)
         {
             //update input
             inputVector = input.Player.Movement.ReadValue<Vector2>();

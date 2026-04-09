@@ -6,6 +6,16 @@ using UnityEngine.SceneManagement;
 
 public class DataManager : MonoBehaviour
 {
+    public static DataManager instance;
+    private void Awake()
+    {
+        if(instance)
+        {
+            DestroyImmediate(this.gameObject);
+        }
+        instance = this;
+    }
+
     /*
      * THIS SCRIPT IS FOR MANAGING EVERYTHING THAT STAYS BETWEEN SCENES!!!
      * 
@@ -51,21 +61,12 @@ public class DataManager : MonoBehaviour
 
     /***********************************************/
 
-    private void Awake()
+    private void OnEnable()
     {
-        if(SceneManager.GetActiveScene().name != "MainMenu")
-        {
-            loadingScreen = GameObject.Find("LoadingScreen");
-            if(loadingScreen)
-            {
-                anim = loadingScreen.GetComponent<Animator>();
-                anim.SetBool("loading", true);
-            }
-        }
-        
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    public static void StartLoad()
+    public void StartLoad()
     {
         playerHealth = (int)GameObject.Find("Tric").GetComponent<PlayerStats>().health;
         playerCharges = (int)GameObject.Find("Tric").GetComponent<PlayerStats>().charges;
@@ -90,16 +91,17 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    public static void EndLoad()
+    public void EndLoad()
     {
         anim.SetBool("loading", false);
 
         //if there is no floor generator at the end of a load then generate a base grid
         if (!GameObject.Find("FloorGenerator"))
         {
+            Debug.Log("running");
             g = new Grid(300, 300, 1);
             g.checkGrid();
-            g.playerNode = g.getNode(GameObject.Find("Tric").transform);
+            g.playerNode = g.getNode(PlayerStats.instance.transform);
         }
 
     }
@@ -143,4 +145,16 @@ public class DataManager : MonoBehaviour
         Application.Quit();
     }
     
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name != "MainMenu")
+        {
+            loadingScreen = GameObject.Find("LoadingScreen");
+            if (loadingScreen)
+            {
+                anim = loadingScreen.GetComponent<Animator>();
+                anim.SetBool("loading", true);
+            }
+        }
+    }
 }
