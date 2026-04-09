@@ -6,25 +6,45 @@ using UnityEngine;
 public class MachineScript : MonoBehaviour
 {
     [SerializeField] ItemMachineScript my_machine;
+    [SerializeField] GamblingMachineScript my_gambling;
     [SerializeField] SpriteRenderer my_sr;
     [SerializeField] Animator anim;
 
     private void Update()
     {
         //updating the position so its moves with the player properly
-        if(my_machine.on_player)
+        if(my_machine)
         {
-            if(transform.position.y < GameObject.Find("Tric").transform.position.y)
+            if (my_machine.on_player)
             {
-                my_sr.sortingOrder = GameObject.Find("Tric").transform.Find("Sprites").GetChild(0).GetComponent<SpriteRenderer>().sortingOrder + 3;
-                transform.GetChild(0).GetComponent<TextMeshPro>().sortingOrder = my_sr.sortingOrder+2;
-            }
-            else
-            {
-                my_sr.sortingOrder = GameObject.Find("Tric").transform.Find("Sprites").GetChild(0).GetComponent<SpriteRenderer>().sortingOrder - 3;
-                transform.GetChild(0).GetComponent<TextMeshPro>().sortingOrder = my_sr.sortingOrder+2;
+                if (transform.position.y < GameObject.Find("Tric").transform.position.y)
+                {
+                    my_sr.sortingOrder = GameObject.Find("Tric").transform.Find("Sprites").GetChild(0).GetComponent<SpriteRenderer>().sortingOrder + 3;
+                    transform.GetChild(0).GetComponent<TextMeshPro>().sortingOrder = my_sr.sortingOrder + 2;
+                }
+                else
+                {
+                    my_sr.sortingOrder = GameObject.Find("Tric").transform.Find("Sprites").GetChild(0).GetComponent<SpriteRenderer>().sortingOrder - 3;
+                    transform.GetChild(0).GetComponent<TextMeshPro>().sortingOrder = my_sr.sortingOrder + 2;
+                }
             }
         }
+        
+        if(my_gambling)
+        {
+            if (my_gambling.on_player)
+            {
+                if (transform.position.y < GameObject.Find("Tric").transform.position.y)
+                {
+                    my_sr.sortingOrder = GameObject.Find("Tric").transform.Find("Sprites").GetChild(0).GetComponent<SpriteRenderer>().sortingOrder + 3;
+                }
+                else
+                {
+                    my_sr.sortingOrder = GameObject.Find("Tric").transform.Find("Sprites").GetChild(0).GetComponent<SpriteRenderer>().sortingOrder - 3;
+                }
+            }
+        }
+        
     }
 
     //method to be used in animation to trigger the item spawn
@@ -44,7 +64,14 @@ public class MachineScript : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            my_machine.on_player = true;
+            if(my_machine)
+            {
+                my_machine.on_player = true;
+            }
+            if(my_gambling)
+            {
+                my_gambling.on_player = true;
+            }
         }
     }
 
@@ -52,7 +79,14 @@ public class MachineScript : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            my_machine.on_player = false;
+            if (my_machine)
+            {
+                my_machine.on_player = false;
+            }
+            if (my_gambling)
+            {
+                my_gambling.on_player = false;
+            }
         }
     }
 }

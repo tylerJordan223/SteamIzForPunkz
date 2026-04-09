@@ -104,6 +104,7 @@ public class GamblingTestScript : MonoBehaviour
             spinning = true;
             RefreshItems();
             BeginRoll();
+
         }
     }
 

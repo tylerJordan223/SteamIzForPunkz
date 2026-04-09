@@ -9,6 +9,17 @@ using UnityEngine.UI;
 
 public class UISlotScript : MonoBehaviour
 {
+    //singleton
+    public static UISlotScript instance;
+    private void Awake()
+    {
+        if(instance)
+        {
+            DestroyImmediate(this.gameObject);
+        }
+        instance = this;
+    }
+
     //script to handle everything related to the slot machine//
 
     //info for the spinning of the reels
@@ -68,6 +79,7 @@ public class UISlotScript : MonoBehaviour
     //input
     private bool spinning;
     private GameInput input;
+    private GamblingMachineScript myMachine;
 
     //percentage handling
     private int total_percent
@@ -110,6 +122,9 @@ public class UISlotScript : MonoBehaviour
 
         //get the first items
         RefreshItems();
+
+        //disable the canvas
+        this.gameObject.SetActive(false);
     }
 
     private void OnEnable()
@@ -121,7 +136,7 @@ public class UISlotScript : MonoBehaviour
 
         //enable necessary input
         input = new GameInput();
-        //input.Player.Interact.Enable();
+        input.Player.Interact.Enable();
     }
 
     private void OnDisable()
@@ -134,10 +149,8 @@ public class UISlotScript : MonoBehaviour
     {
         if(input.Player.Interact.IsPressed() && !spinning)
         {
-            BeginRoll();
+            deActivateSlots();
         }
-
-        Debug.Log(spinning);
     }
 
     //function to initialize the coroutines that spin the slots
@@ -598,5 +611,23 @@ public class UISlotScript : MonoBehaviour
         {
             //play error sound effect//
         }
+    }
+
+    //code to affect the UI itself//
+    public void activateSlots(GamblingMachineScript machine)
+    {
+        this.gameObject.SetActive(true);
+
+        //disable player movement
+        PlayerScript.instance.canControl = false;
+
+        myMachine = machine;
+    }
+
+    public void deActivateSlots()
+    {
+        myMachine.opened = false;
+        PlayerScript.instance.canControl = true;
+        this.gameObject.SetActive(false);
     }
 }

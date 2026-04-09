@@ -9,6 +9,17 @@ using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour
 {
+    public static PlayerScript instance;
+
+    private void Awake()
+    {
+        if(instance)
+        {
+            DestroyImmediate(this.gameObject);
+        }
+        instance = this;
+    }
+
     //all variables for the parts of the model
     private Transform trans;
     private Rigidbody2D rb;
