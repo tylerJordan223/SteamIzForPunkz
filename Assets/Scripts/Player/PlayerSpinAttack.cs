@@ -105,7 +105,7 @@ public class PlayerSpinAttack : MonoBehaviour
     private void OnDisable()
     {
         input.Player.Spin.Disable();
-        input.Player.Charge.Enable();
+        input.Player.Charge.Disable();
     }
     private void Update()
     {

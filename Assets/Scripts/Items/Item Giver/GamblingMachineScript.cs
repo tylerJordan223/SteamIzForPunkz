@@ -80,6 +80,16 @@ public class GamblingMachineScript : MonoBehaviour
             my_material = normal;
             sr.material = my_material;
         }
+
+        //spawning items
+        if(items.Count > 0 && !current_item)
+        {
+            current_item = items[0];
+            current_item = Instantiate(current_item);
+            items.RemoveAt(0);
+            current_item.transform.position = starting_position.position;
+            current_item.GetComponent<ItemScript>().goal_position = landing_spot.position;
+        }
     }
 
     //function to open the menu
@@ -88,5 +98,10 @@ public class GamblingMachineScript : MonoBehaviour
         input.Player.Interact.Disable();
         UISlotScript.instance.activateSlots(this);
         opened = true;
+    }
+
+    public void PopulateItems(List<GameObject> new_items)
+    {
+        items = new_items;
     }
 }

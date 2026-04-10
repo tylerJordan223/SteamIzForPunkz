@@ -1,4 +1,5 @@
 using GInput;
+using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,7 @@ public class UISlotScript : MonoBehaviour
     
     [SerializeField] List<GameObject> reels = new List<GameObject>();
     [SerializeField] List<Image> images_on_wheel;
+    private List<Image> flash_list;
     public float spin_speed;
 
     [Header("Item Possibility Information")]
@@ -156,10 +158,12 @@ public class UISlotScript : MonoBehaviour
     //function to initialize the coroutines that spin the slots
     public void BeginRoll()
     {
-        if(total <= PlayerStats.instance.moneyCount)
+        if(total <= PlayerStats.instance.moneyCount && !spinning)
         {
             //cant spin more
             spinning = true;
+
+            PlayerStats.instance.moneyCount -= total;
 
             //for each reel run the coroutine to spin it
             for (int i = 0; i < reels.Count; i++)
@@ -294,6 +298,12 @@ public class UISlotScript : MonoBehaviour
     //function used to check for 3 in a line horizontal
     private GameObject CheckForSuccessHorizontal(int r, int c)
     {
+        //if its an empty item dont even bother
+        if (visual_grid[r, c].sprite == EMPTY_item.GetComponent<SpriteRenderer>().sprite)
+        {
+            return null;
+        }
+
         //if it gets to the last column then return success//
         if(c == visual_grid.GetLength(1)-1)
         {
@@ -314,6 +324,11 @@ public class UISlotScript : MonoBehaviour
     //function used to check for 3 in a line vertical
     private GameObject CheckForSuccessVertical(int r, int c)
     {
+        //if its an empty item dont even bother
+        if (visual_grid[r, c].sprite == EMPTY_item.GetComponent<SpriteRenderer>().sprite)
+        {
+            return null;
+        }
         //if it gets to the last row then return success//
         if (r == visual_grid.GetLength(0) - 1)
         {
@@ -334,6 +349,11 @@ public class UISlotScript : MonoBehaviour
     //function used to check for 3 in a line diagonal down
     private GameObject CheckForSuccessDiagonalDown(int r, int c)
     {
+        //if its an empty item dont even bother
+        if (visual_grid[r, c].sprite == EMPTY_item.GetComponent<SpriteRenderer>().sprite)
+        {
+            return null;
+        }
         //if it gets to the last row then return success//
         if (r == visual_grid.GetLength(0) - 1 && c == visual_grid.GetLength(1) - 1)
         {
@@ -354,6 +374,11 @@ public class UISlotScript : MonoBehaviour
     //function used to check for 3 in a line diagonal up
     private GameObject CheckForSuccessDiagonalUp(int r, int c)
     {
+        //if its an empty item dont even bother
+        if (visual_grid[r, c].sprite == EMPTY_item.GetComponent<SpriteRenderer>().sprite)
+        {
+            return null;
+        }
         //if it gets to the last row then return success//
         if (r == 1 && c == visual_grid.GetLength(1) - 1)
         {
@@ -474,48 +499,94 @@ public class UISlotScript : MonoBehaviour
         //if its the last wheel stopping then no longer spinning
         if(delay == reels.Count-1)
         {
-            //RUN CODE TO CALCULATE ITEM OUTPUT
-            spinning = false;
-
             //show output//
 
             //prints out the current number values
+            /*
             Debug.Log($"[{gambling_grid[0, 0]}, {gambling_grid[0, 1]}, {gambling_grid[0, 2]}] \n " +
                 $"[{gambling_grid[1, 0]}, {gambling_grid[1, 1]}, {gambling_grid[1, 2]}] " +
                 $"\n [{gambling_grid[2, 0]}, {gambling_grid[2, 1]}, {gambling_grid[2, 2]}] " +
                 $"\n [{gambling_grid[3, 0]}, {gambling_grid[3, 1]}, {gambling_grid[3, 2]}]");
 
+            Debug.Log($"[{visual_grid[0, 0].sprite}, {visual_grid[0, 1].sprite}, {visual_grid[0, 2].sprite}] \n " +
+                $"[{visual_grid[1, 0].sprite}, {visual_grid[1, 1].sprite}, {visual_grid[1, 2].sprite}] " +
+                $"\n [{visual_grid[2, 0].sprite}, {visual_grid[2, 1].sprite}, {visual_grid[2, 2].sprite}] " +
+                $"\n [{visual_grid[3, 0].sprite}, {visual_grid[3, 1].sprite}, {visual_grid[3, 2].sprite}]");
+            */
             //OUTPUTS//
 
             List<GameObject> check = new List<GameObject>();
+            GameObject item = null;
 
             //horizontal
             for(int i = 1; i < gambling_grid.GetLength(0); i++)
             {
                 //check for each spot
-                check.Add(CheckForSuccessHorizontal(i, 0));
+                item = CheckForSuccessHorizontal(i, 0);
+                if (item != null)
+                {
+                    check.Add(item);
+                }
+            }
+
+            if (check.Count > 0)
+            {
+                Debug.Log("Horizontal: " + string.Join(", ", check.Select(x => x.name.ToString())));
             }
 
             //vertical
             for (int i = 0; i < gambling_grid.GetLength(1); i++)
             {
                 //check for each spot
-                check.Add(CheckForSuccessVertical(1, i));
+                item = CheckForSuccessVertical(1, i);
+                if(item != null)
+                {
+                    check.Add(item);
+                }
+            }
+
+            if (check.Count > 0)
+            {
+                Debug.Log("Vertical: " + string.Join(", ", check.Select(x => x.name.ToString())));
             }
 
             //diagonal up
-            check.Add(CheckForSuccessDiagonalDown(1, 0));
+            item = CheckForSuccessDiagonalDown(1, 0);
+            if (item != null)
+            {
+                check.Add(item);
+            }
+
+            if (check.Count > 0)
+            {
+                Debug.Log("DDown: " + string.Join(", ", check.Select(x => x.name.ToString())));
+            }
 
             //diagonal down
-            check.Add(CheckForSuccessDiagonalUp(gambling_grid.GetLength(0)-1, 0));
-
-            foreach(GameObject go in check)
+            item = CheckForSuccessDiagonalUp(gambling_grid.GetLength(0) - 1, 0);
+            if (item != null)
             {
-                if(go)
-                {
-                    Debug.Log(go);
-                }
+                check.Add(item);
             }
+
+            if (check.Count > 0)
+            {
+                Debug.Log("DUp: " + string.Join(", ", check.Select(x => x.name.ToString())));
+            }
+
+            yield return new WaitForSeconds(3); //small delay before spawning items
+
+            //send to machine
+            if(check.Count > 0)
+            {
+                Debug.Log(string.Join(", ", check.Select(x => x.name.ToString())));
+                myMachine.PopulateItems(check);
+                //end spinning if necessayr
+                deActivateSlots();
+            }
+
+            //now finished so end spinning
+            spinning = false;
         }
 
         yield return null;

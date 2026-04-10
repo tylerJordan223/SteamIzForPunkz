@@ -46,7 +46,7 @@ public class FloorScript : MonoBehaviour
         //only activates the room if it has enemies, and the player is not standing on a door
         if(collision.CompareTag("Player") && !collision.isTrigger)
         {
-            if(!PlayerStats.instance.isOnDoor)
+            if(!DataManager.g.playerNode.isDoor)
             {
                 //quick check to set teh first camera
                 if(collision.GetComponent<PlayerScript>().currentCamera == null)
